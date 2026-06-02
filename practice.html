@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practice Mode | ESAT Simulator</title>
+  <meta name="description" content="Set up topic practice, mixed practice or wrong-question retry for the ESAT simulator.">
+  <link rel="stylesheet" href="assets/styles.css">
+
+  <style>
+    .practice-shell {
+      width: min(100%, 1180px);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .practice-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+
+    .practice-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .practice-hero {
+      padding: 2rem;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(247, 243, 255, 0.94));
+      box-shadow: var(--shadow-md);
+    }
+
+    .practice-hero h1 {
+      margin: 0;
+      color: var(--purple-950);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .practice-hero p {
+      max-width: 800px;
+      margin: 0.85rem 0 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .practice-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 1rem;
+      align-items: start;
+      margin-top: 1rem;
+    }
+
+    .practice-form {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .practice-section {
+      padding: 1.25rem;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .practice-section h2 {
+      margin: 0;
+      color: var(--purple-950);
+      font-size: 1.35rem;
+    }
+
+    .practice-section p {
+      margin: 0.45rem 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .practice-options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .practice-options.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .practice-option {
+      position: relative;
+      display: block;
+      min-height: 112px;
+    }
+
+    .practice-option input {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      accent-color: var(--purple-600);
+    }
+
+    .practice-option-body {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 1rem 1rem 1rem 2.75rem;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #ffffff;
+    }
+
+    .practice-option input:checked + .practice-option-body {
+      border-color: var(--purple-500);
+      background: linear-gradient(180deg, #ffffff, var(--purple-50));
+      box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1);
+    }
+
+    .practice-option-title {
+      color: var(--purple-950);
+      font-weight: 900;
+    }
+
+    .practice-option-subtitle {
+      margin-top: 0.35rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+    .topic-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.65rem;
+      margin-top: 1rem;
+    }
+
+    .topic-check {
+      position: relative;
+      display: block;
+    }
+
+    .topic-check input {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      accent-color: var(--purple-600);
+    }
+
+    .topic-check-body {
+      display: block;
+      min-height: 76px;
+      padding: 0.9rem 0.9rem 0.9rem 2.75rem;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #ffffff;
+    }
+
+    .topic-check input:checked + .topic-check-body {
+      border-color: var(--purple-500);
+      background: var(--purple-50);
+      box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.08);
+    }
+
+    .topic-check input:disabled + .topic-check-body {
+      opacity: 0.5;
+    }
+
+    .topic-check-title {
+      display: block;
+      color: var(--purple-950);
+      font-weight: 850;
+    }
+
+    .topic-check-count {
+      display: block;
+      margin-top: 0.25rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .practice-summary {
+      position: sticky;
+      top: 1rem;
+      padding: 1.25rem;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .practice-summary h2 {
+      margin: 0;
+      color: var(--purple-950);
+      font-size: 1.35rem;
+    }
+
+    .summary-list {
+      display: grid;
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+
+    .summary-list div {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .summary-list span {
+      color: var(--muted);
+    }
+
+    .summary-list strong {
+      color: var(--purple-950);
+      text-align: right;
+    }
+
+    .wrong-mode-box {
+      margin-top: 1rem;
+      padding: 1rem;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--purple-50);
+    }
+
+    .wrong-mode-box h3 {
+      margin: 0;
+      color: var(--purple-950);
+    }
+
+    .wrong-mode-box p {
+      margin: 0.5rem 0 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 980px) {
+      .practice-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .practice-summary {
+        position: static;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .practice-shell {
+        padding: 0.75rem;
+      }
+
+      .practice-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .practice-options,
+      .practice-options.two,
+      .topic-list {
+        grid-template-columns: 1fr;
+      }
+
+      .practice-hero,
+      .practice-section,
+      .practice-summary {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="practice-shell">
+    <header class="practice-header">
+      <a class="brand" href="index.html" aria-label="Go to homepage">
+        <span class="brand-mark">E</span>
+        <span class="brand-text">
+          <strong>ESAT Simulator</strong>
+          <small>Practice mode</small>
+        </span>
+      </a>
+
+      <nav class="practice-nav" aria-label="Practice navigation">
+        <a class="button button-secondary" href="index.html">Home</a>
+        <a class="button button-secondary" href="results.html">Results</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="practice-hero">
+        <p class="eyebrow">Practice setup</p>
+        <h1>Choose mixed practice, topic practice or wrong-question retry.</h1>
+        <p>
+          Practice mode saves the same local setup format as the homepage, then sends you to the exam engine.
+        </p>
+      </section>
+
+      <section class="practice-layout">
+        <form id="practiceForm" class="practice-form">
+          <section class="practice-section">
+            <h2>1. Choose module</h2>
+            <p>Select one module for focused practice.</p>
+
+            <div class="practice-options">
+              <label class="practice-option">
+                <input type="radio" name="practiceSubject" value="maths1" checked>
+                <span class="practice-option-body">
+                  <span class="practice-option-title">Maths 1</span>
+                  <span class="practice-option-subtitle">Core fluency, algebra, graphs and problem solving.</span>
+                </span>
+              </label>
+
+              <label class="practice-option">
+                <input type="radio" name="practiceSubject" value="maths2">
+                <span class="practice-option-body">
+                  <span class="practice-option-title">Maths 2</span>
+                  <span class="practice-option-subtitle">Calculus, vectors, trigonometry and advanced algebra.</span>
+                </span>
+              </label>
+
+              <label class="practice-option">
+                <input type="radio" name="practiceSubject" value="physics">
+                <span class="practice-option-body">
+                  <span class="practice-option-title">Physics</span>
+                  <span class="practice-option-subtitle">Mechanics, electricity, waves, materials and nuclear physics.</span>
+                </span>
+              </label>
+            </div>
+          </section>
+
+          <section class="practice-section">
+            <h2>2. Choose practice type</h2>
+            <p>Mixed practice uses topic weights. Topic practice filters the paper to selected topics.</p>
+
+            <div class="practice-options two">
+              <label class="practice-option">
+                <input type="radio" name="practiceType" value="mixed" checked>
+                <span class="practice-option-body">
+                  <span class="practice-option-title">Mixed practice</span>
+                  <span class="practice-option-subtitle">Balanced paper using topic weights.</span>
+                </span>
+              </label>
+
+              <label class="practice-option">
+                <input type="radio" name="practiceType" value="topic">
+                <span class="practice-option-body">
+                  <span class="practice-option-title">Topic practice</span>
+                  <span class="practice-option-subtitle">Choose one or more topics below.</span>
+                </span>
+              </label>
+            </div>
+
+            <div id="topicSection" class="hidden">
+              <div id="mathTopicList" class="topic-list"></div>
+              <div id="physicsTopicList" class="topic-list hidden"></div>
+            </div>
+          </section>
+
+          <section class="practice-section">
+            <h2>3. Choose length</h2>
+            <p>Select the number of questions.</p>
+
+            <div class="practice-options">
+              <label class="practice-option">
+                <input type="radio" name="questionCount" value="10" checked>
+                <span class="practice-option-body">
+                  <span class="practice-option-title">10 questions</span>
+                  <span class="practice-option-subtitle">Short practice set.</span>
+                </span>
+              </label>
+
+              <label class="practice-option">
+                <input type="radio" name="questionCount" value="20">
+                <span class="practice-option-body">
+                  <span class="practice-option-title">20 questions</span>
+                  <span class="practice-option-subtitle">Medium practice set.</span>
+                </span>
+              </label>
+
+              <label class="practice-option">
+                <input type="radio" name="questionCount" value="27">
+                <span class="practice-option-body">
+                  <span class="practice-option-title">27 questions</span>
+                  <span class="practice-option-subtitle">Full ESAT-style module length.</span>
+                </span>
+              </label>
+            </div>
+          </section>
+
+          <section class="practice-section">
+            <h2>4. Choose timing</h2>
+            <p>Use untimed for learning, relaxed for training and exam pace for realistic practice.</p>
+
+            <div class="practice-options">
+              <label class="practice-option">
+                <input type="radio" name="pace" value="untimed" checked>
+                <span class="practice-option-body">
+                  <span class="practice-option-title">Untimed</span>
+                  <span class="practice-option-subtitle">No countdown timer.</span>
+                </span>
+              </label>
+
+              <label class="practice-option">
+                <input type="radio" name="pace" value="relaxed">
+                <span class="practice-option-body">
+                  <span class="practice-option-title">Relaxed</span>
+                  <span class="practice-option-subtitle">Extra thinking time.</span>
+                </span>
+              </label>
+
+              <label class="practice-option">
+                <input type="radio" name="pace" value="exam">
+                <span class="practice-option-body">
+                  <span class="practice-option-title">Exam pace</span>
+                  <span class="practice-option-subtitle">Realistic timed pressure.</span>
+                </span>
+              </label>
+            </div>
+          </section>
+        </form>
+
+        <aside class="practice-summary">
+          <p class="eyebrow">Current setup</p>
+          <h2>Practice summary</h2>
+
+          <div class="summary-list">
+            <div>
+              <span>Module</span>
+              <strong id="summarySubject">Maths 1</strong>
+            </div>
+            <div>
+              <span>Type</span>
+              <strong id="summaryType">Mixed practice</strong>
+            </div>
+            <div>
+              <span>Topics</span>
+              <strong id="summaryTopics">Weighted mix</strong>
+            </div>
+            <div>
+              <span>Length</span>
+              <strong id="summaryLength">10 questions</strong>
+            </div>
+            <div>
+              <span>Timing</span>
+              <strong id="summaryPace">Untimed</strong>
+            </div>
+          </div>
+
+          <button type="button" id="beginPracticeBtn" class="button button-primary full-width">
+            Start practice
+          </button>
+
+          <div id="wrongModeBox" class="wrong-mode-box hidden">
+            <h3>Wrong-question practice</h3>
+            <p id="wrongModeText">No saved wrong questions yet.</p>
+            <button type="button" id="startWrongPracticeBtn" class="button button-secondary full-width" style="margin-top:0.75rem;">
+              Retry saved wrong questions
+            </button>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/questionBank.js"></script>
+  <script src="assets/topicWeights.js"></script>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var CONFIG_KEY = "esatSimulator.config";
+      var ACTIVE_EXAM_KEY = "esatSimulator.activeExam";
+      var WRONG_QUESTIONS_KEY = "esatSimulator.wrongQuestions";
+
+      var mathTopicGroups = [
+        {
+          label: "M1 Units",
+          topics: ["Units"]
+        },
+        {
+          label: "M2 Number",
+          topics: ["Number"]
+        },
+        {
+          label: "M3 Ratio and proportion",
+          topics: ["Ratio and proportion", "Number"]
+        },
+        {
+          label: "M4 Algebra",
+          topics: ["Algebra", "Functions", "Sequences", "Sequences and Series", "Binomial Expansion"]
+        },
+        {
+          label: "M5 Geometry",
+          topics: ["Geometry", "Coordinate Geometry", "Trigonometry", "Vectors"]
+        },
+        {
+          label: "M6 Statistics",
+          topics: ["Statistics", "Data"]
+        },
+        {
+          label: "M7 Probability",
+          topics: ["Probability"]
+        }
+      ];
+
+      function $(selector, root) {
+        return (root || document).querySelector(selector);
+      }
+
+      function $all(selector, root) {
+        return Array.prototype.slice.call((root || document).querySelectorAll(selector));
+      }
+
+      function safeJSONParse(text, fallback) {
+        try {
+          return text ? JSON.parse(text) : fallback;
+        } catch (error) {
+          return fallback;
+        }
+      }
+
+      function loadJSON(key, fallback) {
+        try {
+          return safeJSONParse(window.localStorage.getItem(key), fallback);
+        } catch (error) {
+          return fallback;
+        }
+      }
+
+      function saveJSON(key, value) {
+        try {
+          window.localStorage.setItem(key, JSON.stringify(value));
+          return true;
+        } catch (error) {
+          console.warn("Unable to save localStorage key:", key, error);
+          return false;
+        }
+      }
+
+      function removeStorageItem(key) {
+        try {
+          window.localStorage.removeItem(key);
+        } catch (error) {
+          console.warn("Unable to remove localStorage key:", key, error);
+        }
+      }
+
+      function selectedValue(name, fallback) {
+        var input = $("input[name='" + name + "']:checked");
+        return input ? input.value : fallback;
+      }
+
+      function subjectLabel(subject) {
+        var labels = {
+          maths1: "Maths 1",
+          maths2: "Maths 2",
+          physics: "Physics"
+        };
+
+        return labels[subject] || subject;
+      }
+
+      function paceLabel(pace) {
+        var weights = window.ESAT_TOPIC_WEIGHTS || {};
+        var modes = weights.paceModes || {};
+        return modes[pace] && modes[pace].label ? modes[pace].label : pace;
+      }
+
+      function getQuestionsForSubject(subject) {
+        var bank = window.ESAT_QUESTION_BANK;
+        if (!bank || !bank.subjects || !bank.subjects[subject]) return [];
+        return Array.isArray(bank.subjects[subject].questions) ? bank.subjects[subject].questions : [];
+      }
+
+      function countQuestionsForTopics(subject, topics) {
+        var questions = getQuestionsForSubject(subject);
+        var topicMap = {};
+
+        topics.forEach(function (topic) {
+          topicMap[topic] = true;
+        });
+
+        return questions.filter(function (question) {
+          return topicMap[question.topic || "Uncategorised"];
+        }).length;
+      }
+
+      function getPhysicsTopics() {
+        var questions = getQuestionsForSubject("physics");
+        var topicMap = {};
+        var topics = [];
+
+        questions.forEach(function (question) {
+          var topic = question.topic || "Uncategorised";
+          if (!topicMap[topic]) {
+            topicMap[topic] = true;
+            topics.push(topic);
+          }
+        });
+
+        return topics.sort();
+      }
+
+      function escapeHTML(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function renderMathTopics() {
+        var container = $("#mathTopicList");
+        if (!container) return;
+
+        container.innerHTML = "";
+
+        mathTopicGroups.forEach(function (group, index) {
+          var subject = selectedValue("practiceSubject", "maths1");
+          var count = countQuestionsForTopics(subject, group.topics);
+          var label = document.createElement("label");
+
+          label.className = "topic-check";
+          label.innerHTML =
+            "<input type='checkbox' name='topicChoice' value='" + escapeHTML(group.topics.join("|")) + "'" +
+            " data-label='" + escapeHTML(group.label) + "'" +
+            (count === 0 ? " disabled" : "") +
+            ">" +
+            "<span class='topic-check-body'>" +
+              "<span class='topic-check-title'>" + escapeHTML(group.label) + "</span>" +
+              "<span class='topic-check-count'>" + count + " matching question" + (count === 1 ? "" : "s") + "</span>" +
+            "</span>";
+
+          container.appendChild(label);
+        });
+      }
+
+      function renderPhysicsTopics() {
+        var container = $("#physicsTopicList");
+        var topics = getPhysicsTopics();
+
+        if (!container) return;
+
+        container.innerHTML = "";
+
+        topics.forEach(function (topic) {
+          var count = countQuestionsForTopics("physics", [topic]);
+          var label = document.createElement("label");
+
+          label.className = "topic-check";
+          label.innerHTML =
+            "<input type='checkbox' name='topicChoice' value='" + escapeHTML(topic) + "' data-label='" + escapeHTML(topic) + "'>" +
+            "<span class='topic-check-body'>" +
+              "<span class='topic-check-title'>" + escapeHTML(topic) + "</span>" +
+              "<span class='topic-check-count'>" + count + " matching question" + (count === 1 ? "" : "s") + "</span>" +
+            "</span>";
+
+          container.appendChild(label);
+        });
+      }
+
+      function selectedTopics() {
+        var topics = {};
+        var result = [];
+
+        $all("input[name='topicChoice']:checked").forEach(function (input) {
+          input.value.split("|").forEach(function (topic) {
+            if (topic && !topics[topic]) {
+              topics[topic] = true;
+              result.push(topic);
+            }
+          });
+        });
+
+        return result;
+      }
+
+      function selectedTopicLabels() {
+        var labels = [];
+
+        $all("input[name='topicChoice']:checked").forEach(function (input) {
+          if (input.getAttribute("data-label")) {
+            labels.push(input.getAttribute("data-label"));
+          }
+        });
+
+        return labels;
+      }
+
+      function updateTopicVisibility() {
+        var subject = selectedValue("practiceSubject", "maths1");
+        var practiceType = selectedValue("practiceType", "mixed");
+        var topicSection = $("#topicSection");
+        var mathList = $("#mathTopicList");
+        var physicsList = $("#physicsTopicList");
+
+        if (topicSection) {
+          topicSection.classList.toggle("hidden", practiceType !== "topic");
+        }
+
+        if (mathList) {
+          mathList.classList.toggle("hidden", subject === "physics");
+        }
+
+        if (physicsList) {
+          physicsList.classList.toggle("hidden", subject !== "physics");
+        }
+      }
+
+      function updateSummary() {
+        var subject = selectedValue("practiceSubject", "maths1");
+        var type = selectedValue("practiceType", "mixed");
+        var count = selectedValue("questionCount", "10");
+        var pace = selectedValue("pace", "untimed");
+        var labels = selectedTopicLabels();
+
+        $("#summarySubject").textContent = subjectLabel(subject);
+        $("#summaryType").textContent = type === "topic" ? "Topic practice" : "Mixed practice";
+        $("#summaryTopics").textContent = type === "topic" && labels.length ? labels.join(", ") : "Weighted mix";
+        $("#summaryLength").textContent = count + " questions";
+        $("#summaryPace").textContent = paceLabel(pace);
+      }
+
+      function getWrongQuestions() {
+        var wrong = loadJSON(WRONG_QUESTIONS_KEY, []);
+        return Array.isArray(wrong) ? wrong : [];
+      }
+
+      function updateWrongMode() {
+        var wrong = getWrongQuestions();
+        var box = $("#wrongModeBox");
+        var text = $("#wrongModeText");
+        var button = $("#startWrongPracticeBtn");
+
+        if (!box || !text || !button) return;
+
+        if (!wrong.length) {
+          box.classList.add("hidden");
+          button.disabled = true;
+          text.textContent = "No saved wrong questions yet.";
+          return;
+        }
+
+        box.classList.remove("hidden");
+        button.disabled = false;
+        text.textContent = wrong.length + " saved wrong question" + (wrong.length === 1 ? "" : "s") + " available.";
+      }
+
+      function buildConfig(mode) {
+        var subject = selectedValue("practiceSubject", "maths1");
+        var count = Number(selectedValue("questionCount", "10"));
+        var pace = selectedValue("pace", "untimed");
+        var type = selectedValue("practiceType", "mixed");
+        var topics = type === "topic" ? selectedTopics() : [];
+
+        return {
+          version: "1.0.0",
+          createdAt: new Date().toISOString(),
+          destination: "exam",
+          selectedSubjects: [subject],
+          questionCount: count,
+          pace: pace,
+          durationSeconds: null,
+          shuffleQuestions: true,
+          shuffleOptions: false,
+          allowReview: true,
+          practiceMode: mode || type,
+          selectedTopics: topics,
+          retryWrongQuestionIds: [],
+          source: "practice.html"
+        };
+      }
+
+      function startPractice() {
+        var type = selectedValue("practiceType", "mixed");
+        var topics = selectedTopics();
+        var config;
+
+        if (type === "topic" && topics.length === 0) {
+          alert("Choose at least one topic, or switch to mixed practice.");
+          return;
+        }
+
+        config = buildConfig(type);
+
+        saveJSON(CONFIG_KEY, config);
+        removeStorageItem(ACTIVE_EXAM_KEY);
+        window.location.href = "exam.html";
+      }
+
+      function startWrongPractice() {
+        var wrong = getWrongQuestions();
+        var subjects = {};
+        var subjectList = [];
+        var ids = [];
+        var count;
+
+        if (!wrong.length) {
+          alert("There are no saved wrong questions to retry.");
+          return;
+        }
+
+        wrong.forEach(function (item) {
+          if (item && item.subject && !subjects[item.subject]) {
+            subjects[item.subject] = true;
+            subjectList.push(item.subject);
+          }
+
+          if (item && item.originalId) {
+            ids.push(item.originalId);
+          }
+        });
+
+        if (!subjectList.length) {
+          subjectList = [selectedValue("practiceSubject", "maths1")];
+        }
+
+        if (wrong.length <= 10) {
+          count = 10;
+        } else if (wrong.length <= 20) {
+          count = 20;
+        } else {
+          count = 27;
+        }
+
+        saveJSON(CONFIG_KEY, {
+          version: "1.0.0",
+          createdAt: new Date().toISOString(),
+          destination: "exam",
+          selectedSubjects: subjectList,
+          questionCount: count,
+          pace: "untimed",
+          durationSeconds: null,
+          shuffleQuestions: true,
+          shuffleOptions: false,
+          allowReview: true,
+          practiceMode: "wrongQuestions",
+          selectedTopics: [],
+          retryWrongQuestionIds: ids,
+          source: "practice.html"
+        });
+
+        removeStorageItem(ACTIVE_EXAM_KEY);
+        window.location.href = "exam.html";
+      }
+
+      function handleSubjectChange() {
+        $all("input[name='topicChoice']").forEach(function (input) {
+          input.checked = false;
+        });
+
+        renderMathTopics();
+        renderPhysicsTopics();
+        updateTopicVisibility();
+        updateSummary();
+      }
+
+      function wireEvents() {
+        $all("input[name='practiceSubject']").forEach(function (input) {
+          input.addEventListener("change", handleSubjectChange);
+        });
+
+        $all("input[name='practiceType'], input[name='questionCount'], input[name='pace']").forEach(function (input) {
+          input.addEventListener("change", function () {
+            updateTopicVisibility();
+            updateSummary();
+          });
+        });
+
+        document.addEventListener("change", function (event) {
+          if (event.target && event.target.name === "topicChoice") {
+            updateSummary();
+          }
+        });
+
+        $("#beginPracticeBtn").addEventListener("click", startPractice);
+        $("#startWrongPracticeBtn").addEventListener("click", startWrongPractice);
+      }
+
+      function init() {
+        renderMathTopics();
+        renderPhysicsTopics();
+        updateTopicVisibility();
+        updateSummary();
+        updateWrongMode();
+        wireEvents();
+      }
+
+      document.addEventListener("DOMContentLoaded", init);
+    }());
+  </script>
+</body>
+</html>

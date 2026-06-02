@@ -84,69 +84,94 @@
     return subject.questions;
   }
 
-  function normaliseConfig(rawConfig) {
-    var bank = getBank();
-    var weights = getWeights();
-    var availableSubjects;
-    var selectedSubjects;
-    var questionCount;
-    var pace;
-    var paceModes;
-    var paceDetails;
-    var durationSeconds;
+function normaliseConfig(rawConfig) {
+  var bank = getBank();
+  var weights = getWeights();
+  var availableSubjects;
+  var selectedSubjects;
+  var selectedTopics;
+  var retryWrongQuestionIds;
+  var questionCount;
+  var pace;
+  var paceModes;
+  var paceDetails;
+  var durationSeconds;
+  var practiceMode;
 
-    if (!bank || !bank.subjects) return null;
+  if (!bank || !bank.subjects) return null;
 
-    availableSubjects = Object.keys(bank.subjects);
-    selectedSubjects = [];
+  availableSubjects = Object.keys(bank.subjects);
+  selectedSubjects = [];
 
-    if (rawConfig && Array.isArray(rawConfig.selectedSubjects)) {
-      rawConfig.selectedSubjects.forEach(function (subjectKey) {
-        if (availableSubjects.indexOf(subjectKey) !== -1) {
-          selectedSubjects.push(subjectKey);
-        }
-      });
-    }
+  if (rawConfig && Array.isArray(rawConfig.selectedSubjects)) {
+    rawConfig.selectedSubjects.forEach(function (subjectKey) {
+      if (availableSubjects.indexOf(subjectKey) !== -1) {
+        selectedSubjects.push(subjectKey);
+      }
+    });
+  }
 
-    if (selectedSubjects.length === 0 && availableSubjects.indexOf("maths1") !== -1) {
-      selectedSubjects.push("maths1");
-    }
+  if (selectedSubjects.length === 0 && availableSubjects.indexOf("maths1") !== -1) {
+    selectedSubjects.push("maths1");
+  }
 
-    questionCount = Number(rawConfig && rawConfig.questionCount);
-    if ([10, 20, 27].indexOf(questionCount) === -1) questionCount = 10;
+  selectedTopics = [];
+  if (rawConfig && Array.isArray(rawConfig.selectedTopics)) {
+    rawConfig.selectedTopics.forEach(function (topic) {
+      if (topic !== null && topic !== undefined && selectedTopics.indexOf(String(topic)) === -1) {
+        selectedTopics.push(String(topic));
+      }
+    });
+  }
 
-    pace = rawConfig && rawConfig.pace ? rawConfig.pace : "exam";
-    paceModes = weights && weights.paceModes ? weights.paceModes : {};
-    paceDetails = paceModes[pace];
+  retryWrongQuestionIds = [];
+  if (rawConfig && Array.isArray(rawConfig.retryWrongQuestionIds)) {
+    rawConfig.retryWrongQuestionIds.forEach(function (id) {
+      if (id !== null && id !== undefined && retryWrongQuestionIds.indexOf(String(id)) === -1) {
+        retryWrongQuestionIds.push(String(id));
+      }
+    });
+  }
 
-    if (!paceDetails) {
-      pace = "exam";
-      paceDetails = paceModes.exam || {
-        label: "Exam pace",
-        secondsPerQuestion: 89,
-        isTimed: true
-      };
-    }
+  questionCount = Number(rawConfig && rawConfig.questionCount);
+  if ([10, 20, 27].indexOf(questionCount) === -1) questionCount = 10;
 
-    durationSeconds = null;
-    if (paceDetails.isTimed && paceDetails.secondsPerQuestion) {
-      durationSeconds = questionCount * Number(paceDetails.secondsPerQuestion);
-    }
+  pace = rawConfig && rawConfig.pace ? rawConfig.pace : "exam";
+  paceModes = weights && weights.paceModes ? weights.paceModes : {};
+  paceDetails = paceModes[pace];
 
-    return {
-      version: "1.0.0",
-      selectedSubjects: selectedSubjects,
-      questionCount: questionCount,
-      pace: pace,
-      paceLabel: paceDetails.label || pace,
-      isTimed: Boolean(paceDetails.isTimed),
-      durationSeconds: durationSeconds,
-      shuffleQuestions: rawConfig && typeof rawConfig.shuffleQuestions === "boolean" ? rawConfig.shuffleQuestions : true,
-      shuffleOptions: rawConfig && typeof rawConfig.shuffleOptions === "boolean" ? rawConfig.shuffleOptions : false,
-      createdAt: new Date().toISOString()
+  if (!paceDetails) {
+    pace = "exam";
+    paceDetails = paceModes.exam || {
+      label: "Exam pace",
+      secondsPerQuestion: 89,
+      isTimed: true
     };
   }
 
+  durationSeconds = null;
+  if (paceDetails.isTimed && paceDetails.secondsPerQuestion) {
+    durationSeconds = questionCount * Number(paceDetails.secondsPerQuestion);
+  }
+
+  practiceMode = rawConfig && rawConfig.practiceMode ? rawConfig.practiceMode : "mixed";
+
+  return {
+    version: "1.0.0",
+    selectedSubjects: selectedSubjects,
+    questionCount: questionCount,
+    pace: pace,
+    paceLabel: paceDetails.label || pace,
+    isTimed: Boolean(paceDetails.isTimed),
+    durationSeconds: durationSeconds,
+    shuffleQuestions: rawConfig && typeof rawConfig.shuffleQuestions === "boolean" ? rawConfig.shuffleQuestions : true,
+    shuffleOptions: rawConfig && typeof rawConfig.shuffleOptions === "boolean" ? rawConfig.shuffleOptions : false,
+    selectedTopics: selectedTopics,
+    practiceMode: practiceMode,
+    retryWrongQuestionIds: retryWrongQuestionIds,
+    createdAt: new Date().toISOString()
+  };
+}
   function shuffle(items) {
     var copy = items.slice();
     var i;
@@ -170,48 +195,113 @@
     });
     return total;
   }
+function buildWrongQuestionPool(config) {
+  var wrongList = loadJSON(WRONG_QUESTIONS_KEY, []);
+  var idFilter = {};
+  var pool = [];
+  var bankQuestions = {};
+  var selectedSubjectMap = {};
 
-  function createBuckets(selectedSubjects) {
-    var weights = getWeights();
-    var buckets = [];
+  if (!Array.isArray(wrongList)) wrongList = [];
 
-    selectedSubjects.forEach(function (subjectKey) {
-      var questions = getSubjectQuestions(subjectKey);
-      var weightData = weights && weights.subjects ? weights.subjects[subjectKey] : null;
-      var topicNames = [];
-      var topicSeen = {};
+  config.selectedSubjects.forEach(function (subject) {
+    selectedSubjectMap[subject] = true;
+  });
 
-      if (weightData && Array.isArray(weightData.topicOrder)) {
-        topicNames = weightData.topicOrder.slice();
-      }
-
-      questions.forEach(function (question) {
-        var topic = question.topic || "Uncategorised";
-        if (!topicSeen[topic]) {
-          topicSeen[topic] = true;
-          if (topicNames.indexOf(topic) === -1) topicNames.push(topic);
-        }
-      });
-
-      topicNames.forEach(function (topic) {
-        var topicQuestions = questions.filter(function (question) {
-          return (question.topic || "Uncategorised") === topic;
-        });
-
-        if (topicQuestions.length > 0) {
-          buckets.push({
-            subject: subjectKey,
-            topic: topic,
-            weight: weightData && weightData.weights && weightData.weights[topic] ? Number(weightData.weights[topic]) : 1,
-            questions: topicQuestions
-          });
-        }
-      });
+  if (Array.isArray(config.retryWrongQuestionIds) && config.retryWrongQuestionIds.length) {
+    config.retryWrongQuestionIds.forEach(function (id) {
+      idFilter[id] = true;
     });
-
-    return buckets;
   }
 
+  Object.keys((getBank() && getBank().subjects) || {}).forEach(function (subjectKey) {
+    getSubjectQuestions(subjectKey).forEach(function (question) {
+      bankQuestions[question.id] = question;
+    });
+  });
+
+  wrongList.forEach(function (item) {
+    var id = item && item.originalId;
+    var fromBank;
+
+    if (!id) return;
+    if (Object.keys(idFilter).length && !idFilter[id]) return;
+    if (item.subject && !selectedSubjectMap[item.subject]) return;
+
+    fromBank = bankQuestions[id];
+
+    if (fromBank) {
+      pool.push(fromBank);
+      return;
+    }
+
+    pool.push({
+      id: item.originalId,
+      subject: item.subject,
+      topic: item.topic || "Uncategorised",
+      difficulty: item.difficulty || 1,
+      question: item.question || "",
+      options: Array.isArray(item.options) ? item.options.slice() : [],
+      answerIndex: Number(item.correctAnswerIndex || 0),
+      explanation: item.explanation || "",
+      tags: ["wrong-question-retry"]
+    });
+  });
+
+  return pool;
+}
+function createBuckets(selectedSubjects, selectedTopics) {
+  var weights = getWeights();
+  var buckets = [];
+  var topicFilter = {};
+
+  if (Array.isArray(selectedTopics)) {
+    selectedTopics.forEach(function (topic) {
+      topicFilter[topic] = true;
+    });
+  }
+
+  selectedSubjects.forEach(function (subjectKey) {
+    var questions = getSubjectQuestions(subjectKey);
+    var weightData = weights && weights.subjects ? weights.subjects[subjectKey] : null;
+    var topicNames = [];
+    var topicSeen = {};
+
+    if (weightData && Array.isArray(weightData.topicOrder)) {
+      topicNames = weightData.topicOrder.slice();
+    }
+
+    questions.forEach(function (question) {
+      var topic = question.topic || "Uncategorised";
+      if (!topicSeen[topic]) {
+        topicSeen[topic] = true;
+        if (topicNames.indexOf(topic) === -1) topicNames.push(topic);
+      }
+    });
+
+    topicNames.forEach(function (topic) {
+      var hasTopicFilter = Object.keys(topicFilter).length > 0;
+      var topicQuestions;
+
+      if (hasTopicFilter && !topicFilter[topic]) return;
+
+      topicQuestions = questions.filter(function (question) {
+        return (question.topic || "Uncategorised") === topic;
+      });
+
+      if (topicQuestions.length > 0) {
+        buckets.push({
+          subject: subjectKey,
+          topic: topic,
+          weight: weightData && weightData.weights && weightData.weights[topic] ? Number(weightData.weights[topic]) : 1,
+          questions: topicQuestions
+        });
+      }
+    });
+  });
+
+  return buckets;
+}
   function allocateTargets(totalQuestions, buckets) {
     var totalWeight = sumNumbers(buckets, function (bucket) {
       return bucket.weight > 0 ? bucket.weight : 0;
@@ -251,51 +341,31 @@
   }
 
   function selectRawQuestions(config) {
-    var buckets = createBuckets(config.selectedSubjects);
-    var targets = allocateTargets(config.questionCount, buckets);
-    var selected = [];
-    var selectedIds = {};
-    var fillPool = [];
-    var allUnique = [];
-    var allIds = {};
+  var buckets;
+  var targets;
+  var selected = [];
+  var selectedIds = {};
+  var fillPool = [];
+  var allUnique = [];
+  var allIds = {};
+  var wrongPool;
 
-    buckets.forEach(function (bucket) {
-      bucket.questions.forEach(function (question) {
-        if (!allIds[question.id]) {
-          allIds[question.id] = true;
-          allUnique.push(question);
-        }
-      });
-    });
+  if (config.practiceMode === "wrongQuestions") {
+    wrongPool = buildWrongQuestionPool(config);
 
-    if (allUnique.length === 0) return [];
+    if (!wrongPool.length) return [];
 
-    buckets.forEach(function (bucket, bucketIndex) {
-      var bucketQuestions = shuffle(bucket.questions);
-      var target = targets[bucketIndex];
+    wrongPool = shuffle(wrongPool);
 
-      bucketQuestions.forEach(function (question, index) {
-        if (index < target && !selectedIds[question.id]) {
-          selected.push(question);
-          selectedIds[question.id] = true;
-        }
-      });
-    });
-
-    allUnique.forEach(function (question) {
-      if (!selectedIds[question.id]) fillPool.push(question);
-    });
-
-    fillPool = shuffle(fillPool);
-    while (selected.length < config.questionCount && fillPool.length > 0) {
-      selected.push(fillPool.shift());
+    while (selected.length < config.questionCount && wrongPool.length > 0) {
+      selected.push(wrongPool.shift());
     }
 
     if (selected.length < config.questionCount) {
-      fillPool = shuffle(allUnique);
-      while (selected.length < config.questionCount) {
+      fillPool = shuffle(selected.slice());
+
+      while (selected.length < config.questionCount && fillPool.length > 0) {
         selected.push(fillPool[selected.length % fillPool.length]);
-        if (selected.length % fillPool.length === 0) fillPool = shuffle(allUnique);
       }
     }
 
@@ -303,6 +373,59 @@
     return selected.slice(0, config.questionCount);
   }
 
+  buckets = createBuckets(config.selectedSubjects, config.practiceMode === "topic" ? config.selectedTopics : []);
+
+  if (!buckets.length && config.practiceMode === "topic") {
+    buckets = createBuckets(config.selectedSubjects, []);
+  }
+
+  targets = allocateTargets(config.questionCount, buckets);
+
+  buckets.forEach(function (bucket) {
+    bucket.questions.forEach(function (question) {
+      if (!allIds[question.id]) {
+        allIds[question.id] = true;
+        allUnique.push(question);
+      }
+    });
+  });
+
+  if (allUnique.length === 0) return [];
+
+  buckets.forEach(function (bucket, bucketIndex) {
+    var bucketQuestions = shuffle(bucket.questions);
+    var target = targets[bucketIndex];
+
+    bucketQuestions.forEach(function (question, index) {
+      if (index < target && !selectedIds[question.id]) {
+        selected.push(question);
+        selectedIds[question.id] = true;
+      }
+    });
+  });
+
+  allUnique.forEach(function (question) {
+    if (!selectedIds[question.id]) fillPool.push(question);
+  });
+
+  fillPool = shuffle(fillPool);
+
+  while (selected.length < config.questionCount && fillPool.length > 0) {
+    selected.push(fillPool.shift());
+  }
+
+  if (selected.length < config.questionCount) {
+    fillPool = shuffle(allUnique);
+
+    while (selected.length < config.questionCount) {
+      selected.push(fillPool[selected.length % fillPool.length]);
+      if (selected.length % fillPool.length === 0) fillPool = shuffle(allUnique);
+    }
+  }
+
+  if (config.shuffleQuestions) selected = shuffle(selected);
+  return selected.slice(0, config.questionCount);
+}
   function normaliseQuestion(question, occurrence, config) {
     var options = Array.isArray(question.options) ? question.options.slice() : [];
     var answerIndex = Number(question.answerIndex);

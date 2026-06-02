@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exam | ESAT Simulator</title>
+  <meta name="description" content="Timed ESAT-style local exam simulator.">
+  <link rel="stylesheet" href="assets/styles.css">
+
+  <style>
+    body.exam-body {
+      background: linear-gradient(180deg, #ffffff, #f7f3ff);
+    }
+
+    .exam-shell {
+      width: min(100%, 1280px);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .exam-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) auto auto;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .exam-title-block h1 {
+      margin: 0;
+      color: var(--purple-950);
+      font-size: 1.25rem;
+      line-height: 1.2;
+    }
+
+    .exam-stat-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .exam-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      min-height: 38px;
+      padding: 0.55rem 0.75rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--white);
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 750;
+    }
+
+    .exam-pill strong {
+      color: var(--purple-950);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timer-pill {
+      border-color: rgba(124, 58, 237, 0.28);
+      background: var(--purple-50);
+      color: var(--purple-800);
+    }
+
+    .timer-pill.warning {
+      background: var(--warning-bg);
+      color: var(--warning);
+    }
+
+    .timer-pill.danger {
+      background: #fff1f2;
+      color: #b91c1c;
+    }
+
+    .exam-header-actions {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .exam-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 310px;
+      gap: 1rem;
+      align-items: start;
+      margin-top: 1rem;
+    }
+
+    .question-card {
+      position: relative;
+      min-height: 520px;
+      padding: 1.5rem;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .question-number {
+      color: var(--purple-950);
+      font-weight: 900;
+    }
+
+    .question-kicker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 750;
+    }
+
+    .question-kicker span {
+      display: inline-flex;
+      padding: 0.35rem 0.55rem;
+      border-radius: 999px;
+      background: var(--purple-50);
+      color: var(--purple-800);
+    }
+
+    .question-text {
+      margin: 1.35rem 0 1.2rem;
+      color: var(--purple-950);
+      font-size: clamp(1.25rem, 2.5vw, 1.85rem);
+      line-height: 1.45;
+    }
+
+    .answer-list {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .answer-option {
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
+      align-items: center;
+      gap: 0.85rem;
+      width: 100%;
+      min-height: 62px;
+      padding: 0.75rem;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--white);
+      color: var(--ink);
+      text-align: left;
+    }
+
+    .answer-option:hover {
+      border-color: rgba(124, 58, 237, 0.45);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .answer-option.selected {
+      border-color: var(--purple-500);
+      background: linear-gradient(180deg, #ffffff, var(--purple-50));
+      box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1);
+    }
+
+    .answer-letter {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background: var(--purple-100);
+      color: var(--purple-800);
+      font-weight: 900;
+    }
+
+    .answer-option.selected .answer-letter {
+      background: var(--purple-600);
+      color: var(--white);
+    }
+
+    .answer-text {
+      font-size: 1rem;
+      line-height: 1.45;
+    }
+
+    .exam-control-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto 1fr;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .exam-control-row .button {
+      min-height: 48px;
+      border-radius: 14px;
+    }
+
+    .flag-active {
+      border-color: rgba(154, 91, 0, 0.3);
+      background: var(--warning-bg);
+      color: var(--warning);
+    }
+
+    .pause-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      display: none;
+      place-items: center;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.97);
+      text-align: center;
+    }
+
+    .pause-overlay.visible {
+      display: grid;
+    }
+
+    .pause-box {
+      width: min(100%, 460px);
+      padding: 1.5rem;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--white);
+      box-shadow: var(--shadow-md);
+    }
+
+    .pause-box h2 {
+      margin: 0;
+      color: var(--purple-950);
+      font-size: 1.6rem;
+    }
+
+    .pause-box p {
+      margin: 0.75rem 0 1.2rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .navigator-panel {
+      position: sticky;
+      top: 6.5rem;
+      padding: 1rem;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .navigator-panel h2 {
+      margin: 0;
+      color: var(--purple-950);
+      font-size: 1.2rem;
+    }
+
+    .navigator-panel p {
+      margin: 0.4rem 0 1rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .question-nav-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.45rem;
+    }
+
+    .nav-question-button {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--white);
+      color: var(--muted);
+      font-weight: 850;
+    }
+
+    .nav-question-button.current {
+      border-color: var(--purple-600);
+      background: var(--purple-600);
+      color: var(--white);
+    }
+
+    .nav-question-button.answered:not(.current) {
+      border-color: rgba(19, 122, 70, 0.25);
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    .nav-question-button.flagged::after {
+      content: "";
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #f59e0b;
+    }
+
+    .nav-legend {
+      display: grid;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .legend-swatch {
+      width: 18px;
+      height: 18px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--white);
+    }
+
+    .legend-swatch.current {
+      border-color: var(--purple-600);
+      background: var(--purple-600);
+    }
+
+    .legend-swatch.answered {
+      background: var(--success-bg);
+    }
+
+    .legend-swatch.flagged {
+      background: var(--warning-bg);
+    }
+
+    .keyboard-help {
+      margin-top: 1rem;
+      padding: 0.85rem;
+      border-radius: 16px;
+      background: var(--purple-50);
+      color: var(--purple-800);
+      font-size: 0.84rem;
+      line-height: 1.55;
+    }
+
+    .keyboard-help strong {
+      color: var(--purple-950);
+    }
+
+    .exam-error {
+      margin-top: 1rem;
+      padding: 1.2rem;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #ffffff;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .exam-error h2 {
+      margin-top: 0;
+      color: var(--purple-950);
+    }
+
+    .exam-error p {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1020px) {
+      .exam-topbar {
+        grid-template-columns: 1fr;
+      }
+
+      .exam-stat-row {
+        justify-content: flex-start;
+      }
+
+      .exam-header-actions {
+        justify-content: flex-start;
+      }
+
+      .exam-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .navigator-panel {
+        position: static;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .exam-shell {
+        padding: 0.75rem;
+      }
+
+      .question-card {
+        min-height: 480px;
+        padding: 1rem;
+      }
+
+      .question-header {
+        flex-direction: column;
+      }
+
+      .exam-control-row {
+        grid-template-columns: 1fr;
+      }
+
+      .question-nav-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .answer-option {
+        grid-template-columns: 38px minmax(0, 1fr);
+      }
+
+      .answer-letter {
+        width: 34px;
+        height: 34px;
+      }
+    }
+  </style>
+</head>
+
+<body class="exam-body">
+  <div class="exam-shell">
+    <header class="exam-topbar">
+      <div class="exam-title-block">
+        <p class="eyebrow">ESAT Simulator</p>
+        <h1 id="examModuleTitle">Loading exam...</h1>
+      </div>
+
+      <div class="exam-stat-row" aria-label="Exam status">
+        <div id="timerPill" class="exam-pill timer-pill">
+          Timer
+          <strong id="timerDisplay">--:--</strong>
+        </div>
+        <div class="exam-pill">
+          Answered
+          <strong id="answeredCount">0 / 0</strong>
+        </div>
+        <div class="exam-pill">
+          Flagged
+          <strong id="flaggedCount">0</strong>
+        </div>
+      </div>
+
+      <div class="exam-header-actions">
+        <button type="button" id="pauseBtn" class="button button-secondary">Pause</button>
+        <a href="index.html" class="button button-ghost">Exit setup</a>
+      </div>
+    </header>
+
+    <main id="examApp">
+      <div id="examError" class="exam-error" hidden>
+        <h2>Unable to load exam</h2>
+        <p id="examErrorText">
+          The exam settings could not be found. Return to the homepage and choose your exam setup again.
+        </p>
+        <a href="index.html" class="button button-primary">Return to setup</a>
+      </div>
+
+      <div id="examInterface" class="exam-layout" hidden>
+        <section class="exam-main" aria-label="Question area">
+          <article class="question-card">
+            <div id="pauseOverlay" class="pause-overlay" aria-live="polite">
+              <div class="pause-box">
+                <h2>Exam paused</h2>
+                <p>The question has been hidden while the timer is paused. Press P or use the button below to resume.</p>
+                <button type="button" id="resumeOverlayBtn" class="button button-primary full-width">Resume exam</button>
+              </div>
+            </div>
+
+            <div class="question-header">
+              <div>
+                <div class="question-number" id="questionPosition">Question 1 of 10</div>
+                <div class="question-kicker">
+                  <span id="questionSubject">Maths 1</span>
+                  <span id="questionTopic">Algebra</span>
+                  <span id="questionDifficulty">Difficulty 1</span>
+                </div>
+              </div>
+
+              <button type="button" id="flagBtn" class="button button-secondary">
+                Flag for review
+              </button>
+            </div>
+
+            <h2 id="questionText" class="question-text">Loading question...</h2>
+
+            <div id="answerList" class="answer-list" role="radiogroup" aria-label="Answer choices"></div>
+          </article>
+
+          <div class="exam-control-row">
+            <button type="button" id="prevBtn" class="button button-secondary">Previous</button>
+            <button type="button" id="clearAnswerBtn" class="button button-ghost">Clear answer</button>
+            <button type="button" id="nextBtn" class="button button-secondary">Next</button>
+            <button type="button" id="finishBtn" class="button button-primary">Finish exam</button>
+          </div>
+        </section>
+
+        <aside class="navigator-panel" aria-label="Question navigator">
+          <h2>Question navigator</h2>
+          <p>Use this to jump between questions. Flagged questions show a small amber dot.</p>
+
+          <div id="questionNavigator" class="question-nav-grid"></div>
+
+          <div class="nav-legend">
+            <div class="legend-item">
+              <span class="legend-swatch current"></span>
+              Current
+            </div>
+            <div class="legend-item">
+              <span class="legend-swatch answered"></span>
+              Answered
+            </div>
+            <div class="legend-item">
+              <span class="legend-swatch"></span>
+              Unanswered
+            </div>
+            <div class="legend-item">
+              <span class="legend-swatch flagged"></span>
+              Flagged
+            </div>
+          </div>
+
+          <div class="keyboard-help">
+            <strong>Keyboard shortcuts</strong><br>
+            A, B, C, D, E: select answer<br>
+            Left / Right arrow: previous or next<br>
+            F: flag for review<br>
+            P: pause or resume
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/questionBank.js"></script>
+  <script src="assets/topicWeights.js"></script>
+  <script src="assets/app.js"></script>
+  <script src="assets/exam.js"></script>
+</body>
+</html>

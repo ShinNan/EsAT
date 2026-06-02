@@ -10,6 +10,17 @@
     return (root || document).querySelector(selector);
   }
 
+  function renderMath(value) {
+    if (window.ESATMath && typeof window.ESATMath.renderToString === "function") {
+      return window.ESATMath.renderToString(value);
+    }
+
+    return String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
   function safeJSONParse(text, fallback) {
     try {
       return text ? JSON.parse(text) : fallback;
@@ -47,6 +58,15 @@
   function setText(selector, value) {
     var element = $(selector);
     if (element) element.textContent = value;
+  }
+
+  function escapeHTML(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
   }
 
   function formatTime(seconds) {
@@ -215,19 +235,19 @@
         "<span class='review-status " + (isCorrect ? "correct" : "incorrect") + "'>" + statusText + "</span>" +
       "</div>" +
       "<div class='review-card-body'>" +
-        "<p class='review-question'>" + escapeHTML(question.question || "") + "</p>" +
+        "<p class='review-question math-rendered'>" + renderMath(question.question || "") + "</p>" +
         "<div class='answer-compare'>" +
           "<div class='answer-box " + (isCorrect ? "" : "student-wrong") + "'>" +
             "<span>Student answer</span>" +
-            "<strong>" + escapeHTML(studentAnswer) + "</strong>" +
+            "<strong class='math-rendered'>" + renderMath(studentAnswer) + "</strong>" +
           "</div>" +
           "<div class='answer-box correct-answer'>" +
             "<span>Correct answer</span>" +
-            "<strong>" + escapeHTML(correctAnswer) + "</strong>" +
+            "<strong class='math-rendered'>" + renderMath(correctAnswer) + "</strong>" +
           "</div>" +
         "</div>" +
-        "<div class='explanation-box'>" +
-          "<strong>Explanation:</strong> " + escapeHTML(question.explanation || "No explanation saved for this question.") +
+        "<div class='explanation-box math-rendered'>" +
+          "<strong>Explanation:</strong> " + renderMath(question.explanation || "No explanation saved for this question.") +
         "</div>" +
       "</div>";
 
@@ -237,15 +257,6 @@
   function labelForIndex(index) {
     var labels = ["A", "B", "C", "D", "E"];
     return labels[Number(index)] || "-";
-  }
-
-  function escapeHTML(value) {
-    return String(value)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
   }
 
   function updateWrongQuestionStatus() {

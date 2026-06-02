@@ -1,3 +1,232 @@
+/*
+  ESAT Simulator Shared App Script
+  --------------------------------
+  This file contains:
+  1. A lightweight local maths renderer.
+  2. Homepage setup behaviour.
+
+  The maths renderer is exposed globally as:
+  window.ESATMath.renderToString(text)
+  window.ESATMath.renderElement(element, text)
+*/
+
+(function () {
+  "use strict";
+
+  function escapeHTML(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  var symbolMap = {
+    theta: "θ",
+    lambda: "λ",
+    Delta: "Δ",
+    delta: "δ",
+    Omega: "Ω",
+    omega: "ω",
+    mu: "μ",
+    pi: "π",
+    rho: "ρ",
+    alpha: "α",
+    beta: "β",
+    gamma: "γ",
+    times: "×",
+    cdot: "·",
+    degree: "°",
+    pm: "±",
+    approx: "≈",
+    leq: "≤",
+    geq: "≥",
+    neq: "≠",
+    infty: "∞"
+  };
+
+  function isCommandChar(char) {
+    return /[A-Za-z]/.test(char);
+  }
+
+  function skipSpaces(input, index) {
+    while (index < input.length && /\s/.test(input[index])) {
+      index += 1;
+    }
+    return index;
+  }
+
+  function readCommand(input, index) {
+    var start = index;
+
+    while (index < input.length && isCommandChar(input[index])) {
+      index += 1;
+    }
+
+    return {
+      command: input.slice(start, index),
+      index: index
+    };
+  }
+
+  function parseGroup(input, index) {
+    index = skipSpaces(input, index);
+
+    if (input[index] === "{") {
+      return parseExpression(input, index + 1, "}");
+    }
+
+    return parseToken(input, index);
+  }
+
+  function parseToken(input, index) {
+    var char = input[index];
+
+    if (char === "\\") {
+      return parseBackslashCommand(input, index);
+    }
+
+    if (char === "-" && index + 1 < input.length) {
+      return {
+        html: escapeHTML(input.slice(index, index + 2)),
+        index: index + 2
+      };
+    }
+
+    return {
+      html: escapeHTML(char || ""),
+      index: index + 1
+    };
+  }
+
+  function parseBackslashCommand(input, index) {
+    var commandData = readCommand(input, index + 1);
+    var command = commandData.command;
+    var nextIndex = commandData.index;
+    var numerator;
+    var denominator;
+    var radicand;
+
+    if (command === "frac") {
+      numerator = parseGroup(input, nextIndex);
+      denominator = parseGroup(input, numerator.index);
+
+      return {
+        html:
+          "<span class=\"math-frac\">" +
+            "<span class=\"math-num\">" + numerator.html + "</span>" +
+            "<span class=\"math-den\">" + denominator.html + "</span>" +
+          "</span>",
+        index: denominator.index
+      };
+    }
+
+    if (command === "sqrt") {
+      radicand = parseGroup(input, nextIndex);
+
+      return {
+        html:
+          "<span class=\"math-sqrt\">" +
+            "<span class=\"math-radicand\">" + radicand.html + "</span>" +
+          "</span>",
+        index: radicand.index
+      };
+    }
+
+    if (symbolMap[command]) {
+      return {
+        html: escapeHTML(symbolMap[command]),
+        index: nextIndex
+      };
+    }
+
+    return {
+      html: escapeHTML("\\" + command),
+      index: nextIndex
+    };
+  }
+
+  function parseExpression(input, index, stopChar) {
+    var html = "";
+    var result;
+    var group;
+    var char;
+
+    while (index < input.length) {
+      char = input[index];
+
+      if (stopChar && char === stopChar) {
+        return {
+          html: html,
+          index: index + 1
+        };
+      }
+
+      if (char === "\\") {
+        result = parseBackslashCommand(input, index);
+        html += result.html;
+        index = result.index;
+        continue;
+      }
+
+      if (char === "^") {
+        group = parseGroup(input, index + 1);
+        html += "<sup>" + group.html + "</sup>";
+        index = group.index;
+        continue;
+      }
+
+      if (char === "_") {
+        group = parseGroup(input, index + 1);
+        html += "<sub>" + group.html + "</sub>";
+        index = group.index;
+        continue;
+      }
+
+      if (char === "{") {
+        group = parseExpression(input, index + 1, "}");
+        html += group.html;
+        index = group.index;
+        continue;
+      }
+
+      if (char === "}") {
+        return {
+          html: html,
+          index: index + 1
+        };
+      }
+
+      html += escapeHTML(char);
+      index += 1;
+    }
+
+    return {
+      html: html,
+      index: index
+    };
+  }
+
+  function renderMathToString(value) {
+    if (value === null || value === undefined) return "";
+
+    return "<span class=\"math-inline\">" + parseExpression(String(value), 0, null).html + "</span>";
+  }
+
+  function renderMathElement(element, value) {
+    if (!element) return;
+    element.innerHTML = renderMathToString(value);
+    element.classList.add("math-rendered");
+  }
+
+  window.ESATMath = {
+    escapeHTML: escapeHTML,
+    renderToString: renderMathToString,
+    renderElement: renderMathElement
+  };
+}());
+
 (function () {
   "use strict";
 
@@ -84,6 +313,7 @@
 
   function countQuestionsByTopic(subjectKey) {
     var questions = getSubjectQuestions(subjectKey);
+
     return questions.reduce(function (map, question) {
       var topic = question.topic || "Uncategorised";
       map[topic] = (map[topic] || 0) + 1;
@@ -117,6 +347,9 @@
       shuffleQuestions: true,
       shuffleOptions: false,
       allowReview: true,
+      practiceMode: "mixed",
+      selectedTopics: [],
+      retryWrongQuestionIds: [],
       source: "index.html"
     };
   }
@@ -154,6 +387,7 @@
     subjectKeys.forEach(function (subjectKey) {
       var subject = bank.subjects[subjectKey];
       var count = getSubjectQuestions(subjectKey).length;
+
       html += ""
         + "<div class='stat-row'>"
         + "<span>" + subject.label + "</span>"
@@ -382,4 +616,4 @@
   }
 
   document.addEventListener("DOMContentLoaded", init);
-})();
+}());

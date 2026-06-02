@@ -760,3 +760,90 @@ code {
     text-align: left;
   }
 }
+/* Lightweight local maths rendering */
+.math-rendered {
+  font-family: inherit;
+}
+
+.math-inline {
+  display: inline;
+  line-height: inherit;
+  white-space: normal;
+}
+
+.math-inline sup,
+.math-inline sub {
+  font-size: 0.72em;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+.math-inline sup {
+  top: -0.48em;
+}
+
+.math-inline sub {
+  top: 0.22em;
+}
+
+.math-frac {
+  display: inline-grid;
+  grid-template-rows: auto auto;
+  align-items: center;
+  justify-items: center;
+  vertical-align: middle;
+  margin: 0 0.14em;
+  line-height: 1.05;
+  font-size: 0.94em;
+}
+
+.math-frac .math-num {
+  display: block;
+  padding: 0 0.22em 0.08em;
+  border-bottom: 1.5px solid currentColor;
+  min-width: 1.15em;
+  text-align: center;
+}
+
+.math-frac .math-den {
+  display: block;
+  padding: 0.08em 0.22em 0;
+  min-width: 1.15em;
+  text-align: center;
+}
+
+.math-sqrt {
+  display: inline-flex;
+  align-items: flex-start;
+  vertical-align: middle;
+  margin: 0 0.08em;
+}
+
+.math-sqrt::before {
+  content: "√";
+  font-size: 1.08em;
+  line-height: 1;
+  margin-right: 0.02em;
+}
+
+.math-radicand {
+  display: inline-block;
+  padding: 0.02em 0.18em 0;
+  border-top: 1.5px solid currentColor;
+  line-height: 1.15;
+}
+
+.answer-text .math-frac,
+.review-question .math-frac,
+.explanation-box .math-frac {
+  transform: translateY(-0.03em);
+}
+
+.question-text .math-frac {
+  font-size: 0.9em;
+}
+
+.question-text .math-sqrt {
+  font-size: 0.95em;
+}

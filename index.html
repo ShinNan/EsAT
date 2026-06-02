@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESAT Simulator | Local Practice Platform</title>
+  <meta name="description" content="A local ESAT-style online exam simulator for Maths 1, Maths 2 and Physics practice.">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Go to homepage">
+        <span class="brand-mark">E</span>
+        <span class="brand-text">
+          <strong>ESAT Simulator</strong>
+          <small>Local exam practice</small>
+        </span>
+      </a>
+
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="index.html" class="active">Home</a>
+        <a href="practice.html">Practice</a>
+        <a href="results.html">Results</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-content">
+          <p class="eyebrow">Independent ESAT-style preparation platform</p>
+          <h1>Run realistic Maths and Physics practice exams from a local website.</h1>
+          <p class="hero-copy">
+            Choose your module, question count and timing mode. Your settings are stored locally in your browser, so the site works through GitHub Pages or directly from your computer.
+          </p>
+
+          <div class="hero-actions">
+            <a class="button button-primary" href="#setup">Set up exam</a>
+            <a class="button button-secondary" href="#question-bank">View question bank status</a>
+          </div>
+        </div>
+
+        <aside class="hero-panel" aria-label="Platform summary">
+          <div class="panel-topline">
+            <span class="live-dot"></span>
+            <span>Local build ready</span>
+          </div>
+
+          <div class="metric-grid">
+            <div class="metric">
+              <span>Modules</span>
+              <strong>3</strong>
+            </div>
+            <div class="metric">
+              <span>Modes</span>
+              <strong>10 / 20 / 27</strong>
+            </div>
+            <div class="metric">
+              <span>Bank</span>
+              <strong id="totalQuestions">Loading</strong>
+            </div>
+            <div class="metric">
+              <span>Version</span>
+              <strong id="bankVersion">Loading</strong>
+            </div>
+          </div>
+
+          <p class="small-note">
+            Not affiliated with Cambridge, Pearson, UAT-UK or any official ESAT provider.
+          </p>
+        </aside>
+      </section>
+
+      <section id="setup" class="section-grid">
+        <div class="setup-main">
+          <div class="section-heading">
+            <p class="eyebrow">Exam setup</p>
+            <h2>Choose your practice configuration</h2>
+            <p>
+              This homepage only prepares the exam settings. The exam engine will be added in the next files.
+            </p>
+          </div>
+
+          <form id="homeForm" class="setup-form">
+            <fieldset class="choice-section">
+              <legend>
+                <span class="step-number">1</span>
+                Select module
+              </legend>
+
+              <div class="card-options three-columns">
+                <label class="choice-card">
+                  <input type="checkbox" name="module" value="maths1" checked>
+                  <span class="choice-card-body">
+                    <span class="choice-title">Maths 1</span>
+                    <span class="choice-subtitle">Core algebra, graphs, geometry and problem solving</span>
+                    <span class="choice-meta" data-question-count-for="maths1">Loading</span>
+                  </span>
+                </label>
+
+                <label class="choice-card">
+                  <input type="checkbox" name="module" value="maths2">
+                  <span class="choice-card-body">
+                    <span class="choice-title">Maths 2</span>
+                    <span class="choice-subtitle">Calculus, vectors, trigonometry and advanced fluency</span>
+                    <span class="choice-meta" data-question-count-for="maths2">Loading</span>
+                  </span>
+                </label>
+
+                <label class="choice-card">
+                  <input type="checkbox" name="module" value="physics">
+                  <span class="choice-card-body">
+                    <span class="choice-title">Physics</span>
+                    <span class="choice-subtitle">Mechanics, electricity, waves, materials and nuclear physics</span>
+                    <span class="choice-meta" data-question-count-for="physics">Loading</span>
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="choice-section">
+              <legend>
+                <span class="step-number">2</span>
+                Select question count
+              </legend>
+
+              <div class="card-options three-columns">
+                <label class="choice-card compact">
+                  <input type="radio" name="questionCount" value="10" checked>
+                  <span class="choice-card-body">
+                    <span class="choice-title">10 questions</span>
+                    <span class="choice-subtitle">Short diagnostic practice</span>
+                  </span>
+                </label>
+
+                <label class="choice-card compact">
+                  <input type="radio" name="questionCount" value="20">
+                  <span class="choice-card-body">
+                    <span class="choice-title">20 questions</span>
+                    <span class="choice-subtitle">Half-length training set</span>
+                  </span>
+                </label>
+
+                <label class="choice-card compact">
+                  <input type="radio" name="questionCount" value="27">
+                  <span class="choice-card-body">
+                    <span class="choice-title">27 questions</span>
+                    <span class="choice-subtitle">Full ESAT-style module length</span>
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="choice-section">
+              <legend>
+                <span class="step-number">3</span>
+                Select pace
+              </legend>
+
+              <div class="card-options three-columns">
+                <label class="choice-card compact">
+                  <input type="radio" name="pace" value="exam" checked>
+                  <span class="choice-card-body">
+                    <span class="choice-title">Exam pace</span>
+                    <span class="choice-subtitle">Realistic timed practice</span>
+                  </span>
+                </label>
+
+                <label class="choice-card compact">
+                  <input type="radio" name="pace" value="relaxed">
+                  <span class="choice-card-body">
+                    <span class="choice-title">Relaxed pace</span>
+                    <span class="choice-subtitle">Extra time for learning</span>
+                  </span>
+                </label>
+
+                <label class="choice-card compact">
+                  <input type="radio" name="pace" value="untimed">
+                  <span class="choice-card-body">
+                    <span class="choice-title">Untimed</span>
+                    <span class="choice-subtitle">No countdown timer</span>
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+
+        <aside class="summary-panel" aria-label="Selected exam summary">
+          <div class="sticky-panel">
+            <div class="summary-header">
+              <p class="eyebrow">Current setup</p>
+              <h3>Exam summary</h3>
+            </div>
+
+            <div class="summary-list">
+              <div>
+                <span>Modules</span>
+                <strong id="summaryModules">Maths 1</strong>
+              </div>
+              <div>
+                <span>Length</span>
+                <strong id="summaryQuestionCount">10 questions</strong>
+              </div>
+              <div>
+                <span>Pace</span>
+                <strong id="summaryPace">Exam pace</strong>
+              </div>
+              <div>
+                <span>Duration</span>
+                <strong id="summaryDuration">Loading</strong>
+              </div>
+            </div>
+
+            <div id="startStatus" class="status-message success" aria-live="polite">
+              Ready.
+            </div>
+
+            <div class="summary-actions">
+              <button type="button" id="startExamBtn" class="button button-primary full-width">
+                Start exam
+              </button>
+              <button type="button" id="startPracticeBtn" class="button button-secondary full-width">
+                Open practice mode
+              </button>
+              <button type="button" id="clearSavedBtn" class="button button-ghost full-width">
+                Reset choices
+              </button>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section id="question-bank" class="info-section">
+        <div class="section-heading">
+          <p class="eyebrow">Question bank</p>
+          <h2>Editable local data</h2>
+          <p>
+            Questions are stored in <code>assets/questionBank.js</code>. Topic balancing is stored in <code>assets/topicWeights.js</code>.
+          </p>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-card">
+            <h3>Bank status</h3>
+            <div id="bankStats" class="bank-stats">
+              <p class="muted">Loading question bank...</p>
+            </div>
+          </div>
+
+          <div class="info-card wide">
+            <h3>Selected topic coverage</h3>
+            <div id="topicPreview" class="topic-preview">
+              <p class="muted">Choose a module to see topic coverage.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="info-section">
+        <div class="section-heading">
+          <p class="eyebrow">Workflow</p>
+          <h2>Recommended build order</h2>
+        </div>
+
+        <div class="workflow-grid">
+          <article class="workflow-card">
+            <span>01</span>
+            <h3>Question bank</h3>
+            <p>Edit questions locally in a simple JavaScript file. No database is required.</p>
+          </article>
+
+          <article class="workflow-card">
+            <span>02</span>
+            <h3>Exam engine</h3>
+            <p>The exam page will load your selected modules, generate a paper and track answers.</p>
+          </article>
+
+          <article class="workflow-card">
+            <span>03</span>
+            <h3>Results page</h3>
+            <p>The results page will calculate score, timing and topic breakdown from local storage.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>ESAT Simulator · Local static website · Purple and white theme</p>
+      <p class="muted">Built with HTML, CSS and vanilla JavaScript only.</p>
+    </footer>
+  </div>
+
+  <script src="assets/questionBank.js"></script>
+  <script src="assets/topicWeights.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

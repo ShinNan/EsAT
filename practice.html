@@ -32,8 +32,7 @@
       padding: 2rem;
       border: 1px solid var(--line);
       border-radius: 24px;
-      background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(247, 243, 255, 0.94));
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(247, 243, 255, 0.94));
       box-shadow: var(--shadow-md);
     }
 
@@ -470,7 +469,7 @@
             <h3>Wrong-question practice</h3>
             <p id="wrongModeText">No saved wrong questions yet.</p>
             <button type="button" id="startWrongPracticeBtn" class="button button-secondary full-width" style="margin-top:0.75rem;">
-              Retry saved wrong questions
+              Retry this profile’s wrong questions
             </button>
           </div>
         </aside>
@@ -480,6 +479,7 @@
 
   <script src="assets/questionBank.js"></script>
   <script src="assets/topicWeights.js"></script>
+  <script src="assets/app.js"></script>
 
   <script>
     (function () {
@@ -487,37 +487,15 @@
 
       var CONFIG_KEY = "esatSimulator.config";
       var ACTIVE_EXAM_KEY = "esatSimulator.activeExam";
-      var WRONG_QUESTIONS_KEY = "esatSimulator.wrongQuestions";
 
       var mathTopicGroups = [
-        {
-          label: "M1 Units",
-          topics: ["Units"]
-        },
-        {
-          label: "M2 Number",
-          topics: ["Number"]
-        },
-        {
-          label: "M3 Ratio and proportion",
-          topics: ["Ratio and proportion", "Number"]
-        },
-        {
-          label: "M4 Algebra",
-          topics: ["Algebra", "Functions", "Sequences", "Sequences and Series", "Binomial Expansion"]
-        },
-        {
-          label: "M5 Geometry",
-          topics: ["Geometry", "Coordinate Geometry", "Trigonometry", "Vectors"]
-        },
-        {
-          label: "M6 Statistics",
-          topics: ["Statistics", "Data"]
-        },
-        {
-          label: "M7 Probability",
-          topics: ["Probability"]
-        }
+        { label: "M1 Units", topics: ["Units"] },
+        { label: "M2 Number", topics: ["Number"] },
+        { label: "M3 Ratio and proportion", topics: ["Ratio and proportion", "Number"] },
+        { label: "M4 Algebra", topics: ["Algebra", "Functions", "Sequences", "Sequences and Series", "Binomial Expansion"] },
+        { label: "M5 Geometry", topics: ["Geometry", "Coordinate Geometry", "Trigonometry", "Vectors"] },
+        { label: "M6 Statistics", topics: ["Statistics", "Data"] },
+        { label: "M7 Probability", topics: ["Probability"] }
       ];
 
       function $(selector, root) {
@@ -526,22 +504,6 @@
 
       function $all(selector, root) {
         return Array.prototype.slice.call((root || document).querySelectorAll(selector));
-      }
-
-      function safeJSONParse(text, fallback) {
-        try {
-          return text ? JSON.parse(text) : fallback;
-        } catch (error) {
-          return fallback;
-        }
-      }
-
-      function loadJSON(key, fallback) {
-        try {
-          return safeJSONParse(window.localStorage.getItem(key), fallback);
-        } catch (error) {
-          return fallback;
-        }
       }
 
       function saveJSON(key, value) {
@@ -581,6 +543,14 @@
         var weights = window.ESAT_TOPIC_WEIGHTS || {};
         var modes = weights.paceModes || {};
         return modes[pace] && modes[pace].label ? modes[pace].label : pace;
+      }
+
+      function getCurrentProfile() {
+        if (window.ESATProfiles && typeof window.ESATProfiles.ensureCurrentProfile === "function") {
+          return window.ESATProfiles.ensureCurrentProfile();
+        }
+
+        return null;
       }
 
       function getQuestionsForSubject(subject) {
@@ -633,7 +603,7 @@
 
         container.innerHTML = "";
 
-        mathTopicGroups.forEach(function (group, index) {
+        mathTopicGroups.forEach(function (group) {
           var subject = selectedValue("practiceSubject", "maths1");
           var count = countQuestionsForTopics(subject, group.topics);
           var label = document.createElement("label");
@@ -712,17 +682,9 @@
         var mathList = $("#mathTopicList");
         var physicsList = $("#physicsTopicList");
 
-        if (topicSection) {
-          topicSection.classList.toggle("hidden", practiceType !== "topic");
-        }
-
-        if (mathList) {
-          mathList.classList.toggle("hidden", subject === "physics");
-        }
-
-        if (physicsList) {
-          physicsList.classList.toggle("hidden", subject !== "physics");
-        }
+        if (topicSection) topicSection.classList.toggle("hidden", practiceType !== "topic");
+        if (mathList) mathList.classList.toggle("hidden", subject === "physics");
+        if (physicsList) physicsList.classList.toggle("hidden", subject !== "physics");
       }
 
       function updateSummary() {
@@ -739,16 +701,17 @@
         $("#summaryPace").textContent = paceLabel(pace);
       }
 
-      function getWrongQuestions() {
-        var wrong = loadJSON(WRONG_QUESTIONS_KEY, []);
-        return Array.isArray(wrong) ? wrong : [];
+      function getProfileWrongQuestions() {
+        var profile = getCurrentProfile();
+        return profile && Array.isArray(profile.wrongQuestions) ? profile.wrongQuestions : [];
       }
 
       function updateWrongMode() {
-        var wrong = getWrongQuestions();
+        var wrong = getProfileWrongQuestions();
         var box = $("#wrongModeBox");
         var text = $("#wrongModeText");
         var button = $("#startWrongPracticeBtn");
+        var profile = getCurrentProfile();
 
         if (!box || !text || !button) return;
 
@@ -761,7 +724,7 @@
 
         box.classList.remove("hidden");
         button.disabled = false;
-        text.textContent = wrong.length + " saved wrong question" + (wrong.length === 1 ? "" : "s") + " available.";
+        text.textContent = (profile ? profile.name : "This profile") + " has " + wrong.length + " saved wrong question" + (wrong.length === 1 ? "" : "s") + ".";
       }
 
       function buildConfig(mode) {
@@ -770,6 +733,7 @@
         var pace = selectedValue("pace", "untimed");
         var type = selectedValue("practiceType", "mixed");
         var topics = type === "topic" ? selectedTopics() : [];
+        var profile = getCurrentProfile();
 
         return {
           version: "1.0.0",
@@ -785,6 +749,7 @@
           practiceMode: mode || type,
           selectedTopics: topics,
           retryWrongQuestionIds: [],
+          profileId: profile ? profile.id : null,
           source: "practice.html"
         };
       }
@@ -807,14 +772,15 @@
       }
 
       function startWrongPractice() {
-        var wrong = getWrongQuestions();
+        var wrong = getProfileWrongQuestions();
         var subjects = {};
         var subjectList = [];
         var ids = [];
         var count;
+        var profile = getCurrentProfile();
 
         if (!wrong.length) {
-          alert("There are no saved wrong questions to retry.");
+          alert("There are no saved wrong questions for this profile.");
           return;
         }
 
@@ -829,17 +795,11 @@
           }
         });
 
-        if (!subjectList.length) {
-          subjectList = [selectedValue("practiceSubject", "maths1")];
-        }
+        if (!subjectList.length) subjectList = [selectedValue("practiceSubject", "maths1")];
 
-        if (wrong.length <= 10) {
-          count = 10;
-        } else if (wrong.length <= 20) {
-          count = 20;
-        } else {
-          count = 27;
-        }
+        if (wrong.length <= 10) count = 10;
+        else if (wrong.length <= 20) count = 20;
+        else count = 27;
 
         saveJSON(CONFIG_KEY, {
           version: "1.0.0",
@@ -855,6 +815,7 @@
           practiceMode: "wrongQuestions",
           selectedTopics: [],
           retryWrongQuestionIds: ids,
+          profileId: profile ? profile.id : null,
           source: "practice.html"
         });
 
@@ -893,6 +854,10 @@
 
         $("#beginPracticeBtn").addEventListener("click", startPractice);
         $("#startWrongPracticeBtn").addEventListener("click", startWrongPractice);
+
+        window.addEventListener("esatProfileChanged", function () {
+          updateWrongMode();
+        });
       }
 
       function init() {

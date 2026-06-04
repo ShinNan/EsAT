@@ -103,6 +103,14 @@
     return subject.questions;
   }
 
+  function getCurrentProfile() {
+    if (window.ESATProfiles && typeof window.ESATProfiles.ensureCurrentProfile === "function") {
+      return window.ESATProfiles.ensureCurrentProfile();
+    }
+
+    return null;
+  }
+
   function normaliseConfig(rawConfig) {
     var bank = getBank();
     var weights = getWeights();
@@ -116,6 +124,7 @@
     var paceDetails;
     var durationSeconds;
     var practiceMode;
+    var profile = getCurrentProfile();
 
     if (!bank || !bank.subjects) return null;
 
@@ -124,9 +133,7 @@
 
     if (rawConfig && Array.isArray(rawConfig.selectedSubjects)) {
       rawConfig.selectedSubjects.forEach(function (subjectKey) {
-        if (availableSubjects.indexOf(subjectKey) !== -1) {
-          selectedSubjects.push(subjectKey);
-        }
+        if (availableSubjects.indexOf(subjectKey) !== -1) selectedSubjects.push(subjectKey);
       });
     }
 
@@ -188,6 +195,11 @@
       selectedTopics: selectedTopics,
       practiceMode: practiceMode,
       retryWrongQuestionIds: retryWrongQuestionIds,
+      profileId: profile ? profile.id : null,
+      profileName: profile ? profile.name : "Guest",
+      usedPreviouslyAttemptedQuestions: false,
+      duplicateQuestionsInAttempt: false,
+      unseenQuestionCount: 0,
       createdAt: new Date().toISOString()
     };
   }
@@ -218,8 +230,24 @@
     return total;
   }
 
+  function attemptedMapForCurrentProfile() {
+    var profile = getCurrentProfile();
+    var map = {};
+
+    if (!profile || !Array.isArray(profile.attemptedQuestionIds)) return map;
+
+    profile.attemptedQuestionIds.forEach(function (id) {
+      map[id] = true;
+    });
+
+    return map;
+  }
+
   function buildWrongQuestionPool(config) {
-    var wrongList = loadJSON(WRONG_QUESTIONS_KEY, []);
+    var profile = getCurrentProfile();
+    var wrongList = profile && Array.isArray(profile.wrongQuestions)
+      ? profile.wrongQuestions
+      : loadJSON(WRONG_QUESTIONS_KEY, []);
     var idFilter = {};
     var pool = [];
     var bankQuestions = {};
@@ -370,57 +398,50 @@
     });
   }
 
-  function selectRawQuestions(config) {
-    var buckets;
-    var targets;
-    var selected = [];
-    var selectedIds = {};
-    var fillPool = [];
-    var allUnique = [];
-    var allIds = {};
-    var wrongPool;
-
-    if (config.practiceMode === "wrongQuestions") {
-      wrongPool = buildWrongQuestionPool(config);
-
-      if (!wrongPool.length) return [];
-
-      wrongPool = shuffle(wrongPool);
-
-      while (selected.length < config.questionCount && wrongPool.length > 0) {
-        selected.push(wrongPool.shift());
-      }
-
-      if (selected.length < config.questionCount) {
-        fillPool = shuffle(selected.slice());
-
-        while (selected.length < config.questionCount && fillPool.length > 0) {
-          selected.push(fillPool[selected.length % fillPool.length]);
-        }
-      }
-
-      if (config.shuffleQuestions) selected = shuffle(selected);
-      return selected.slice(0, config.questionCount);
-    }
-
-    buckets = createBuckets(config.selectedSubjects, config.practiceMode === "topic" ? config.selectedTopics : []);
-
-    if (!buckets.length && config.practiceMode === "topic") {
-      buckets = createBuckets(config.selectedSubjects, []);
-    }
-
-    targets = allocateTargets(config.questionCount, buckets);
+  function countUniqueQuestions(buckets) {
+    var seen = {};
+    var count = 0;
 
     buckets.forEach(function (bucket) {
       bucket.questions.forEach(function (question) {
-        if (!allIds[question.id]) {
-          allIds[question.id] = true;
-          allUnique.push(question);
+        if (!seen[question.id]) {
+          seen[question.id] = true;
+          count += 1;
         }
       });
     });
 
-    if (allUnique.length === 0) return [];
+    return count;
+  }
+
+  function filterBucketsByAttemptStatus(buckets, attemptedMap, wantUnseen) {
+    return buckets
+      .map(function (bucket) {
+        return {
+          subject: bucket.subject,
+          topic: bucket.topic,
+          weight: bucket.weight,
+          questions: bucket.questions.filter(function (question) {
+            var attempted = Boolean(attemptedMap[question.id]);
+            return wantUnseen ? !attempted : attempted;
+          })
+        };
+      })
+      .filter(function (bucket) {
+        return bucket.questions.length > 0;
+      });
+  }
+
+  function selectUniqueFromBuckets(buckets, count, selectedIds) {
+    var selected = [];
+    var fillPool = [];
+    var targets;
+    var uniqueMap = {};
+
+    if (!buckets.length || count <= 0) return selected;
+
+    selectedIds = selectedIds || {};
+    targets = allocateTargets(count, buckets);
 
     buckets.forEach(function (bucket, bucketIndex) {
       var bucketQuestions = shuffle(bucket.questions);
@@ -434,25 +455,105 @@
       });
     });
 
-    allUnique.forEach(function (question) {
-      if (!selectedIds[question.id]) fillPool.push(question);
+    buckets.forEach(function (bucket) {
+      bucket.questions.forEach(function (question) {
+        if (!selectedIds[question.id] && !uniqueMap[question.id]) {
+          uniqueMap[question.id] = true;
+          fillPool.push(question);
+        }
+      });
     });
 
     fillPool = shuffle(fillPool);
 
-    while (selected.length < config.questionCount && fillPool.length > 0) {
-      selected.push(fillPool.shift());
+    while (selected.length < count && fillPool.length > 0) {
+      var question = fillPool.shift();
+      if (!selectedIds[question.id]) {
+        selected.push(question);
+        selectedIds[question.id] = true;
+      }
+    }
+
+    return selected;
+  }
+
+  function allUniqueQuestionsFromBuckets(buckets) {
+    var all = [];
+    var seen = {};
+
+    buckets.forEach(function (bucket) {
+      bucket.questions.forEach(function (question) {
+        if (!seen[question.id]) {
+          seen[question.id] = true;
+          all.push(question);
+        }
+      });
+    });
+
+    return all;
+  }
+
+  function selectRawQuestions(config) {
+    var buckets;
+    var unseenBuckets;
+    var selected = [];
+    var selectedIds = {};
+    var attemptedMap = attemptedMapForCurrentProfile();
+    var allUnique;
+    var wrongPool;
+    var repeatsPool;
+    var additional;
+
+    if (config.practiceMode === "wrongQuestions") {
+      wrongPool = buildWrongQuestionPool(config);
+
+      if (!wrongPool.length) return [];
+
+      wrongPool = shuffle(wrongPool);
+
+      while (selected.length < config.questionCount && wrongPool.length > 0) {
+        selected.push(wrongPool.shift());
+      }
+
+      if (selected.length < config.questionCount) {
+        repeatsPool = shuffle(selected.slice());
+        config.duplicateQuestionsInAttempt = true;
+
+        while (selected.length < config.questionCount && repeatsPool.length > 0) {
+          selected.push(repeatsPool[selected.length % repeatsPool.length]);
+        }
+      }
+
+      if (config.shuffleQuestions) selected = shuffle(selected);
+      return selected.slice(0, config.questionCount);
+    }
+
+    buckets = createBuckets(config.selectedSubjects, config.practiceMode === "topic" ? config.selectedTopics : []);
+
+    if (!buckets.length && config.practiceMode === "topic") {
+      buckets = createBuckets(config.selectedSubjects, []);
+    }
+
+    if (!buckets.length) return [];
+
+    unseenBuckets = filterBucketsByAttemptStatus(buckets, attemptedMap, true);
+    config.unseenQuestionCount = countUniqueQuestions(unseenBuckets);
+
+    selected = selectUniqueFromBuckets(unseenBuckets, config.questionCount, selectedIds);
+
+    if (selected.length < config.questionCount) {
+      config.usedPreviouslyAttemptedQuestions = true;
+
+      additional = selectUniqueFromBuckets(buckets, config.questionCount - selected.length, selectedIds);
+      selected = selected.concat(additional);
     }
 
     if (selected.length < config.questionCount) {
-      fillPool = shuffle(allUnique);
+      allUnique = shuffle(allUniqueQuestionsFromBuckets(buckets));
+      config.duplicateQuestionsInAttempt = true;
 
-      while (selected.length < config.questionCount) {
-        selected.push(fillPool[selected.length % fillPool.length]);
-
-        if (selected.length % fillPool.length === 0) {
-          fillPool = shuffle(allUnique);
-        }
+      while (selected.length < config.questionCount && allUnique.length > 0) {
+        selected.push(allUnique[selected.length % allUnique.length]);
       }
     }
 
@@ -466,9 +567,7 @@
     var optionObjects;
     var newAnswerIndex;
 
-    if (answerIndex < 0 || answerIndex >= options.length || isNaN(answerIndex)) {
-      answerIndex = 0;
-    }
+    if (answerIndex < 0 || answerIndex >= options.length || isNaN(answerIndex)) answerIndex = 0;
 
     if (options.length === 0) {
       options = ["Option A", "Option B", "Option C", "Option D", "Option E"];
@@ -543,6 +642,33 @@
 
     if (errorBox) errorBox.hidden = true;
     if (examInterface) examInterface.hidden = false;
+  }
+
+  function renderRepeatNotice() {
+    var main = $("#examApp");
+    var existing = $("#repeatNotice");
+    var message = "";
+
+    if (!main || !state.config) return;
+
+    if (existing) existing.remove();
+
+    if (state.config.usedPreviouslyAttemptedQuestions) {
+      message = "Repeated profile questions are being used because this profile has fewer unseen questions available than the selected paper length.";
+    }
+
+    if (state.config.duplicateQuestionsInAttempt) {
+      message = "Some questions may repeat within this attempt because the available question bank is smaller than the selected paper length.";
+    }
+
+    if (!message) return;
+
+    var notice = document.createElement("div");
+    notice.id = "repeatNotice";
+    notice.className = "status-message warning exam-repeat-notice";
+    notice.textContent = message;
+
+    main.insertAdjacentElement("afterbegin", notice);
   }
 
   function formatTime(seconds) {
@@ -631,7 +757,7 @@
 
   function examTitle() {
     var names = state.config.selectedSubjects.map(getSubjectLabel);
-    return names.join(", ") + " · " + state.config.questionCount + " questions · " + state.config.paceLabel;
+    return state.config.profileName + " · " + names.join(", ") + " · " + state.config.questionCount + " questions · " + state.config.paceLabel;
   }
 
   function renderOptions(question) {
@@ -893,7 +1019,7 @@
     return wrong;
   }
 
-  function mergeWrongQuestions(wrongList) {
+  function mergeWrongQuestionsLegacy(wrongList) {
     var existing = loadJSON(WRONG_QUESTIONS_KEY, []);
     var map = {};
 
@@ -904,28 +1030,7 @@
     });
 
     wrongList.forEach(function (item) {
-      var previous = map[item.originalId];
-
-      map[item.originalId] = {
-        originalId: item.originalId,
-        subject: item.subject,
-        subjectLabel: item.subjectLabel,
-        topic: item.topic,
-        difficulty: item.difficulty,
-        question: item.question,
-        options: item.options,
-        correctAnswerIndex: item.correctAnswerIndex,
-        correctAnswerLabel: item.correctAnswerLabel,
-        correctAnswerText: item.correctAnswerText,
-        explanation: item.explanation,
-        lastSelectedAnswerIndex: item.selectedAnswerIndex,
-        lastSelectedAnswerLabel: item.selectedAnswerLabel,
-        lastSelectedAnswerText: item.selectedAnswerText,
-        lastStatus: item.status,
-        timesIncorrect: previous && previous.timesIncorrect ? previous.timesIncorrect + 1 : 1,
-        firstWrongAt: previous && previous.firstWrongAt ? previous.firstWrongAt : new Date().toISOString(),
-        lastWrongAt: new Date().toISOString()
-      };
+      map[item.originalId] = item;
     });
 
     saveJSON(WRONG_QUESTIONS_KEY, Object.keys(map).map(function (id) {
@@ -936,6 +1041,7 @@
   function buildResult(autoFinished) {
     var score = 0;
     var wrong;
+    var profile = getCurrentProfile();
 
     state.paper.forEach(function (question, index) {
       if (state.selectedAnswers[index] === question.answerIndex) score += 1;
@@ -948,6 +1054,8 @@
       completedAt: new Date().toISOString(),
       autoFinished: Boolean(autoFinished),
       finishReason: autoFinished ? "Time expired" : "Student finished",
+      profileId: profile ? profile.id : null,
+      profileName: profile ? profile.name : "Guest",
       config: state.config,
       selectedSubjects: state.config.selectedSubjects.slice(),
       subjectLabels: state.config.selectedSubjects.map(getSubjectLabel),
@@ -962,6 +1070,8 @@
       timeLimitSeconds: state.config.durationSeconds,
       pace: state.config.pace,
       paceLabel: state.config.paceLabel,
+      usedPreviouslyAttemptedQuestions: state.config.usedPreviouslyAttemptedQuestions,
+      duplicateQuestionsInAttempt: state.config.duplicateQuestionsInAttempt,
       topicBreakdown: topicBreakdown(),
       incorrectQuestions: wrong,
       responses: state.paper.map(function (question, index) {
@@ -1019,8 +1129,13 @@
     if (state.timerId) window.clearInterval(state.timerId);
 
     result = buildResult(autoFinished);
+
+    if (window.ESATProfiles && typeof window.ESATProfiles.updateAfterResult === "function") {
+      window.ESATProfiles.updateAfterResult(result);
+    }
+
     saveJSON(LATEST_RESULT_KEY, result);
-    mergeWrongQuestions(result.incorrectQuestions);
+    mergeWrongQuestionsLegacy(result.incorrectQuestions);
     removeStorageItem(ACTIVE_EXAM_KEY);
 
     window.location.href = "results.html";
@@ -1126,6 +1241,7 @@
     state.isFinished = false;
 
     showExam();
+    renderRepeatNotice();
     wireEvents();
     renderQuestion();
     startTimer();

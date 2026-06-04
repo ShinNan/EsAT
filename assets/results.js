@@ -4,7 +4,6 @@
   var CONFIG_KEY = "esatSimulator.config";
   var ACTIVE_EXAM_KEY = "esatSimulator.activeExam";
   var LATEST_RESULT_KEY = "esatSimulator.latestResult";
-  var WRONG_QUESTIONS_KEY = "esatSimulator.wrongQuestions";
 
   function $(selector, root) {
     return (root || document).querySelector(selector);
@@ -77,10 +76,7 @@
     var mm = minutes < 10 ? "0" + minutes : String(minutes);
     var ss = secs < 10 ? "0" + secs : String(secs);
 
-    if (hours > 0) {
-      return String(hours) + ":" + mm + ":" + ss;
-    }
-
+    if (hours > 0) return String(hours) + ":" + mm + ":" + ss;
     return mm + ":" + ss;
   }
 
@@ -94,36 +90,42 @@
     }
   }
 
-  function getWrongQuestions() {
-    var wrong = loadJSON(WRONG_QUESTIONS_KEY, []);
-    return Array.isArray(wrong) ? wrong : [];
-  }
-
-  function getSubjectLabels(result) {
-    if (Array.isArray(result.subjectLabels) && result.subjectLabels.length) {
-      return result.subjectLabels;
-    }
-
-    if (Array.isArray(result.selectedSubjects)) {
-      return result.selectedSubjects;
-    }
-
-    return ["-"];
-  }
-
-  function getQuestionData(result, index) {
-    if (Array.isArray(result.paper) && result.paper[index]) {
-      return result.paper[index];
+  function getCurrentProfile() {
+    if (window.ESATProfiles && typeof window.ESATProfiles.ensureCurrentProfile === "function") {
+      return window.ESATProfiles.ensureCurrentProfile();
     }
 
     return null;
   }
 
-  function getResponseData(result, index) {
-    if (Array.isArray(result.responses) && result.responses[index]) {
-      return result.responses[index];
+  function getLatestResult() {
+    var profile = getCurrentProfile();
+
+    if (profile && profile.latestResult) {
+      return profile.latestResult;
     }
 
+    return loadJSON(LATEST_RESULT_KEY, null);
+  }
+
+  function getWrongQuestions() {
+    var profile = getCurrentProfile();
+    return profile && Array.isArray(profile.wrongQuestions) ? profile.wrongQuestions : [];
+  }
+
+  function getSubjectLabels(result) {
+    if (Array.isArray(result.subjectLabels) && result.subjectLabels.length) return result.subjectLabels;
+    if (Array.isArray(result.selectedSubjects)) return result.selectedSubjects;
+    return ["-"];
+  }
+
+  function getQuestionData(result, index) {
+    if (Array.isArray(result.paper) && result.paper[index]) return result.paper[index];
+    return null;
+  }
+
+  function getResponseData(result, index) {
+    if (Array.isArray(result.responses) && result.responses[index]) return result.responses[index];
     return null;
   }
 
@@ -131,6 +133,7 @@
     var total = Number(result.totalQuestions || result.questionCount || 0);
     var score = Number(result.score || 0);
     var incorrect = Math.max(0, total - score);
+    var profile = getCurrentProfile();
 
     setText("#resultTitle", "Score " + score + " / " + total);
     setText("#scoreMetric", score + " / " + total);
@@ -145,11 +148,12 @@
     setText("#flaggedMetric", (result.flaggedCount || 0) + " flagged");
     setText("#completedMetric", formatDateTime(result.completedAt));
     setText("#finishReasonMetric", result.finishReason || "Student finished");
+    setText("#profileMetric", profile ? profile.name : (result.profileName || "Guest"));
 
     if (result.autoFinished) {
       setText("#resultSubtitle", "The exam was automatically finished because the timer reached zero.");
     } else {
-      setText("#resultSubtitle", "Review your score, timing, topic performance and question-by-question feedback.");
+      setText("#resultSubtitle", "Review this profile’s score, timing, topic performance and question-by-question feedback.");
     }
   }
 
@@ -259,15 +263,80 @@
     return labels[Number(index)] || "-";
   }
 
+  function renderWrongQuestions() {
+    var container = $("#profileWrongList");
+    var wrong = getWrongQuestions();
+
+    if (!container) return;
+
+    if (!wrong.length) {
+      container.innerHTML = "<div class='empty-state'>This profile has no saved wrong questions.</div>";
+      return;
+    }
+
+    container.innerHTML = "";
+
+    wrong.forEach(function (item, index) {
+      var card = document.createElement("article");
+      card.className = "review-card incorrect";
+
+      card.innerHTML =
+        "<div class='review-card-header'>" +
+          "<strong>Wrong question " + (index + 1) + " · " + escapeHTML(item.topic || "Uncategorised") + "</strong>" +
+          "<span class='review-status incorrect'>Saved</span>" +
+        "</div>" +
+        "<div class='review-card-body'>" +
+          "<p class='review-question math-rendered'>" + renderMath(item.question || "") + "</p>" +
+          "<div class='answer-box correct-answer'>" +
+            "<span>Correct answer</span>" +
+            "<strong class='math-rendered'>" + renderMath((item.correctAnswerLabel || "") + ". " + (item.correctAnswerText || "")) + "</strong>" +
+          "</div>" +
+          "<div class='explanation-box math-rendered'><strong>Explanation:</strong> " + renderMath(item.explanation || "No explanation saved.") + "</div>" +
+        "</div>";
+
+      container.appendChild(card);
+    });
+  }
+
+  function renderResultHistory() {
+    var profile = getCurrentProfile();
+    var body = $("#resultHistoryBody");
+    var history = profile && Array.isArray(profile.resultsHistory) ? profile.resultsHistory.slice() : [];
+
+    if (!body) return;
+
+    if (!history.length) {
+      body.innerHTML = "<tr><td colspan='6'>This profile has no saved result history yet.</td></tr>";
+      return;
+    }
+
+    history.reverse();
+
+    body.innerHTML = "";
+
+    history.forEach(function (result) {
+      var row = document.createElement("tr");
+      var subjects = getSubjectLabels(result).join(", ");
+
+      row.innerHTML =
+        "<td>" + escapeHTML(formatDateTime(result.completedAt)) + "</td>" +
+        "<td>" + escapeHTML(subjects) + "</td>" +
+        "<td class='number-cell'>" + Number(result.score || 0) + " / " + Number(result.totalQuestions || result.questionCount || 0) + "</td>" +
+        "<td class='number-cell'>" + Number(result.percentage || 0) + "%</td>" +
+        "<td class='number-cell'>" + escapeHTML(formatTime(result.timeUsedSeconds)) + "</td>" +
+        "<td>" + escapeHTML(result.paceLabel || result.pace || "-") + "</td>";
+
+      body.appendChild(row);
+    });
+  }
+
   function updateWrongQuestionStatus() {
     var wrong = getWrongQuestions();
     var button = $("#retryWrongBtn");
 
-    setText("#wrongQuestionStatus", wrong.length + " saved wrong question" + (wrong.length === 1 ? "" : "s") + " in this browser.");
+    setText("#wrongQuestionStatus", wrong.length + " saved wrong question" + (wrong.length === 1 ? "" : "s") + " for this profile.");
 
-    if (button) {
-      button.disabled = wrong.length === 0;
-    }
+    if (button) button.disabled = wrong.length === 0;
   }
 
   function retryWrongQuestions() {
@@ -278,7 +347,7 @@
     var questionCount;
 
     if (!wrong.length) {
-      alert("There are no saved wrong questions to retry.");
+      alert("There are no saved wrong questions for this profile.");
       return;
     }
 
@@ -293,17 +362,11 @@
       }
     });
 
-    if (!subjectList.length) {
-      subjectList = ["maths1"];
-    }
+    if (!subjectList.length) subjectList = ["maths1"];
 
-    if (wrong.length <= 10) {
-      questionCount = 10;
-    } else if (wrong.length <= 20) {
-      questionCount = 20;
-    } else {
-      questionCount = 27;
-    }
+    if (wrong.length <= 10) questionCount = 10;
+    else if (wrong.length <= 20) questionCount = 20;
+    else questionCount = 27;
 
     saveJSON(CONFIG_KEY, {
       version: "1.0.0",
@@ -345,11 +408,17 @@
   }
 
   function clearWrongQuestions() {
-    var confirmed = window.confirm("Clear all saved wrong questions from this browser?");
+    var ok = window.confirm("Clear saved wrong questions for this profile only?");
+    if (!ok) return;
 
-    if (!confirmed) return;
+    if (window.ESATProfiles && typeof window.ESATProfiles.updateCurrentProfile === "function") {
+      window.ESATProfiles.updateCurrentProfile(function (profile) {
+        profile.wrongQuestionIds = [];
+        profile.wrongQuestions = [];
+      });
+    }
 
-    removeStorageItem(WRONG_QUESTIONS_KEY);
+    renderWrongQuestions();
     updateWrongQuestionStatus();
   }
 
@@ -358,9 +427,7 @@
     var exportButton = $("#exportJsonBtn");
     var clearButton = $("#clearWrongBtn");
 
-    if (retryButton) {
-      retryButton.addEventListener("click", retryWrongQuestions);
-    }
+    if (retryButton) retryButton.addEventListener("click", retryWrongQuestions);
 
     if (exportButton) {
       exportButton.addEventListener("click", function () {
@@ -368,19 +435,20 @@
       });
     }
 
-    if (clearButton) {
-      clearButton.addEventListener("click", clearWrongQuestions);
-    }
+    if (clearButton) clearButton.addEventListener("click", clearWrongQuestions);
   }
 
-  function init() {
-    var result = loadJSON(LATEST_RESULT_KEY, null);
+  function renderAll() {
+    var result = getLatestResult();
     var noResultState = $("#noResultState");
     var resultContent = $("#resultContent");
 
     if (!result) {
       if (noResultState) noResultState.hidden = false;
       if (resultContent) resultContent.hidden = true;
+      renderWrongQuestions();
+      renderResultHistory();
+      updateWrongQuestionStatus();
       return;
     }
 
@@ -390,8 +458,18 @@
     renderDashboard(result);
     renderTopicBreakdown(result);
     renderReview(result);
-    wireButtons(result);
+    renderWrongQuestions();
+    renderResultHistory();
     updateWrongQuestionStatus();
+    wireButtons(result);
+  }
+
+  function init() {
+    renderAll();
+
+    window.addEventListener("esatProfileChanged", function () {
+      renderAll();
+    });
   }
 
   document.addEventListener("DOMContentLoaded", init);

@@ -1,13 +1,10 @@
 /*
   ESAT Simulator Shared App Script
   --------------------------------
-  This file contains:
-  1. A lightweight local maths renderer.
-  2. Homepage setup behaviour.
-
-  The maths renderer is exposed globally as:
-  window.ESATMath.renderToString(text)
-  window.ESATMath.renderElement(element, text)
+  Includes:
+  1. Lightweight local maths renderer.
+  2. Local student profile system.
+  3. Homepage setup behaviour.
 */
 
 (function () {
@@ -51,18 +48,13 @@
   }
 
   function skipSpaces(input, index) {
-    while (index < input.length && /\s/.test(input[index])) {
-      index += 1;
-    }
+    while (index < input.length && /\s/.test(input[index])) index += 1;
     return index;
   }
 
   function readCommand(input, index) {
     var start = index;
-
-    while (index < input.length && isCommandChar(input[index])) {
-      index += 1;
-    }
+    while (index < input.length && isCommandChar(input[index])) index += 1;
 
     return {
       command: input.slice(start, index),
@@ -83,9 +75,7 @@
   function parseToken(input, index) {
     var char = input[index];
 
-    if (char === "\\") {
-      return parseBackslashCommand(input, index);
-    }
+    if (char === "\\") return parseBackslashCommand(input, index);
 
     if (char === "-" && index + 1 < input.length) {
       return {
@@ -210,7 +200,6 @@
 
   function renderMathToString(value) {
     if (value === null || value === undefined) return "";
-
     return "<span class=\"math-inline\">" + parseExpression(String(value), 0, null).html + "</span>";
   }
 
@@ -225,6 +214,520 @@
     renderToString: renderMathToString,
     renderElement: renderMathElement
   };
+}());
+
+(function () {
+  "use strict";
+
+  var PROFILES_KEY = "esatSimulator.profiles";
+  var CURRENT_PROFILE_KEY = "esatSimulator.currentProfileId";
+
+  function safeJSONParse(text, fallback) {
+    try {
+      return text ? JSON.parse(text) : fallback;
+    } catch (error) {
+      return fallback;
+    }
+  }
+
+  function loadJSON(key, fallback) {
+    try {
+      return safeJSONParse(window.localStorage.getItem(key), fallback);
+    } catch (error) {
+      return fallback;
+    }
+  }
+
+  function saveJSON(key, value) {
+    try {
+      window.localStorage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch (error) {
+      console.warn("Unable to save localStorage key:", key, error);
+      return false;
+    }
+  }
+
+  function makeProfileId(name) {
+    return String(name || "Guest")
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, " ")
+      .replace(/[^\w\s-]/g, "")
+      .replace(/\s/g, "-") || "guest";
+  }
+
+  function uniqueArray(items) {
+    var seen = {};
+    var output = [];
+
+    if (!Array.isArray(items)) return output;
+
+    items.forEach(function (item) {
+      var value = String(item);
+      if (!seen[value]) {
+        seen[value] = true;
+        output.push(value);
+      }
+    });
+
+    return output;
+  }
+
+  function emptyProfile(name, id) {
+    var now = new Date().toISOString();
+
+    return {
+      id: id || makeProfileId(name),
+      name: String(name || "Guest").trim() || "Guest",
+      createdAt: now,
+      lastActive: now,
+      attemptedQuestionIds: [],
+      wrongQuestionIds: [],
+      wrongQuestions: [],
+      resultsHistory: [],
+      latestResult: null,
+      topicStats: {}
+    };
+  }
+
+  function normaliseProfile(profile, id) {
+    var clean = emptyProfile(profile && profile.name ? profile.name : id || "Guest", id);
+
+    if (!profile || typeof profile !== "object") return clean;
+
+    clean.id = profile.id || id || clean.id;
+    clean.name = profile.name || clean.name;
+    clean.createdAt = profile.createdAt || clean.createdAt;
+    clean.lastActive = profile.lastActive || clean.lastActive;
+    clean.attemptedQuestionIds = uniqueArray(profile.attemptedQuestionIds);
+    clean.wrongQuestionIds = uniqueArray(profile.wrongQuestionIds);
+    clean.wrongQuestions = Array.isArray(profile.wrongQuestions) ? profile.wrongQuestions : [];
+    clean.resultsHistory = Array.isArray(profile.resultsHistory) ? profile.resultsHistory : [];
+    clean.latestResult = profile.latestResult || null;
+    clean.topicStats = profile.topicStats && typeof profile.topicStats === "object" ? profile.topicStats : {};
+
+    return clean;
+  }
+
+  function getProfiles() {
+    var profiles = loadJSON(PROFILES_KEY, {});
+
+    if (!profiles || typeof profiles !== "object" || Array.isArray(profiles)) {
+      profiles = {};
+    }
+
+    Object.keys(profiles).forEach(function (id) {
+      profiles[id] = normaliseProfile(profiles[id], id);
+    });
+
+    return profiles;
+  }
+
+  function saveProfiles(profiles) {
+    return saveJSON(PROFILES_KEY, profiles);
+  }
+
+  function getCurrentProfileId() {
+    return window.localStorage.getItem(CURRENT_PROFILE_KEY);
+  }
+
+  function setCurrentProfileId(id) {
+    window.localStorage.setItem(CURRENT_PROFILE_KEY, id);
+  }
+
+  function ensureCurrentProfile() {
+    var profiles = getProfiles();
+    var currentId = getCurrentProfileId();
+
+    if (currentId && profiles[currentId]) {
+      profiles[currentId].lastActive = new Date().toISOString();
+      saveProfiles(profiles);
+      return profiles[currentId];
+    }
+
+    if (!profiles.guest) {
+      profiles.guest = emptyProfile("Guest", "guest");
+    }
+
+    setCurrentProfileId("guest");
+    profiles.guest.lastActive = new Date().toISOString();
+    saveProfiles(profiles);
+
+    return profiles.guest;
+  }
+
+  function getCurrentProfile() {
+    return ensureCurrentProfile();
+  }
+
+  function listProfiles() {
+    var profiles = getProfiles();
+
+    return Object.keys(profiles)
+      .map(function (id) {
+        return profiles[id];
+      })
+      .sort(function (a, b) {
+        return String(a.name).localeCompare(String(b.name));
+      });
+  }
+
+  function createProfile(name) {
+    var trimmed = String(name || "").trim();
+    var id;
+    var profiles;
+
+    if (!trimmed) {
+      alert("Please enter a profile name.");
+      return null;
+    }
+
+    id = makeProfileId(trimmed);
+    profiles = getProfiles();
+
+    if (!profiles[id]) {
+      profiles[id] = emptyProfile(trimmed, id);
+    }
+
+    profiles[id].name = trimmed;
+    profiles[id].lastActive = new Date().toISOString();
+
+    saveProfiles(profiles);
+    setCurrentProfileId(id);
+
+    dispatchProfileChanged();
+    return profiles[id];
+  }
+
+  function changeProfile(id) {
+    var profiles = getProfiles();
+
+    if (!profiles[id]) return null;
+
+    profiles[id].lastActive = new Date().toISOString();
+    saveProfiles(profiles);
+    setCurrentProfileId(id);
+
+    dispatchProfileChanged();
+    return profiles[id];
+  }
+
+  function resetCurrentProfileProgress() {
+    var profiles = getProfiles();
+    var profile = ensureCurrentProfile();
+    var ok;
+
+    ok = window.confirm("Reset progress for " + profile.name + "? This clears attempted questions, wrong questions, topic stats and result history for this profile only.");
+
+    if (!ok) return null;
+
+    profiles[profile.id] = emptyProfile(profile.name, profile.id);
+    profiles[profile.id].createdAt = profile.createdAt || new Date().toISOString();
+    profiles[profile.id].lastActive = new Date().toISOString();
+
+    saveProfiles(profiles);
+    dispatchProfileChanged();
+
+    return profiles[profile.id];
+  }
+
+  function updateCurrentProfile(mutator) {
+    var profiles = getProfiles();
+    var profile = ensureCurrentProfile();
+
+    if (!profiles[profile.id]) {
+      profiles[profile.id] = profile;
+    }
+
+    mutator(profiles[profile.id]);
+
+    profiles[profile.id].lastActive = new Date().toISOString();
+    profiles[profile.id] = normaliseProfile(profiles[profile.id], profile.id);
+
+    saveProfiles(profiles);
+    dispatchProfileChanged();
+
+    return profiles[profile.id];
+  }
+
+  function updateTopicStats(profile, result) {
+    if (!profile.topicStats || typeof profile.topicStats !== "object") {
+      profile.topicStats = {};
+    }
+
+    if (!Array.isArray(result.topicBreakdown)) return;
+
+    result.topicBreakdown.forEach(function (topic) {
+      var key = (topic.subject || "unknown") + "::" + (topic.topic || "Uncategorised");
+
+      if (!profile.topicStats[key]) {
+        profile.topicStats[key] = {
+          subject: topic.subject || "",
+          subjectLabel: topic.subjectLabel || "",
+          topic: topic.topic || "Uncategorised",
+          total: 0,
+          answered: 0,
+          correct: 0,
+          incorrect: 0,
+          attempts: 0,
+          percentage: 0,
+          lastUpdated: null
+        };
+      }
+
+      profile.topicStats[key].total += Number(topic.total || 0);
+      profile.topicStats[key].answered += Number(topic.answered || 0);
+      profile.topicStats[key].correct += Number(topic.correct || 0);
+      profile.topicStats[key].incorrect += Number(topic.incorrect || 0);
+      profile.topicStats[key].attempts += 1;
+      profile.topicStats[key].percentage = profile.topicStats[key].total
+        ? Math.round((profile.topicStats[key].correct / profile.topicStats[key].total) * 100)
+        : 0;
+      profile.topicStats[key].lastUpdated = new Date().toISOString();
+    });
+  }
+
+  function updateAfterResult(result) {
+    var profile = ensureCurrentProfile();
+
+    result.profileId = profile.id;
+    result.profileName = profile.name;
+
+    return updateCurrentProfile(function (draft) {
+      var attemptedIds = [];
+      var incorrectIds = {};
+      var wrongMap = {};
+
+      draft.wrongQuestions.forEach(function (item) {
+        if (item && item.originalId) {
+          wrongMap[item.originalId] = item;
+        }
+      });
+
+      if (Array.isArray(result.paper)) {
+        result.paper.forEach(function (question) {
+          if (question && question.originalId) {
+            attemptedIds.push(question.originalId);
+          }
+        });
+      }
+
+      if (Array.isArray(result.incorrectQuestions)) {
+        result.incorrectQuestions.forEach(function (item) {
+          if (item && item.originalId) {
+            incorrectIds[item.originalId] = true;
+            wrongMap[item.originalId] = item;
+          }
+        });
+      }
+
+      draft.attemptedQuestionIds = uniqueArray(draft.attemptedQuestionIds.concat(attemptedIds));
+      draft.wrongQuestionIds = uniqueArray(draft.wrongQuestionIds.concat(Object.keys(incorrectIds)));
+      draft.wrongQuestions = Object.keys(wrongMap).map(function (id) {
+        return wrongMap[id];
+      });
+
+      draft.latestResult = result;
+      draft.resultsHistory.push(result);
+
+      updateTopicStats(draft, result);
+    });
+  }
+
+  function exportCurrentProfile() {
+    var profile = ensureCurrentProfile();
+    var data = JSON.stringify({
+      type: "esat-simulator-profile",
+      exportedAt: new Date().toISOString(),
+      profile: profile
+    }, null, 2);
+
+    var blob = new Blob([data], { type: "application/json" });
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement("a");
+
+    link.href = url;
+    link.download = "esat-profile-" + profile.name.replace(/\s+/g, "-").toLowerCase() + ".json";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    window.setTimeout(function () {
+      URL.revokeObjectURL(url);
+    }, 1000);
+  }
+
+  function importProfileObject(data) {
+    var profile;
+    var profiles;
+    var id;
+    var ok;
+
+    if (data && data.profile) {
+      profile = data.profile;
+    } else {
+      profile = data;
+    }
+
+    if (!profile || typeof profile !== "object" || !profile.name) {
+      alert("This JSON file does not look like an ESAT profile export.");
+      return null;
+    }
+
+    id = profile.id || makeProfileId(profile.name);
+    profiles = getProfiles();
+
+    if (profiles[id]) {
+      ok = window.confirm("A profile with this name already exists. Replace it with the imported progress?");
+      if (!ok) return null;
+    }
+
+    profiles[id] = normaliseProfile(profile, id);
+    profiles[id].lastActive = new Date().toISOString();
+
+    saveProfiles(profiles);
+    setCurrentProfileId(id);
+    dispatchProfileChanged();
+
+    return profiles[id];
+  }
+
+  function dispatchProfileChanged() {
+    window.dispatchEvent(new CustomEvent("esatProfileChanged", {
+      detail: {
+        profile: ensureCurrentProfile()
+      }
+    }));
+
+    renderProfileWidget();
+  }
+
+  function renderProfileWidget() {
+    var existing = document.querySelector("#profileWidget");
+    var header;
+    var profile;
+    var profiles;
+    var html;
+
+    if (document.body.classList.contains("exam-body")) return;
+
+    header = document.querySelector(".site-header, .practice-header, .results-header");
+    if (!header) return;
+
+    if (!existing) {
+      existing = document.createElement("section");
+      existing.id = "profileWidget";
+      existing.className = "profile-widget";
+      header.insertAdjacentElement("afterend", existing);
+    }
+
+    profile = ensureCurrentProfile();
+    profiles = listProfiles();
+
+    html = "";
+    html += "<div class='profile-widget-main'>";
+    html += "<div>";
+    html += "<p class='eyebrow'>Student profile</p>";
+    html += "<h2>Current profile: <span>" + escapeHTML(profile.name) + "</span></h2>";
+    html += "<p>" + profile.attemptedQuestionIds.length + " attempted · " + profile.wrongQuestionIds.length + " wrong · " + profile.resultsHistory.length + " result" + (profile.resultsHistory.length === 1 ? "" : "s") + "</p>";
+    html += "</div>";
+    html += "</div>";
+
+    html += "<div class='profile-widget-actions'>";
+    html += "<select id='profileSelect' aria-label='Choose student profile'>";
+
+    profiles.forEach(function (item) {
+      html += "<option value='" + escapeHTML(item.id) + "'" + (item.id === profile.id ? " selected" : "") + ">" + escapeHTML(item.name) + "</option>";
+    });
+
+    html += "</select>";
+    html += "<button type='button' id='profileChangeBtn' class='button button-secondary'>Change profile</button>";
+    html += "<button type='button' id='profileCreateBtn' class='button button-secondary'>Create new profile</button>";
+    html += "<button type='button' id='profileResetBtn' class='button button-ghost'>Reset this profile’s progress</button>";
+    html += "<button type='button' id='profileExportBtn' class='button button-secondary'>Export profile JSON</button>";
+    html += "<label class='button button-secondary profile-import-label'>Import profile JSON<input type='file' id='profileImportInput' accept='application/json,.json'></label>";
+    html += "</div>";
+
+    existing.innerHTML = html;
+
+    wireProfileWidget();
+  }
+
+  function wireProfileWidget() {
+    var changeButton = document.querySelector("#profileChangeBtn");
+    var createButton = document.querySelector("#profileCreateBtn");
+    var resetButton = document.querySelector("#profileResetBtn");
+    var exportButton = document.querySelector("#profileExportBtn");
+    var importInput = document.querySelector("#profileImportInput");
+
+    if (changeButton) {
+      changeButton.addEventListener("click", function () {
+        var select = document.querySelector("#profileSelect");
+        if (select) changeProfile(select.value);
+      });
+    }
+
+    if (createButton) {
+      createButton.addEventListener("click", function () {
+        var name = window.prompt("Enter the new student profile name:");
+        if (name) createProfile(name);
+      });
+    }
+
+    if (resetButton) {
+      resetButton.addEventListener("click", function () {
+        resetCurrentProfileProgress();
+      });
+    }
+
+    if (exportButton) {
+      exportButton.addEventListener("click", exportCurrentProfile);
+    }
+
+    if (importInput) {
+      importInput.addEventListener("change", function () {
+        var file = importInput.files && importInput.files[0];
+        var reader;
+
+        if (!file) return;
+
+        reader = new FileReader();
+
+        reader.onload = function () {
+          var data = safeJSONParse(reader.result, null);
+          importProfileObject(data);
+          importInput.value = "";
+        };
+
+        reader.readAsText(file);
+      });
+    }
+  }
+
+  window.ESATProfiles = {
+    getProfiles: getProfiles,
+    listProfiles: listProfiles,
+    ensureCurrentProfile: ensureCurrentProfile,
+    getCurrentProfile: getCurrentProfile,
+    createProfile: createProfile,
+    changeProfile: changeProfile,
+    resetCurrentProfileProgress: resetCurrentProfileProgress,
+    updateCurrentProfile: updateCurrentProfile,
+    updateAfterResult: updateAfterResult,
+    exportCurrentProfile: exportCurrentProfile,
+    importProfileObject: importProfileObject,
+    renderProfileWidget: renderProfileWidget,
+    keys: {
+      profiles: PROFILES_KEY,
+      currentProfile: CURRENT_PROFILE_KEY
+    }
+  };
+
+  document.addEventListener("DOMContentLoaded", function () {
+    ensureCurrentProfile();
+    renderProfileWidget();
+  });
 }());
 
 (function () {
@@ -299,10 +802,7 @@
     var minutes = Math.floor(totalSeconds / 60);
     var remainingSeconds = totalSeconds % 60;
 
-    if (remainingSeconds === 0) {
-      return minutes + " min";
-    }
-
+    if (remainingSeconds === 0) return minutes + " min";
     return minutes + " min " + remainingSeconds + " s";
   }
 
@@ -335,6 +835,7 @@
     var questionCount = getQuestionCount();
     var pace = getPaceMode();
     var durationSeconds = getDurationSeconds(questionCount, pace);
+    var profile = window.ESATProfiles ? window.ESATProfiles.ensureCurrentProfile() : null;
 
     return {
       version: "1.0.0",
@@ -350,6 +851,7 @@
       practiceMode: "mixed",
       selectedTopics: [],
       retryWrongQuestionIds: [],
+      profileId: profile ? profile.id : null,
       source: "index.html"
     };
   }
@@ -488,7 +990,7 @@
         status.textContent = "Select at least one module to begin.";
         status.className = "status-message warning";
       } else {
-        status.textContent = "Ready. Your settings will be saved locally in this browser.";
+        status.textContent = "Ready. Your settings and profile progress will be saved locally in this browser.";
         status.className = "status-message success";
       }
     }
@@ -522,11 +1024,7 @@
       alert("Your browser blocked local storage. The exam page may not be able to load your settings.");
     }
 
-    if (destination === "practice") {
-      window.location.href = "practice.html";
-    } else {
-      window.location.href = "exam.html";
-    }
+    window.location.href = destination === "practice" ? "practice.html" : "exam.html";
   }
 
   function loadPreviousConfig() {

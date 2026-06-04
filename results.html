@@ -32,8 +32,7 @@
       padding: 2rem;
       border: 1px solid var(--line);
       border-radius: 24px;
-      background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(247, 243, 255, 0.94));
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(247, 243, 255, 0.94));
       box-shadow: var(--shadow-md);
     }
 
@@ -137,10 +136,6 @@
       font-size: 0.85rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-    }
-
-    .topic-table td {
-      color: var(--ink);
     }
 
     .topic-table .number-cell {
@@ -351,9 +346,9 @@
 
     <main>
       <section id="noResultState" class="empty-state" hidden>
-        <h1>No result found</h1>
+        <h1>No result found for this profile</h1>
         <p>
-          There is no saved exam result in this browser yet. Start an exam first, then return to this page.
+          This profile does not have a saved exam result yet. Start an exam first, then return to this page.
         </p>
         <a class="button button-primary" href="index.html">Go to exam setup</a>
       </section>
@@ -362,9 +357,15 @@
         <section class="results-hero">
           <p class="eyebrow">Latest result</p>
           <h1 id="resultTitle">Your ESAT result</h1>
-          <p id="resultSubtitle">Review your score, timing, topic performance and question-by-question feedback.</p>
+          <p id="resultSubtitle">Review this profile’s score, timing, topic performance and question-by-question feedback.</p>
 
           <div class="dashboard-grid">
+            <div class="result-metric">
+              <span>Profile</span>
+              <strong id="profileMetric">Guest</strong>
+              <small>Current local student profile</small>
+            </div>
+
             <div class="result-metric">
               <span>Score</span>
               <strong id="scoreMetric">0 / 0</strong>
@@ -382,15 +383,15 @@
               <strong id="correctMetric">0</strong>
               <small id="incorrectMetric">0 incorrect</small>
             </div>
+          </div>
 
+          <div class="dashboard-grid">
             <div class="result-metric">
               <span>Time used</span>
               <strong id="timeMetric">00:00</strong>
               <small id="paceMetric">Timing mode</small>
             </div>
-          </div>
 
-          <div class="dashboard-grid">
             <div class="result-metric">
               <span>Module</span>
               <strong id="moduleMetric">-</strong>
@@ -404,15 +405,17 @@
             </div>
 
             <div class="result-metric">
-              <span>Answered</span>
-              <strong id="answeredMetric">0</strong>
-              <small id="flaggedMetric">0 flagged</small>
-            </div>
-
-            <div class="result-metric">
               <span>Completed</span>
               <strong id="completedMetric">-</strong>
               <small id="finishReasonMetric">Student finished</small>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="result-metric">
+              <span>Answered</span>
+              <strong id="answeredMetric">0</strong>
+              <small id="flaggedMetric">0 flagged</small>
             </div>
           </div>
         </section>
@@ -421,7 +424,7 @@
           <div class="results-section-header">
             <div>
               <h2>Actions</h2>
-              <p>Retry weak areas, export the result or clear the stored wrong-question list.</p>
+              <p>Retry this profile’s weak areas, export the latest result or clear the profile’s wrong-question list.</p>
             </div>
           </div>
 
@@ -429,8 +432,8 @@
             <a class="button button-primary" href="index.html">Start another exam</a>
             <a class="button button-secondary" href="practice.html">Open practice mode</a>
             <button type="button" id="retryWrongBtn" class="button button-secondary">Retry wrong questions</button>
-            <button type="button" id="exportJsonBtn" class="button button-secondary">Export result as JSON</button>
-            <button type="button" id="clearWrongBtn" class="button button-ghost">Clear saved wrong questions</button>
+            <button type="button" id="exportJsonBtn" class="button button-secondary">Export latest result as JSON</button>
+            <button type="button" id="clearWrongBtn" class="button button-ghost">Clear this profile’s wrong questions</button>
           </div>
 
           <p id="wrongQuestionStatus" class="json-export-note"></p>
@@ -471,6 +474,42 @@
 
           <div id="reviewList" class="review-list"></div>
         </section>
+      </section>
+
+      <section class="results-section">
+        <div class="results-section-header">
+          <div>
+            <h2>This profile’s saved wrong questions</h2>
+            <p>These are stored locally for the current profile only.</p>
+          </div>
+        </div>
+
+        <div id="profileWrongList" class="review-list"></div>
+      </section>
+
+      <section class="results-section">
+        <div class="results-section-header">
+          <div>
+            <h2>This profile’s result history</h2>
+            <p>Every completed exam for this profile is appended here.</p>
+          </div>
+        </div>
+
+        <div class="topic-table-wrap">
+          <table class="topic-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Module</th>
+                <th class="number-cell">Score</th>
+                <th class="number-cell">Percentage</th>
+                <th class="number-cell">Time</th>
+                <th>Timing</th>
+              </tr>
+            </thead>
+            <tbody id="resultHistoryBody"></tbody>
+          </table>
+        </div>
       </section>
     </main>
   </div>

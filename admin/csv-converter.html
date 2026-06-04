@@ -113,7 +113,7 @@
     }
 
     h1 {
-      max-width: 860px;
+      max-width: 900px;
       margin: 0;
       font-size: clamp(2rem, 5vw, 3.5rem);
       line-height: 0.98;
@@ -166,7 +166,7 @@
     }
 
     pre {
-      min-height: 30rem;
+      min-height: 34rem;
       margin: 0;
     }
 
@@ -211,7 +211,7 @@
       overflow: auto;
       margin: 0.75rem 0 0;
       padding-left: 1.2rem;
-      color: var(--danger);
+      color: inherit;
     }
 
     .details-list {
@@ -279,10 +279,10 @@
     <main>
       <section class="hero">
         <p class="eyebrow">CSV converter</p>
-        <h1>Convert Google Sheets CSV into ESAT question objects.</h1>
+        <h1>Convert Google Sheets CSV into a full ESAT question bank file.</h1>
         <p>
-          Paste CSV exported from Google Sheets, validate the required columns, then copy the generated JavaScript.
-          This page is fully static, uses no external libraries, and works locally or on GitHub Pages.
+          Paste CSV exported from Google Sheets, validate the schema, then copy a complete replacement
+          <code>assets/questionBank.js</code> file. This page is fully static, uses no external libraries, and works locally or on GitHub Pages.
         </p>
       </section>
 
@@ -291,12 +291,13 @@
           <h2>1. Paste CSV</h2>
           <p>
             Required headers are case-sensitive. Quoted commas and multi-line cells are supported.
-            The <code>section</code> column accepts <code>maths1</code>, <code>maths2</code>, <code>physics</code>, or common labels such as <code>Maths 1</code>.
+            Use either <code>section</code> or <code>subject</code> for the runtime subject; accepted values are
+            <code>maths1</code>, <code>maths2</code>, <code>physics</code>, or common labels such as <code>Maths 1</code>.
           </p>
-          <textarea id="csvInput" spellcheck="false" aria-label="Paste Google Sheets CSV here" placeholder="internalId,section,topicCode,topicName,questionText,optionA,optionB,optionC,optionD,optionE,correctAnswer,workedSolution&#10;M1-ALG-001,maths1,ALG,Algebra,Solve 3x - 7 = 11.,x = 4,x = 5,x = 6,x = 7,None of the above,C,3x - 7 = 11 so 3x = 18 and x = 6."></textarea>
+          <textarea id="csvInput" spellcheck="false" aria-label="Paste Google Sheets CSV here" placeholder="internalId,section,topicCode,topicName,difficulty,questionText,optionA,optionB,optionC,optionD,optionE,correctAnswer,workedSolution&#10;M1-ALG-001,maths1,ALG,Algebra,easy,Solve 3x - 7 = 11.,x = 4,x = 5,x = 6,x = 7,None of the above,C,3x - 7 = 11 so 3x = 18 and x = 6."></textarea>
           <div class="actions">
             <button type="button" id="convertBtn">Validate and convert</button>
-            <button type="button" id="sampleBtn" class="secondary">Load sample</button>
+            <button type="button" id="sampleBtn" class="secondary">Load full-schema sample</button>
             <button type="button" id="clearBtn" class="secondary">Clear</button>
           </div>
           <div id="statusBox" class="status" role="status">Paste CSV to begin.</div>
@@ -305,35 +306,36 @@
         <aside class="panel">
           <h2>Column guide</h2>
           <ul class="details-list">
-            <li><strong>Required:</strong> <code>internalId</code>, <code>section</code>, <code>topicCode</code>, <code>topicName</code>, <code>questionText</code>, <code>optionA</code> through <code>optionE</code>, <code>correctAnswer</code>, <code>workedSolution</code>.</li>
-            <li><strong>Optional source fields:</strong> <code>sourceExam</code>, <code>sourceYear</code>, <code>sourcePaper</code>, <code>sourceQuestionNumber</code>.</li>
-            <li><strong>Optional teaching fields:</strong> <code>quickestMethod</code>, <code>commonTrap</code>, <code>difficulty</code>, <code>tags</code>.</li>
+            <li><strong>Required:</strong> <code>internalId</code>, <code>section</code> or <code>subject</code>, <code>topicCode</code>, <code>topicName</code>, <code>questionText</code>, <code>optionA</code> through <code>optionE</code>, <code>correctAnswer</code>, <code>workedSolution</code>.</li>
+            <li><strong>Optional teaching fields:</strong> <code>difficulty</code>, <code>quickestMethod</code>, <code>commonTrap</code>, <code>tags</code>, <code>status</code>.</li>
+            <li><strong>Optional source fields:</strong> <code>sourceExam</code>, <code>sourceYear</code>, <code>sourcePaper</code>, <code>sourceSection</code>, <code>sourceQuestionNumber</code>, <code>originalReference</code>.</li>
             <li><strong>Optional image fields:</strong> <code>imagePath</code>, <code>imageAlt</code>.</li>
-            <li><strong>Correct answer:</strong> use <code>A</code>, <code>B</code>, <code>C</code>, <code>D</code>, <code>E</code>, or <code>1</code> to <code>5</code>.</li>
+            <li><strong>Correct answer:</strong> use <code>A</code>, <code>B</code>, <code>C</code>, <code>D</code>, or <code>E</code>.</li>
+            <li><strong>Difficulty:</strong> use <code>1</code> to <code>5</code>, or <code>easy</code>, <code>medium</code>, <code>hard</code>.</li>
             <li><strong>Tags:</strong> separate multiple tags with commas, semicolons, or pipes.</li>
           </ul>
 
           <div class="columns" aria-label="Output mapping summary">
             <div class="column-card">
-              <strong>ESAT fields</strong>
-              <span><code>id</code>, <code>subject</code>, <code>topic</code>, <code>difficulty</code>, <code>question</code>, <code>options</code>, <code>answerIndex</code>, <code>explanation</code>, <code>tags</code></span>
+              <strong>Runtime bank</strong>
+              <span><code>window.ESAT_QUESTION_BANK = { version, lastUpdated, subjects: { maths1, maths2, physics } }</code></span>
             </div>
             <div class="column-card">
-              <strong>Admin metadata</strong>
-              <span><code>topicCode</code>, <code>sourceExam</code>, <code>sourceYear</code>, <code>sourcePaper</code>, <code>sourceQuestionNumber</code>, <code>quickestMethod</code>, <code>commonTrap</code>, <code>imagePath</code>, <code>imageAlt</code></span>
+              <strong>Question fields</strong>
+              <span><code>id</code>, <code>subject</code>, <code>topicCode</code>, <code>topic</code>, <code>difficulty</code>, <code>question</code>, <code>options</code>, <code>answerIndex</code>, <code>explanation</code>, <code>source</code>, <code>image</code></span>
             </div>
           </div>
         </aside>
       </section>
 
       <section class="panel" style="margin-top: 1.25rem;">
-        <h2>2. Copy generated JavaScript</h2>
+        <h2>2. Copy replacement <code>assets/questionBank.js</code></h2>
         <p>
-          The generated output begins with <code>window.QUESTION_BANK = [</code> as requested. Copy the question objects into
-          <code>assets/questionBank.js</code> under the correct subject’s <code>questions</code> array, or use the array as an admin staging export.
+          The generated output keeps the current simulator schema and begins with
+          <code>window.ESAT_QUESTION_BANK = {</code>. It groups CSV rows into <code>maths1</code>, <code>maths2</code>, and <code>physics</code>.
         </p>
-        <pre id="output" tabindex="0" aria-label="Generated JavaScript output">window.QUESTION_BANK = [
-];</pre>
+        <pre id="output" tabindex="0" aria-label="Generated JavaScript output">window.ESAT_QUESTION_BANK = {
+};</pre>
         <div class="actions">
           <button type="button" id="copyBtn" disabled>Copy output</button>
         </div>
@@ -345,9 +347,27 @@
     (function () {
       "use strict";
 
+      var SUBJECT_ORDER = ["maths1", "maths2", "physics"];
+      var SUBJECT_META = {
+        maths1: {
+          label: "Maths 1",
+          shortLabel: "M1",
+          description: "Core mathematical fluency, algebra, graphs, geometry, sequences and problem solving."
+        },
+        maths2: {
+          label: "Maths 2",
+          shortLabel: "M2",
+          description: "More advanced mathematical reasoning, calculus, vectors, trigonometry and algebraic fluency."
+        },
+        physics: {
+          label: "Physics",
+          shortLabel: "PHY",
+          description: "Mechanics, electricity, waves, materials, particles and practical physics."
+        }
+      };
+
       var REQUIRED_COLUMNS = [
         "internalId",
-        "section",
         "topicCode",
         "topicName",
         "questionText",
@@ -360,22 +380,15 @@
         "workedSolution"
       ];
 
-      var OPTIONAL_COLUMNS = [
-        "sourceExam",
-        "sourceYear",
-        "sourcePaper",
-        "sourceQuestionNumber",
-        "quickestMethod",
-        "commonTrap",
-        "difficulty",
-        "tags",
-        "imagePath",
-        "imageAlt"
-      ];
+      var SUBJECT_COLUMNS = ["section", "subject"];
+      var SOURCE_COLUMNS = ["sourceExam", "sourceYear", "sourcePaper", "sourceSection", "sourceQuestionNumber", "originalReference"];
+      var IMAGE_COLUMNS = ["imagePath", "imageAlt"];
 
       var SAMPLE_CSV = [
-        "internalId,section,topicCode,topicName,questionText,optionA,optionB,optionC,optionD,optionE,correctAnswer,workedSolution,sourceExam,sourceYear,sourcePaper,sourceQuestionNumber,quickestMethod,commonTrap,difficulty,tags,imagePath,imageAlt",
-        "M1-ALG-001,Maths 1,ALG,Algebra,\"Solve 3x - 7 = 11.\",\"x = 4\",\"x = 5\",\"x = 6\",\"x = 7\",\"None of the above\",C,\"3x - 7 = 11, so 3x = 18 and x = 6.\",Practice,2026,Sample,1,\"Add 7 then divide by 3.\",\"Forgetting to add 7 before dividing.\",1,\"linear equations|algebra\",,"
+        "internalId,section,subject,topicCode,topicName,difficulty,questionText,optionA,optionB,optionC,optionD,optionE,correctAnswer,workedSolution,quickestMethod,commonTrap,tags,status,sourceExam,sourceYear,sourcePaper,sourceSection,sourceQuestionNumber,originalReference,imagePath,imageAlt",
+        "M1-ALG-001,Maths 1,,ALG,Algebra,easy,\"Solve 3x - 7 = 11.\",\"x = 4\",\"x = 5\",\"x = 6\",\"x = 7\",\"None of the above\",C,\"3x - 7 = 11, so 3x = 18 and x = 6.\",\"Add 7 first, then divide by 3.\",\"Dividing before adding 7.\",\"linear equations|algebra\",approved,ESAT Practice,2026,Sample Paper,Maths 1,1,ESAT-2026-M1-Q1,assets/images/m1-alg-001.png,Diagram showing the linear equation balance",
+        "M2-CAL-001,,maths2,CAL,Calculus,medium,\"Differentiate y = x^3.\",\"x^2\",\"2x\",\"3x^2\",\"3x\",\"None of the above\",C,\"Using the power rule, d/dx of x^3 is 3x^2.\",\"Use the power rule.\",\"Forgetting to multiply by the old power.\",\"differentiation;power rule\",draft,ESAT Practice,2026,Sample Paper,Maths 2,2,ESAT-2026-M2-Q2,,",
+        "PHY-MEC-001,physics,,MEC,Mechanics,hard,\"A 2 kg mass accelerates at 3 m s^-2. What is the resultant force?\",\"3 N\",\"5 N\",\"6 N\",\"9 N\",\"12 N\",C,\"F = ma = 2 x 3 = 6 N.\",\"Apply F = ma directly.\",\"Using weight instead of resultant force.\",\"forces,Newton's second law\",approved,ESAT Practice,2026,Sample Paper,Physics,3,ESAT-2026-PHY-Q3,,"
       ].join("\n");
 
       function $(selector) {
@@ -384,6 +397,23 @@
 
       function trimCell(value) {
         return String(value === null || value === undefined ? "" : value).trim();
+      }
+
+      function detectDelimiter(text) {
+        var firstLine = String(text || "").split(/\r?\n/)[0] || "";
+        var candidates = [",", "\t", ";"];
+        var best = ",";
+        var bestCount = -1;
+
+        candidates.forEach(function (candidate) {
+          var count = firstLine.split(candidate).length - 1;
+          if (count > bestCount) {
+            best = candidate;
+            bestCount = count;
+          }
+        });
+
+        return best;
       }
 
       function parseCSV(text) {
@@ -452,28 +482,14 @@
           rows.push(row);
         }
 
-        return rows.filter(function (item) {
-          return item.some(function (cell) {
-            return trimCell(cell) !== "";
-          });
-        });
-      }
-
-      function detectDelimiter(text) {
-        var firstLine = String(text || "").split(/\r?\n/)[0] || "";
-        var candidates = [",", "\t", ";"];
-        var best = ",";
-        var bestCount = -1;
-
-        candidates.forEach(function (candidate) {
-          var count = firstLine.split(candidate).length - 1;
-          if (count > bestCount) {
-            best = candidate;
-            bestCount = count;
-          }
-        });
-
-        return best;
+        return {
+          errors: inQuotes ? ["CSV ended while still inside a quoted cell. Check for a missing closing quote."] : [],
+          rows: rows.filter(function (item) {
+            return item.some(function (cell) {
+              return trimCell(cell) !== "";
+            });
+          })
+        };
       }
 
       function normaliseSubject(value) {
@@ -497,22 +513,24 @@
       function parseAnswerIndex(value) {
         var answer = trimCell(value).toUpperCase();
         var labels = ["A", "B", "C", "D", "E"];
-        var numeric = Number(answer);
-
-        if (labels.indexOf(answer) !== -1) return labels.indexOf(answer);
-        if (numeric >= 1 && numeric <= 5 && String(numeric) === answer) return numeric - 1;
-        return -1;
+        return labels.indexOf(answer);
       }
 
       function parseDifficulty(value) {
-        var raw = trimCell(value);
+        var raw = trimCell(value).toLowerCase();
+        var words = {
+          easy: 1,
+          medium: 3,
+          hard: 5
+        };
         var number;
 
-        if (!raw) return 1;
+        if (!raw) return undefined;
+        if (words[raw]) return words[raw];
 
         number = Number(raw);
-        if (!Number.isFinite(number)) return null;
-        return Math.max(1, Math.min(5, Math.round(number)));
+        if (!Number.isFinite(number) || number < 1 || number > 5) return null;
+        return Math.round(number);
       }
 
       function parseTags(value) {
@@ -540,9 +558,16 @@
         return output;
       }
 
+      function hasAnyValue(row, keys) {
+        return keys.some(function (key) {
+          return trimCell(row[key]) !== "";
+        });
+      }
+
       function validateHeaders(headers) {
         var errors = [];
         var seen = {};
+        var hasSubjectColumn = false;
 
         headers.forEach(function (header, index) {
           if (!header) {
@@ -550,10 +575,8 @@
             return;
           }
 
-          if (seen[header]) {
-            errors.push("Duplicate header: " + header + ".");
-          }
-
+          if (seen[header]) errors.push("Duplicate header: " + header + ".");
+          if (SUBJECT_COLUMNS.indexOf(header) !== -1) hasSubjectColumn = true;
           seen[header] = true;
         });
 
@@ -563,21 +586,31 @@
           }
         });
 
+        if (!hasSubjectColumn) {
+          errors.push("Missing required subject column: include either section or subject.");
+        }
+
         return errors;
       }
 
-      function validateAndConvert(rows) {
-        var errors = [];
+      function rowSubject(row) {
+        return row.section || row.subject || "";
+      }
+
+      function validateAndConvert(parsed) {
+        var errors = parsed.errors.slice();
         var warnings = [];
+        var rows = parsed.rows;
         var headers;
         var questions = [];
         var usedIds = {};
 
         if (!rows.length) {
           return {
-            errors: ["No CSV rows were found."],
+            errors: errors.concat(["No CSV rows were found."]),
             warnings: [],
-            questions: []
+            bank: buildQuestionBank([]),
+            questionCount: 0
           };
         }
 
@@ -592,7 +625,8 @@
           return {
             errors: errors,
             warnings: warnings,
-            questions: []
+            bank: buildQuestionBank([]),
+            questionCount: 0
           };
         }
 
@@ -600,11 +634,13 @@
           var rowNumber = rowIndex + 2;
           var row = objectFromRow(headers, cells);
           var rowErrors = [];
-          var subject = normaliseSubject(row.section);
+          var subject = normaliseSubject(rowSubject(row));
           var answerIndex = parseAnswerIndex(row.correctAnswer);
           var difficulty = parseDifficulty(row.difficulty);
           var options = [row.optionA, row.optionB, row.optionC, row.optionD, row.optionE].map(trimCell);
           var question;
+          var source;
+          var image;
 
           REQUIRED_COLUMNS.forEach(function (column) {
             if (trimCell(row[column]) === "") {
@@ -612,20 +648,25 @@
             }
           });
 
-          if (!subject) {
-            rowErrors.push("Row " + rowNumber + ": section must be maths1, maths2, physics, or a recognised label.");
+          if (!trimCell(rowSubject(row))) {
+            rowErrors.push("Row " + rowNumber + ": section or subject is required.");
+          } else if (!subject) {
+            rowErrors.push("Row " + rowNumber + ": section/subject must be maths1, maths2, or physics.");
           }
 
           if (answerIndex === -1) {
-            rowErrors.push("Row " + rowNumber + ": correctAnswer must be A, B, C, D, E, or 1-5.");
+            rowErrors.push("Row " + rowNumber + ": correctAnswer must be A, B, C, D, or E.");
           }
 
           if (difficulty === null) {
-            rowErrors.push("Row " + rowNumber + ": difficulty must be a number from 1 to 5 when provided.");
+            rowErrors.push("Row " + rowNumber + ": difficulty must be 1-5, easy, medium, or hard when provided.");
           }
 
-          if (usedIds[row.internalId]) {
-            rowErrors.push("Row " + rowNumber + ": duplicate internalId " + row.internalId + ".");
+          if (row.internalId) {
+            if (usedIds[row.internalId]) {
+              rowErrors.push("Row " + rowNumber + ": duplicate internalId " + row.internalId + ".");
+            }
+            usedIds[row.internalId] = true;
           }
 
           if (cells.length > headers.length) {
@@ -637,30 +678,40 @@
             return;
           }
 
-          usedIds[row.internalId] = true;
-
           question = {
             id: row.internalId,
             subject: subject,
+            topicCode: row.topicCode,
             topic: row.topicName,
-            difficulty: difficulty,
             question: row.questionText,
             options: options,
             answerIndex: answerIndex,
-            explanation: row.workedSolution,
-            tags: parseTags(row.tags)
+            explanation: row.workedSolution
           };
 
-          if (row.topicCode) question.topicCode = row.topicCode;
-
-          if (row.sourceExam) question.sourceExam = row.sourceExam;
-          if (row.sourceYear) question.sourceYear = row.sourceYear;
-          if (row.sourcePaper) question.sourcePaper = row.sourcePaper;
-          if (row.sourceQuestionNumber) question.sourceQuestionNumber = row.sourceQuestionNumber;
+          if (difficulty !== undefined) question.difficulty = difficulty;
           if (row.quickestMethod) question.quickestMethod = row.quickestMethod;
           if (row.commonTrap) question.commonTrap = row.commonTrap;
-          if (row.imagePath) question.imagePath = row.imagePath;
-          if (row.imageAlt) question.imageAlt = row.imageAlt;
+          if (parseTags(row.tags).length) question.tags = parseTags(row.tags);
+          if (row.status) question.status = row.status;
+
+          if (hasAnyValue(row, SOURCE_COLUMNS)) {
+            source = {};
+            if (row.sourceExam) source.exam = row.sourceExam;
+            if (row.sourceYear) source.year = row.sourceYear;
+            if (row.sourcePaper) source.paper = row.sourcePaper;
+            if (row.sourceSection) source.section = row.sourceSection;
+            if (row.sourceQuestionNumber) source.questionNumber = row.sourceQuestionNumber;
+            if (row.originalReference) source.originalReference = row.originalReference;
+            question.source = source;
+          }
+
+          if (hasAnyValue(row, IMAGE_COLUMNS)) {
+            image = {};
+            if (row.imagePath) image.src = row.imagePath;
+            if (row.imageAlt) image.alt = row.imageAlt;
+            question.image = image;
+          }
 
           questions.push(question);
         });
@@ -668,14 +719,36 @@
         return {
           errors: errors,
           warnings: warnings,
-          questions: questions
+          bank: buildQuestionBank(errors.length ? [] : questions),
+          questionCount: questions.length
         };
       }
 
+      function buildQuestionBank(questions) {
+        var bank = {
+          version: "1.0.0",
+          lastUpdated: new Date().toISOString().slice(0, 10),
+          subjects: {}
+        };
+
+        SUBJECT_ORDER.forEach(function (subjectKey) {
+          bank.subjects[subjectKey] = {
+            label: SUBJECT_META[subjectKey].label,
+            shortLabel: SUBJECT_META[subjectKey].shortLabel,
+            description: SUBJECT_META[subjectKey].description,
+            questions: []
+          };
+        });
+
+        questions.forEach(function (question) {
+          bank.subjects[question.subject].questions.push(question);
+        });
+
+        return bank;
+      }
+
       function cleanForOutput(value) {
-        if (Array.isArray(value)) {
-          return value.map(cleanForOutput);
-        }
+        if (Array.isArray(value)) return value.map(cleanForOutput);
 
         if (value && typeof value === "object") {
           return Object.keys(value).reduce(function (result, key) {
@@ -688,8 +761,14 @@
         return value;
       }
 
-      function toJavaScript(questions) {
-        return "window.QUESTION_BANK = " + JSON.stringify(questions.map(cleanForOutput), null, 2) + ";";
+      function toJavaScript(bank) {
+        return "window.ESAT_QUESTION_BANK = " + JSON.stringify(cleanForOutput(bank), null, 2) + ";\n";
+      }
+
+      function countBySubject(bank) {
+        return SUBJECT_ORDER.map(function (subjectKey) {
+          return subjectKey + ": " + bank.subjects[subjectKey].questions.length;
+        }).join(" · ");
       }
 
       function renderStatus(result) {
@@ -710,7 +789,7 @@
 
         if (result.warnings.length) {
           status.classList.add("warning");
-          html += "<strong>Converted " + result.questions.length + " question" + (result.questions.length === 1 ? "" : "s") + " with warnings:</strong>";
+          html += "<strong>Converted " + result.questionCount + " question" + (result.questionCount === 1 ? "" : "s") + " (" + countBySubject(result.bank) + ") with warnings:</strong>";
           html += "<ul class='errors'>" + result.warnings.map(function (warning) {
             return "<li>" + escapeHTML(warning) + "</li>";
           }).join("") + "</ul>";
@@ -719,7 +798,7 @@
         }
 
         status.classList.add("success");
-        status.textContent = "Converted " + result.questions.length + " question" + (result.questions.length === 1 ? "" : "s") + " successfully.";
+        status.textContent = "Converted " + result.questionCount + " question" + (result.questionCount === 1 ? "" : "s") + " successfully (" + countBySubject(result.bank) + ").";
       }
 
       function escapeHTML(value) {
@@ -744,7 +823,7 @@
           return;
         }
 
-        output.textContent = toJavaScript(result.questions);
+        output.textContent = toJavaScript(result.bank);
         copyButton.disabled = false;
       }
 
@@ -790,7 +869,7 @@
 
       function clearAll() {
         $("#csvInput").value = "";
-        $("#output").textContent = "window.QUESTION_BANK = [\n];";
+        $("#output").textContent = "window.ESAT_QUESTION_BANK = {\n};";
         $("#copyBtn").disabled = true;
         $("#statusBox").className = "status";
         $("#statusBox").textContent = "Paste CSV to begin.";

@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESAT CSV to Question Bank Converter</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f8f5ff;
+      --panel: #ffffff;
+      --ink: #261447;
+      --muted: #665a7a;
+      --line: #ded4f4;
+      --purple: #6d28d9;
+      --purple-dark: #4c1d95;
+      --success: #147a46;
+      --success-bg: #e8f8ef;
+      --warning: #9a5b00;
+      --warning-bg: #fff7df;
+      --danger: #b91c1c;
+      --danger-bg: #fff1f2;
+      --shadow: 0 20px 60px rgba(54, 32, 100, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(124, 58, 237, 0.18), transparent 34rem),
+        linear-gradient(180deg, #fff, var(--bg));
+      min-height: 100vh;
+    }
+
+    .page-shell {
+      width: min(1180px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 2rem 0 3rem;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: inherit;
+      text-decoration: none;
+      font-weight: 900;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 1rem;
+      color: #fff;
+      background: linear-gradient(135deg, var(--purple), #a855f7);
+      box-shadow: var(--shadow);
+    }
+
+    .home-link,
+    button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      border: 0;
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      color: #fff;
+      background: var(--purple);
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(109, 40, 217, 0.22);
+    }
+
+    button.secondary {
+      color: var(--purple-dark);
+      background: #ede9fe;
+      box-shadow: none;
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .hero,
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 1.5rem;
+      background: rgba(255, 255, 255, 0.93);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: clamp(1.25rem, 4vw, 2rem);
+      margin-bottom: 1.25rem;
+    }
+
+    h1 {
+      max-width: 860px;
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+    }
+
+    h2 {
+      margin: 0 0 0.6rem;
+      font-size: 1.25rem;
+    }
+
+    p {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .eyebrow {
+      margin: 0 0 0.7rem;
+      color: var(--purple);
+      font-size: 0.8rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.8fr);
+      gap: 1.25rem;
+      align-items: start;
+    }
+
+    .panel {
+      padding: 1rem;
+    }
+
+    textarea,
+    pre {
+      width: 100%;
+      min-height: 22rem;
+      border: 1px solid var(--line);
+      border-radius: 1rem;
+      padding: 1rem;
+      color: var(--ink);
+      background: #fff;
+      font: 0.92rem/1.5 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      resize: vertical;
+      overflow: auto;
+      white-space: pre;
+    }
+
+    pre {
+      min-height: 30rem;
+      margin: 0;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 0.9rem;
+    }
+
+    .status {
+      margin-top: 0.9rem;
+      border: 1px solid var(--line);
+      border-radius: 1rem;
+      padding: 0.85rem 1rem;
+      color: var(--muted);
+      background: #fff;
+    }
+
+    .status.success {
+      border-color: rgba(20, 122, 70, 0.25);
+      color: var(--success);
+      background: var(--success-bg);
+    }
+
+    .status.warning {
+      border-color: rgba(154, 91, 0, 0.25);
+      color: var(--warning);
+      background: var(--warning-bg);
+    }
+
+    .status.error {
+      border-color: rgba(185, 28, 28, 0.25);
+      color: var(--danger);
+      background: var(--danger-bg);
+    }
+
+    .errors {
+      display: grid;
+      gap: 0.5rem;
+      max-height: 18rem;
+      overflow: auto;
+      margin: 0.75rem 0 0;
+      padding-left: 1.2rem;
+      color: var(--danger);
+    }
+
+    .details-list {
+      margin: 0;
+      padding-left: 1.2rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    code {
+      border-radius: 0.35rem;
+      padding: 0.1rem 0.3rem;
+      background: #ede9fe;
+      color: var(--purple-dark);
+    }
+
+    .columns {
+      display: grid;
+      gap: 0.65rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 0.75rem;
+    }
+
+    .column-card {
+      border: 1px solid var(--line);
+      border-radius: 0.9rem;
+      padding: 0.8rem;
+      background: #fbfaff;
+    }
+
+    .column-card strong {
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .column-card span {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 900px) {
+      .grid,
+      .columns {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header>
+      <a class="brand" href="../index.html" aria-label="Return to ESAT Simulator home">
+        <span class="brand-mark">E</span>
+        <span>ESAT Admin Tools</span>
+      </a>
+      <a class="home-link" href="../index.html">Back to simulator</a>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="eyebrow">CSV converter</p>
+        <h1>Convert Google Sheets CSV into ESAT question objects.</h1>
+        <p>
+          Paste CSV exported from Google Sheets, validate the required columns, then copy the generated JavaScript.
+          This page is fully static, uses no external libraries, and works locally or on GitHub Pages.
+        </p>
+      </section>
+
+      <section class="grid" aria-label="CSV converter workspace">
+        <div class="panel">
+          <h2>1. Paste CSV</h2>
+          <p>
+            Required headers are case-sensitive. Quoted commas and multi-line cells are supported.
+            The <code>section</code> column accepts <code>maths1</code>, <code>maths2</code>, <code>physics</code>, or common labels such as <code>Maths 1</code>.
+          </p>
+          <textarea id="csvInput" spellcheck="false" aria-label="Paste Google Sheets CSV here" placeholder="internalId,section,topicCode,topicName,questionText,optionA,optionB,optionC,optionD,optionE,correctAnswer,workedSolution&#10;M1-ALG-001,maths1,ALG,Algebra,Solve 3x - 7 = 11.,x = 4,x = 5,x = 6,x = 7,None of the above,C,3x - 7 = 11 so 3x = 18 and x = 6."></textarea>
+          <div class="actions">
+            <button type="button" id="convertBtn">Validate and convert</button>
+            <button type="button" id="sampleBtn" class="secondary">Load sample</button>
+            <button type="button" id="clearBtn" class="secondary">Clear</button>
+          </div>
+          <div id="statusBox" class="status" role="status">Paste CSV to begin.</div>
+        </div>
+
+        <aside class="panel">
+          <h2>Column guide</h2>
+          <ul class="details-list">
+            <li><strong>Required:</strong> <code>internalId</code>, <code>section</code>, <code>topicCode</code>, <code>topicName</code>, <code>questionText</code>, <code>optionA</code> through <code>optionE</code>, <code>correctAnswer</code>, <code>workedSolution</code>.</li>
+            <li><strong>Optional source fields:</strong> <code>sourceExam</code>, <code>sourceYear</code>, <code>sourcePaper</code>, <code>sourceQuestionNumber</code>.</li>
+            <li><strong>Optional teaching fields:</strong> <code>quickestMethod</code>, <code>commonTrap</code>, <code>difficulty</code>, <code>tags</code>.</li>
+            <li><strong>Optional image fields:</strong> <code>imagePath</code>, <code>imageAlt</code>.</li>
+            <li><strong>Correct answer:</strong> use <code>A</code>, <code>B</code>, <code>C</code>, <code>D</code>, <code>E</code>, or <code>1</code> to <code>5</code>.</li>
+            <li><strong>Tags:</strong> separate multiple tags with commas, semicolons, or pipes.</li>
+          </ul>
+
+          <div class="columns" aria-label="Output mapping summary">
+            <div class="column-card">
+              <strong>ESAT fields</strong>
+              <span><code>id</code>, <code>subject</code>, <code>topic</code>, <code>difficulty</code>, <code>question</code>, <code>options</code>, <code>answerIndex</code>, <code>explanation</code>, <code>tags</code></span>
+            </div>
+            <div class="column-card">
+              <strong>Admin metadata</strong>
+              <span><code>topicCode</code>, <code>sourceExam</code>, <code>sourceYear</code>, <code>sourcePaper</code>, <code>sourceQuestionNumber</code>, <code>quickestMethod</code>, <code>commonTrap</code>, <code>imagePath</code>, <code>imageAlt</code></span>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="panel" style="margin-top: 1.25rem;">
+        <h2>2. Copy generated JavaScript</h2>
+        <p>
+          The generated output begins with <code>window.QUESTION_BANK = [</code> as requested. Copy the question objects into
+          <code>assets/questionBank.js</code> under the correct subject’s <code>questions</code> array, or use the array as an admin staging export.
+        </p>
+        <pre id="output" tabindex="0" aria-label="Generated JavaScript output">window.QUESTION_BANK = [
+];</pre>
+        <div class="actions">
+          <button type="button" id="copyBtn" disabled>Copy output</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var REQUIRED_COLUMNS = [
+        "internalId",
+        "section",
+        "topicCode",
+        "topicName",
+        "questionText",
+        "optionA",
+        "optionB",
+        "optionC",
+        "optionD",
+        "optionE",
+        "correctAnswer",
+        "workedSolution"
+      ];
+
+      var OPTIONAL_COLUMNS = [
+        "sourceExam",
+        "sourceYear",
+        "sourcePaper",
+        "sourceQuestionNumber",
+        "quickestMethod",
+        "commonTrap",
+        "difficulty",
+        "tags",
+        "imagePath",
+        "imageAlt"
+      ];
+
+      var SAMPLE_CSV = [
+        "internalId,section,topicCode,topicName,questionText,optionA,optionB,optionC,optionD,optionE,correctAnswer,workedSolution,sourceExam,sourceYear,sourcePaper,sourceQuestionNumber,quickestMethod,commonTrap,difficulty,tags,imagePath,imageAlt",
+        "M1-ALG-001,Maths 1,ALG,Algebra,\"Solve 3x - 7 = 11.\",\"x = 4\",\"x = 5\",\"x = 6\",\"x = 7\",\"None of the above\",C,\"3x - 7 = 11, so 3x = 18 and x = 6.\",Practice,2026,Sample,1,\"Add 7 then divide by 3.\",\"Forgetting to add 7 before dividing.\",1,\"linear equations|algebra\",,"
+      ].join("\n");
+
+      function $(selector) {
+        return document.querySelector(selector);
+      }
+
+      function trimCell(value) {
+        return String(value === null || value === undefined ? "" : value).trim();
+      }
+
+      function parseCSV(text) {
+        var rows = [];
+        var row = [];
+        var value = "";
+        var index = 0;
+        var inQuotes = false;
+        var delimiter = detectDelimiter(text);
+        var char;
+        var next;
+
+        while (index < text.length) {
+          char = text[index];
+          next = text[index + 1];
+
+          if (inQuotes) {
+            if (char === '"' && next === '"') {
+              value += '"';
+              index += 2;
+              continue;
+            }
+
+            if (char === '"') {
+              inQuotes = false;
+              index += 1;
+              continue;
+            }
+
+            value += char;
+            index += 1;
+            continue;
+          }
+
+          if (char === '"') {
+            inQuotes = true;
+            index += 1;
+            continue;
+          }
+
+          if (char === delimiter) {
+            row.push(value);
+            value = "";
+            index += 1;
+            continue;
+          }
+
+          if (char === "\r" || char === "\n") {
+            row.push(value);
+            rows.push(row);
+            row = [];
+            value = "";
+
+            if (char === "\r" && next === "\n") index += 2;
+            else index += 1;
+
+            continue;
+          }
+
+          value += char;
+          index += 1;
+        }
+
+        if (value !== "" || row.length > 0) {
+          row.push(value);
+          rows.push(row);
+        }
+
+        return rows.filter(function (item) {
+          return item.some(function (cell) {
+            return trimCell(cell) !== "";
+          });
+        });
+      }
+
+      function detectDelimiter(text) {
+        var firstLine = String(text || "").split(/\r?\n/)[0] || "";
+        var candidates = [",", "\t", ";"];
+        var best = ",";
+        var bestCount = -1;
+
+        candidates.forEach(function (candidate) {
+          var count = firstLine.split(candidate).length - 1;
+          if (count > bestCount) {
+            best = candidate;
+            bestCount = count;
+          }
+        });
+
+        return best;
+      }
+
+      function normaliseSubject(value) {
+        var key = trimCell(value).toLowerCase().replace(/[\s_-]+/g, "");
+        var map = {
+          m1: "maths1",
+          math1: "maths1",
+          maths1: "maths1",
+          mathematics1: "maths1",
+          m2: "maths2",
+          math2: "maths2",
+          maths2: "maths2",
+          mathematics2: "maths2",
+          phys: "physics",
+          physics: "physics"
+        };
+
+        return map[key] || "";
+      }
+
+      function parseAnswerIndex(value) {
+        var answer = trimCell(value).toUpperCase();
+        var labels = ["A", "B", "C", "D", "E"];
+        var numeric = Number(answer);
+
+        if (labels.indexOf(answer) !== -1) return labels.indexOf(answer);
+        if (numeric >= 1 && numeric <= 5 && String(numeric) === answer) return numeric - 1;
+        return -1;
+      }
+
+      function parseDifficulty(value) {
+        var raw = trimCell(value);
+        var number;
+
+        if (!raw) return 1;
+
+        number = Number(raw);
+        if (!Number.isFinite(number)) return null;
+        return Math.max(1, Math.min(5, Math.round(number)));
+      }
+
+      function parseTags(value) {
+        var text = trimCell(value);
+        var seen = {};
+
+        if (!text) return [];
+
+        return text.split(/[|;,]/)
+          .map(trimCell)
+          .filter(function (tag) {
+            if (!tag || seen[tag]) return false;
+            seen[tag] = true;
+            return true;
+          });
+      }
+
+      function objectFromRow(headers, cells) {
+        var output = {};
+
+        headers.forEach(function (header, index) {
+          output[header] = trimCell(cells[index]);
+        });
+
+        return output;
+      }
+
+      function validateHeaders(headers) {
+        var errors = [];
+        var seen = {};
+
+        headers.forEach(function (header, index) {
+          if (!header) {
+            errors.push("Header " + (index + 1) + " is blank.");
+            return;
+          }
+
+          if (seen[header]) {
+            errors.push("Duplicate header: " + header + ".");
+          }
+
+          seen[header] = true;
+        });
+
+        REQUIRED_COLUMNS.forEach(function (column) {
+          if (headers.indexOf(column) === -1) {
+            errors.push("Missing required column: " + column + ".");
+          }
+        });
+
+        return errors;
+      }
+
+      function validateAndConvert(rows) {
+        var errors = [];
+        var warnings = [];
+        var headers;
+        var questions = [];
+        var usedIds = {};
+
+        if (!rows.length) {
+          return {
+            errors: ["No CSV rows were found."],
+            warnings: [],
+            questions: []
+          };
+        }
+
+        headers = rows[0].map(trimCell);
+        errors = errors.concat(validateHeaders(headers));
+
+        if (rows.length < 2) {
+          errors.push("CSV must include at least one question row after the header.");
+        }
+
+        if (errors.length) {
+          return {
+            errors: errors,
+            warnings: warnings,
+            questions: []
+          };
+        }
+
+        rows.slice(1).forEach(function (cells, rowIndex) {
+          var rowNumber = rowIndex + 2;
+          var row = objectFromRow(headers, cells);
+          var rowErrors = [];
+          var subject = normaliseSubject(row.section);
+          var answerIndex = parseAnswerIndex(row.correctAnswer);
+          var difficulty = parseDifficulty(row.difficulty);
+          var options = [row.optionA, row.optionB, row.optionC, row.optionD, row.optionE].map(trimCell);
+          var question;
+
+          REQUIRED_COLUMNS.forEach(function (column) {
+            if (trimCell(row[column]) === "") {
+              rowErrors.push("Row " + rowNumber + ": " + column + " is required.");
+            }
+          });
+
+          if (!subject) {
+            rowErrors.push("Row " + rowNumber + ": section must be maths1, maths2, physics, or a recognised label.");
+          }
+
+          if (answerIndex === -1) {
+            rowErrors.push("Row " + rowNumber + ": correctAnswer must be A, B, C, D, E, or 1-5.");
+          }
+
+          if (difficulty === null) {
+            rowErrors.push("Row " + rowNumber + ": difficulty must be a number from 1 to 5 when provided.");
+          }
+
+          if (usedIds[row.internalId]) {
+            rowErrors.push("Row " + rowNumber + ": duplicate internalId " + row.internalId + ".");
+          }
+
+          if (cells.length > headers.length) {
+            warnings.push("Row " + rowNumber + ": has " + (cells.length - headers.length) + " extra cell(s) that will be ignored.");
+          }
+
+          if (rowErrors.length) {
+            errors = errors.concat(rowErrors);
+            return;
+          }
+
+          usedIds[row.internalId] = true;
+
+          question = {
+            id: row.internalId,
+            subject: subject,
+            topic: row.topicName,
+            difficulty: difficulty,
+            question: row.questionText,
+            options: options,
+            answerIndex: answerIndex,
+            explanation: row.workedSolution,
+            tags: parseTags(row.tags)
+          };
+
+          if (row.topicCode) question.topicCode = row.topicCode;
+
+          if (row.sourceExam) question.sourceExam = row.sourceExam;
+          if (row.sourceYear) question.sourceYear = row.sourceYear;
+          if (row.sourcePaper) question.sourcePaper = row.sourcePaper;
+          if (row.sourceQuestionNumber) question.sourceQuestionNumber = row.sourceQuestionNumber;
+          if (row.quickestMethod) question.quickestMethod = row.quickestMethod;
+          if (row.commonTrap) question.commonTrap = row.commonTrap;
+          if (row.imagePath) question.imagePath = row.imagePath;
+          if (row.imageAlt) question.imageAlt = row.imageAlt;
+
+          questions.push(question);
+        });
+
+        return {
+          errors: errors,
+          warnings: warnings,
+          questions: questions
+        };
+      }
+
+      function cleanForOutput(value) {
+        if (Array.isArray(value)) {
+          return value.map(cleanForOutput);
+        }
+
+        if (value && typeof value === "object") {
+          return Object.keys(value).reduce(function (result, key) {
+            var child = cleanForOutput(value[key]);
+            if (child !== undefined && child !== "") result[key] = child;
+            return result;
+          }, {});
+        }
+
+        return value;
+      }
+
+      function toJavaScript(questions) {
+        return "window.QUESTION_BANK = " + JSON.stringify(questions.map(cleanForOutput), null, 2) + ";";
+      }
+
+      function renderStatus(result) {
+        var status = $("#statusBox");
+        var html = "";
+
+        status.className = "status";
+
+        if (result.errors.length) {
+          status.classList.add("error");
+          html += "<strong>Fix these validation errors before copying output:</strong>";
+          html += "<ul class='errors'>" + result.errors.map(function (error) {
+            return "<li>" + escapeHTML(error) + "</li>";
+          }).join("") + "</ul>";
+          status.innerHTML = html;
+          return;
+        }
+
+        if (result.warnings.length) {
+          status.classList.add("warning");
+          html += "<strong>Converted " + result.questions.length + " question" + (result.questions.length === 1 ? "" : "s") + " with warnings:</strong>";
+          html += "<ul class='errors'>" + result.warnings.map(function (warning) {
+            return "<li>" + escapeHTML(warning) + "</li>";
+          }).join("") + "</ul>";
+          status.innerHTML = html;
+          return;
+        }
+
+        status.classList.add("success");
+        status.textContent = "Converted " + result.questions.length + " question" + (result.questions.length === 1 ? "" : "s") + " successfully.";
+      }
+
+      function escapeHTML(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/\"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function convert() {
+        var csvText = $("#csvInput").value;
+        var result = validateAndConvert(parseCSV(csvText));
+        var output = $("#output");
+        var copyButton = $("#copyBtn");
+
+        renderStatus(result);
+
+        if (result.errors.length) {
+          copyButton.disabled = true;
+          return;
+        }
+
+        output.textContent = toJavaScript(result.questions);
+        copyButton.disabled = false;
+      }
+
+      function copyOutput() {
+        var output = $("#output").textContent;
+        var button = $("#copyBtn");
+
+        if (!output || button.disabled) return;
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(output).then(function () {
+            button.textContent = "Copied";
+            window.setTimeout(function () {
+              button.textContent = "Copy output";
+            }, 1400);
+          }, fallbackCopy);
+          return;
+        }
+
+        fallbackCopy();
+      }
+
+      function fallbackCopy() {
+        var selection = window.getSelection();
+        var range = document.createRange();
+        var button = $("#copyBtn");
+
+        range.selectNodeContents($("#output"));
+        selection.removeAllRanges();
+        selection.addRange(range);
+
+        try {
+          document.execCommand("copy");
+          button.textContent = "Copied";
+        } catch (error) {
+          button.textContent = "Select and copy manually";
+        }
+
+        window.setTimeout(function () {
+          button.textContent = "Copy output";
+        }, 1400);
+      }
+
+      function clearAll() {
+        $("#csvInput").value = "";
+        $("#output").textContent = "window.QUESTION_BANK = [\n];";
+        $("#copyBtn").disabled = true;
+        $("#statusBox").className = "status";
+        $("#statusBox").textContent = "Paste CSV to begin.";
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        $("#convertBtn").addEventListener("click", convert);
+        $("#copyBtn").addEventListener("click", copyOutput);
+        $("#clearBtn").addEventListener("click", clearAll);
+        $("#sampleBtn").addEventListener("click", function () {
+          $("#csvInput").value = SAMPLE_CSV;
+          convert();
+        });
+      });
+    }());
+  </script>
+</body>
+</html>

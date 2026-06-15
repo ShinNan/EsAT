@@ -930,3 +930,299 @@ window.ESAT_QUESTION_BANK = {
     }
   }
 };
+window.ESAT_QUESTION_BANK = {
+  "version": "1.0.0",
+  "lastUpdated": "2026-06-15",
+  "subjects": {
+    "maths1": {
+      "label": "Maths 1",
+      "shortLabel": "M1",
+      "description": "Core mathematical fluency, algebra, graphs, geometry, sequences and problem solving.",
+      "questions": [
+        {
+          "id": "TEST-M1-001",
+          "subject": "maths1",
+          "topicCode": "M4",
+          "topic": "Algebra",
+          "question": "What is 2^{2}+3?",
+          "options": [
+            "5",
+            "6",
+            "7",
+            "8",
+            "9"
+          ],
+          "answerIndex": 2,
+          "explanation": "2^{2}=4, so 4+3=7.",
+          "difficulty": 1,
+          "quickestMethod": "Calculate 2^{2}=4 first, then add 3.",
+          "commonTrap": "Choosing 5 because the power is ignored.",
+          "tags": [
+            "algebra",
+            "powers"
+          ],
+          "status": "ready",
+          "source": {
+            "exam": "Generated",
+            "year": "2026",
+            "paper": "Sample",
+            "questionNumber": "1",
+            "originalReference": "Generated Sample Q1"
+          }
+        },
+        {
+          "id": "ENGAA-2016-S1-Q01",
+          "subject": "maths1",
+          "topicCode": "M4 Algebra",
+          "topic": "Algebra",
+          "question": "Find the complete set of solutions to -8 < 6 - x/2.",
+          "options": [
+            "x < 4",
+            "x > 4",
+            "x < 20",
+            "x > 20",
+            "x < 28"
+          ],
+          "answerIndex": 4,
+          "explanation": "Start with -8 < 6 - x/2. Subtract 6 from both sides to get -14 < -x/2. Multiply both sides by -2 and reverse the inequality sign, giving 28 > x. Therefore x < 28.",
+          "difficulty": 1,
+          "quickestMethod": "Subtract 6, then multiply by -2 and remember to flip the inequality sign.",
+          "commonTrap": "Forgetting to reverse the inequality sign when multiplying by a negative number.",
+          "tags": [
+            "algebra",
+            "inequalities",
+            "rearranging",
+            "original-options-remapped"
+          ],
+          "status": "extracted",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "Section 1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "Q01",
+            "originalReference": "ENGAA 2016 Section 1 Q1"
+          }
+        },
+        {
+          "id": "ENGAA-2016-S1-Q03",
+          "subject": "maths1",
+          "topicCode": "M4 Algebra",
+          "topic": "Algebra",
+          "question": "Which one of the following is a simplification of (√3 - √2)^2?",
+          "options": [
+            "1 - 2√3√2",
+            "5 - 2√2√3",
+            "2√3 - 2√2",
+            "1",
+            "5 - √2√3"
+          ],
+          "answerIndex": 1,
+          "explanation": "Use (a - b)^2 = a^2 - 2ab + b^2. Here a = √3 and b = √2, so (√3 - √2)^2 = 3 - 2√6 + 2 = 5 - 2√6. Since √6 = √2√3, this is 5 - 2√2√3.",
+          "difficulty": 2,
+          "quickestMethod": "Square the two surds separately, then subtract twice their product.",
+          "commonTrap": "Expanding as 3 - 2 only, or forgetting the middle term -2√3√2.",
+          "tags": [
+            "surds",
+            "algebra",
+            "expanding brackets"
+          ],
+          "status": "extracted",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "Section 1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "Q03",
+            "originalReference": "ENGAA 2016 Section 1 Q3"
+          }
+        },
+        {
+          "id": "ENGAA-2016-S1-Q05",
+          "subject": "maths1",
+          "topicCode": "M3 Ratio and proportion",
+          "topic": "Ratio and proportion",
+          "question": "The ratio of Q:R is 5:2 and the ratio of R:S is 3:10. Which one gives the ratio Q:S in its simplest form?",
+          "options": [
+            "1:2",
+            "2:1",
+            "3:4",
+            "3:25",
+            "4:3"
+          ],
+          "answerIndex": 2,
+          "explanation": "Make the R parts the same. Q:R = 5:2, so multiply by 3 to get Q:R = 15:6. R:S = 3:10, so multiply by 2 to get R:S = 6:20. Therefore Q:S = 15:20, which simplifies to 3:4.",
+          "difficulty": 2,
+          "quickestMethod": "Match the middle quantity R using LCM of 2 and 3, then compare Q with S.",
+          "commonTrap": "Directly comparing 5 with 10 and ignoring that the two R values are not the same.",
+          "tags": [
+            "ratio",
+            "proportion",
+            "equivalent ratios",
+            "original-options-remapped"
+          ],
+          "status": "extracted",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "Section 1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "Q05",
+            "originalReference": "ENGAA 2016 Section 1 Q5"
+          }
+        }
+      ]
+    },
+    "maths2": {
+      "label": "Maths 2",
+      "shortLabel": "M2",
+      "description": "More advanced mathematical reasoning, calculus, vectors, trigonometry and algebraic fluency.",
+      "questions": []
+    },
+    "physics": {
+      "label": "Physics",
+      "shortLabel": "PHY",
+      "description": "Mechanics, electricity, waves, materials, particles and practical physics.",
+      "questions": [
+        {
+          "id": "TEST-P-001",
+          "subject": "physics",
+          "topicCode": "P2",
+          "topic": "Waves",
+          "question": "A wave has frequency 12 Hz and wavelength \\lambda = 0.50 m. What is its speed?",
+          "options": [
+            "0.042 m s^{-1}",
+            "6.0 m s^{-1}",
+            "12 m s^{-1}",
+            "24 m s^{-1}",
+            "60 m s^{-1}"
+          ],
+          "answerIndex": 1,
+          "explanation": "Use v=f\\lambda. So v=12\\times0.50=6.0 m s^{-1}.",
+          "difficulty": 3,
+          "quickestMethod": "Use v=f\\lambda directly.",
+          "commonTrap": "Using f/\\lambda instead of f\\lambda.",
+          "tags": [
+            "waves",
+            "speed"
+          ],
+          "status": "ready",
+          "source": {
+            "exam": "Generated",
+            "year": "2026",
+            "paper": "Sample",
+            "questionNumber": "2",
+            "originalReference": "Generated Sample Q2"
+          }
+        },
+        {
+          "id": "TEST-P-IMG-001",
+          "subject": "physics",
+          "topicCode": "P4",
+          "topic": "Electricity",
+          "question": "The diagram shows a circuit. What is the resistance?",
+          "options": [
+            "1 \\Omega",
+            "2 \\Omega",
+            "3 \\Omega",
+            "4 \\Omega",
+            "5 \\Omega"
+          ],
+          "answerIndex": 3,
+          "explanation": "Use R=V/I. Substitute the values from the diagram.",
+          "difficulty": 4,
+          "quickestMethod": "Use R=V/I directly.",
+          "commonTrap": "Confusing current and voltage.",
+          "tags": [
+            "circuits",
+            "resistance"
+          ],
+          "status": "ready",
+          "source": {
+            "exam": "Generated",
+            "year": "2026",
+            "paper": "Sample",
+            "questionNumber": "3",
+            "originalReference": "Generated Sample Q3"
+          },
+          "image": {
+            "alt": "Simple circuit diagram with a cell and resistor"
+          }
+        },
+        {
+          "id": "ENGAA-2016-S1-Q02",
+          "subject": "physics",
+          "topicCode": "P6 Particles and radiation",
+          "topic": "Particles and radiation",
+          "question": "A nuclide Pb-214 with proton number 82 changes by radioactive decay into Pb-210 with proton number 82. Which combination of emissions produces this change?",
+          "options": [
+            "3 alpha",
+            "2 alpha and 1 beta",
+            "2 alpha and 2 beta",
+            "1 alpha and 2 beta",
+            "3 beta"
+          ],
+          "answerIndex": 3,
+          "explanation": "The mass number decreases from 214 to 210, so the total change in mass number is -4. One alpha emission reduces mass number by 4 and proton number by 2, giving proton number 80. To return to proton number 82, two beta-minus emissions are needed, each increasing proton number by 1. Therefore the change is 1 alpha and 2 beta.",
+          "difficulty": 2,
+          "quickestMethod": "Use mass number first: -4 means one alpha. Then fix proton number: alpha makes Z drop by 2, so two beta-minus emissions bring Z back up by 2.",
+          "commonTrap": "Thinking beta decay changes the mass number, or forgetting that alpha changes both mass number and proton number.",
+          "tags": [
+            "radioactivity",
+            "alpha decay",
+            "beta decay",
+            "nuclides"
+          ],
+          "status": "extracted",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "Section 1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "Q02",
+            "originalReference": "ENGAA 2016 Section 1 Q2"
+          }
+        },
+        {
+          "id": "ENGAA-2016-S1-Q04",
+          "subject": "physics",
+          "topicCode": "P1 Mechanics",
+          "topic": "Mechanics",
+          "question": "The graph shown of quantity y against quantity x represents the motion of a body. The straight-line graph passes through the origin and through x = 2.0, y = 10, so its gradient is 5. The scales are in appropriate SI units and g = 10 N kg^-1. Which two could the graph represent? 1 kinetic energy against velocity for a 10 kg object in free fall; 2 potential energy against height for a 20 kg object being lifted by a constant external force; 3 velocity against time for a 20 kg object accelerated by a resultant force of 100 N; 4 work done by a 5 N external force against distance moved at constant speed in the direction of the force.",
+          "options": [
+            "1 and 2",
+            "1 and 3",
+            "1 and 4",
+            "2 and 3",
+            "3 and 4"
+          ],
+          "answerIndex": 4,
+          "explanation": "The graph is a straight line through the origin with gradient 10/2 = 5. Statement 3 works because F = ma gives a = 100/20 = 5 m s^-2, so velocity against time is v = 5t. Statement 4 works because work done W = Fd = 5d, so the work-distance graph has gradient 5. Statement 1 is not correct because kinetic energy against velocity is KE = 1/2 mv^2, so it is quadratic, not linear. Statement 2 is not correct because gravitational potential energy against height has gradient mg = 20 × 10 = 200, not 5.",
+          "difficulty": 3,
+          "quickestMethod": "Find the graph gradient first: gradient = 5. Then match only relationships with y = 5x.",
+          "commonTrap": "Choosing any linear-looking physics relationship without checking the numerical gradient.",
+          "tags": [
+            "graphs",
+            "mechanics",
+            "force",
+            "acceleration",
+            "work done",
+            "original-options-remapped"
+          ],
+          "status": "extracted",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "Section 1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "Q04",
+            "originalReference": "ENGAA 2016 Section 1 Q4"
+          },
+          "image": {
+            "alt": "imageNeeded=yes; straight-line graph of y against x through the origin, passing through x = 2.0 and y = 10, with dashed guide lines to those values."
+          }
+        }
+      ]
+    }
+  }
+};

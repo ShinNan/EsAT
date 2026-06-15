@@ -10,13 +10,12 @@
 
 ## Source files
 
-Expected local source files:
+Source files identified from the repository `main` branch / GitHub UI:
 
-- `source-papers/ENGAA_2016_P1.pdf`
-- `source-mark-schemes/ENGAA_2016_P1_MS.pdf`
-- `solutions-raw/ENGAA/2016/ENGAA_2016_P1_annotated_solutions.pdf`
+- `source-papers/ENGAA 2016 Section 1.pdf`
+- `source-mark-schemes/ENGAA 2016 Section 1 Answer Key.pdf`
 
-These files were not visible in the current checkout when inspected, so the import used the publicly accessible ENGAA 2016 Section 1 question paper and answer key text as reference. The raw annotated solution PDF was not available locally.
+The local checkout for this PR branch did not contain those PDFs, and `git fetch origin main` failed in this environment with a 403 tunnel error. Therefore Q04/Q06 image assets remain recreated SVGs rather than true PDF crops. Once `main` is merged into this branch, those source PDFs should be present at the paths above and can be used for a true crop pass. The raw annotated solution PDF was still not present in `solutions-raw/ENGAA/2016/`.
 
 ## Imported questions
 
@@ -35,8 +34,8 @@ These files were not visible in the current checkout when inspected, so the impo
 
 ## Image notes
 
-- Q04 graph and Q06 fission diagrams have been recreated as SVG assets in `assets/question-images/` because PDF cropping tools/source PDFs were not available in the checkout.
-- Please visually compare these SVGs with the source paper before relying on them for production.
+- Q04 graph and Q06 fission diagrams have been recreated as SVG assets in `assets/question-images/` because the PR checkout did not include `source-papers/ENGAA 2016 Section 1.pdf`.
+- Please visually compare these SVGs with the source paper before relying on them for production, or replace them with true crops after merging `main` into the PR branch.
 
 ## Validation notes
 
@@ -46,8 +45,15 @@ These files were not visible in the current checkout when inspected, so the impo
 - Q04 and Q06 have image paths that exist in `assets/question-images/`.
 - Status is set to `ready` for this batch, as requested.
 
+## Conflict-resolution notes
+
+GitHub reported merge conflicts in `admin/csv-converter.html` and `assets/questionBank.js` after PDFs were uploaded to `main`. Resolve those by keeping this PR branch's completed converter/schema additions and the ENGAA Q01-Q10 question bank, while also keeping the `main` branch source PDF files. In particular:
+
+- `admin/csv-converter.html` should keep the PR branch fields for `markSchemeNotes`, `solutionPath`, `hasImage`, `imageStatus`, `diagramType`, `sourcePage`, and optional `optionF`-`optionH`.
+- `assets/questionBank.js` should keep the PR branch `window.ESAT_QUESTION_BANK` with the ENGAA Q01-Q10 imported questions, not the old test-only question bank from `main`.
+
 ## Items to check before merging
 
-- Confirm Q01 inequality text against the original PDF rendering.
-- Confirm Q04 and Q06 recreated diagrams are acceptable or replace them with true PDF crops.
+- Confirm Q01 inequality text against `source-papers/ENGAA 2016 Section 1.pdf`.
+- Confirm Q04 and Q06 recreated diagrams are acceptable or replace them with true PDF crops from `source-papers/ENGAA 2016 Section 1.pdf`.
 - Confirm copyright/public-repo suitability for using ENGAA source question text and diagrams.

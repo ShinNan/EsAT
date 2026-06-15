@@ -760,6 +760,11 @@ code {
     text-align: left;
   }
 }
+.question-text {
+  white-space: pre-line;
+  line-height: 1.6;
+}
+
 .question-image-wrap {
   display: flex;
   justify-content: center;

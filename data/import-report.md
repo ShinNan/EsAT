@@ -32,10 +32,19 @@ The local checkout for this PR branch did not contain those PDFs, and `git fetch
 | ENGAA_2016_P1_Q09 | maths1 | Percentages | C | no |
 | ENGAA_2016_P1_Q10 | physics | Radiation and Proportionality | D | no |
 
+## Formatting pass
+
+- Reformatted Q01-Q10 question text to preserve meaningful line breaks.
+- Q04 now keeps the bracketed S.I. units / `g` note as a separate paragraph and lays out numbered statements 1-4 on separate lines.
+- Q06 keeps the prompt concise and relies on the diagram image rather than flattening the diagram into text.
+- Q07-Q10 now preserve paragraph breaks from the source paper, including the displayed formula in Q10.
+
 ## Image notes
 
-- Q04 graph and Q06 fission diagrams have been recreated as SVG assets in `assets/question-images/` because the PR checkout did not include `source-papers/ENGAA 2016 Section 1.pdf`.
-- Please visually compare these SVGs with the source paper before relying on them for production, or replace them with true crops after merging `main` into the PR branch.
+- Q04 graph and Q06 fission diagrams are still recreated SVG assets, not true PDF crops, because the PR checkout did not include `source-papers/ENGAA 2016 Section 1.pdf` and `git fetch origin main` failed in this environment.
+- Q04 was redrawn to more closely follow the paper: axes, labels, dashed guide lines, the line through the origin, and the 0.0 / 2.0 / 10 scale labels are included.
+- Q06 was redrawn as a diagram with nuclei, arrows, emitted neutrons, daughter nuclei and labels, rather than text-only equation boxes.
+- `imageStatus` is set to `ready-recreated-close` for Q04 and Q06. Replace with true PDF crops when the source PDF is available locally if exact visual fidelity is required.
 
 ## Validation notes
 
@@ -43,6 +52,8 @@ The local checkout for this PR branch did not contain those PDFs, and `git fetch
 - All `answerIndex` values match `correctAnswer`.
 - Each imported question has the expected number of answer options from the source question.
 - Q04 and Q06 have image paths that exist in `assets/question-images/`.
+- Q01, Q03, Q04 and Q10 were corrected/reformatted against the source paper text extracted from the ENGAA 2016 Section 1 PDF.
+- Imported questions include A-F, A-G and A-H option sets; runtime support remains A-H and no options are truncated.
 - Status is set to `ready` for this batch, as requested.
 
 ## Conflict-resolution notes

@@ -564,6 +564,7 @@
   function normaliseQuestion(question, occurrence, config) {
     var options = Array.isArray(question.options) ? question.options.slice() : [];
     var answerIndex = Number(question.answerIndex);
+    var image = question.image && typeof question.image === "object" ? question.image : null;
     var optionObjects;
     var newAnswerIndex;
 
@@ -610,6 +611,9 @@
       }),
       answerIndex: newAnswerIndex,
       explanation: question.explanation || "",
+      imagePath: question.imagePath || (image && image.src) || "",
+      imageAlt: question.imageAlt || (image && image.alt) || "",
+      diagramType: question.diagramType || "",
       tags: Array.isArray(question.tags) ? question.tags.slice() : []
     };
   }
@@ -862,6 +866,24 @@
     });
   }
 
+  function renderQuestionImage(question) {
+    var imageWrap = $("#questionImageWrap");
+    var image = $("#questionImage");
+
+    if (!imageWrap || !image) return;
+
+    if (question.imagePath) {
+      image.src = question.imagePath;
+      image.alt = question.imageAlt || "Question diagram";
+      imageWrap.hidden = false;
+      return;
+    }
+
+    imageWrap.hidden = true;
+    image.removeAttribute("src");
+    image.alt = "";
+  }
+
   function renderQuestion() {
     var question;
 
@@ -876,6 +898,7 @@
     $("#questionDifficulty").textContent = "Difficulty " + question.difficulty;
 
     setMath("#questionText", question.question);
+    renderQuestionImage(question);
 
     renderOptions(question);
     renderNavigator();

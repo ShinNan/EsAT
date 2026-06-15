@@ -259,7 +259,7 @@
   }
 
   function labelForIndex(index) {
-    var labels = ["A", "B", "C", "D", "E"];
+    var labels = ["A", "B", "C", "D", "E", "F", "G", "H"];
     return labels[Number(index)] || "-";
   }
 

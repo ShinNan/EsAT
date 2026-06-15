@@ -5,7 +5,7 @@
   var ACTIVE_EXAM_KEY = "esatSimulator.activeExam";
   var LATEST_RESULT_KEY = "esatSimulator.latestResult";
   var WRONG_QUESTIONS_KEY = "esatSimulator.wrongQuestions";
-  var OPTION_LABELS = ["A", "B", "C", "D", "E"];
+  var OPTION_LABELS = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
   var state = {
     config: null,
@@ -575,13 +575,9 @@
       answerIndex = 0;
     }
 
-    if (options.length > 5) {
-      options = options.slice(0, 5);
-      if (answerIndex > 4) answerIndex = 4;
-    }
-
-    while (options.length < 5) {
-      options.push("None of the above");
+    if (options.length > OPTION_LABELS.length) {
+      options = options.slice(0, OPTION_LABELS.length);
+      if (answerIndex >= OPTION_LABELS.length) answerIndex = OPTION_LABELS.length - 1;
     }
 
     optionObjects = options.map(function (text, index) {

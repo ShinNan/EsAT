@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" role="img" aria-labelledby="title desc">
+<title id="title">ENGAA 2016 Paper 1 Question 6 fission diagrams</title>
+<desc id="desc">Three proposed fission equations for uranium-235. Diagram 2 conserves mass number and atomic number.</desc>
+<rect width="100%" height="100%" fill="white"/>
+<style>text{font-family:Arial,sans-serif;font-size:20px}.small{font-size:16px}.label{font-weight:bold;font-size:22px}.box{fill:#f7f3ff;stroke:#6730d8;stroke-width:2}</style>
+<text class="label" x="30" y="45">diagram 1</text>
+<rect class="box" x="25" y="60" width="710" height="80" rx="12"/>
+<text x="45" y="110">¹₁p + ²³⁵₉₂U → ¹₀n + ¹₀n + ⁸⁹₃₆Kr + ¹⁴⁴₅₆Ba</text>
+<text class="label" x="30" y="185">diagram 2</text>
+<rect class="box" x="25" y="200" width="710" height="80" rx="12"/>
+<text x="45" y="250">¹₀n + ²³⁵₉₂U → ¹₀n + ¹₀n + ⁹⁶₃₈Sr + ¹³⁷₅₄Xe + ¹₀n</text>
+<text class="label" x="30" y="325">diagram 3</text>
+<rect class="box" x="25" y="340" width="710" height="60" rx="12"/>
+<text x="45" y="378">¹₀n + ²³⁵₉₂U → ¹₀n + ¹₀n + ¹⁴⁵₅₇La + ⁸⁷₃₅Br + ¹₀n</text>
+</svg>

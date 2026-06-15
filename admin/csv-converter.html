@@ -307,10 +307,10 @@
           <h2>Column guide</h2>
           <ul class="details-list">
             <li><strong>Required:</strong> <code>internalId</code>, <code>section</code> or <code>subject</code>, <code>topicCode</code>, <code>topicName</code>, <code>questionText</code>, <code>optionA</code> through <code>optionE</code>, <code>correctAnswer</code>, <code>workedSolution</code>.</li>
-            <li><strong>Optional teaching fields:</strong> <code>difficulty</code>, <code>quickestMethod</code>, <code>commonTrap</code>, <code>tags</code>, <code>status</code>.</li>
-            <li><strong>Optional source fields:</strong> <code>sourceExam</code>, <code>sourceYear</code>, <code>sourcePaper</code>, <code>sourceSection</code>, <code>sourceQuestionNumber</code>, <code>originalReference</code>.</li>
-            <li><strong>Optional image fields:</strong> <code>imagePath</code>, <code>imageAlt</code>.</li>
-            <li><strong>Correct answer:</strong> use <code>A</code>, <code>B</code>, <code>C</code>, <code>D</code>, or <code>E</code>.</li>
+            <li><strong>Optional teaching fields:</strong> <code>difficulty</code>, <code>markSchemeNotes</code>, <code>quickestMethod</code>, <code>commonTrap</code>, <code>tags</code>, <code>status</code>, <code>solutionPath</code>.</li>
+            <li><strong>Optional source fields:</strong> <code>sourceExam</code>, <code>sourceYear</code>, <code>sourcePaper</code>, <code>sourceSection</code>, <code>sourceQuestionNumber</code>, <code>sourcePage</code>, <code>originalReference</code>.</li>
+            <li><strong>Optional image fields:</strong> <code>hasImage</code>, <code>imagePath</code>, <code>imageAlt</code>, <code>diagramType</code>, <code>imageStatus</code>.</li>
+            <li><strong>Correct answer:</strong> use <code>A</code>, <code>B</code>, <code>C</code>, <code>D</code>, <code>E</code>, <code>F</code>, <code>G</code>, or <code>H</code>. <code>optionF</code> to <code>optionH</code> are optional for ENGAA-style questions.</li>
             <li><strong>Difficulty:</strong> use <code>1</code> to <code>5</code>, or <code>easy</code>, <code>medium</code>, <code>hard</code>.</li>
             <li><strong>Tags:</strong> separate multiple tags with commas, semicolons, or pipes.</li>
           </ul>
@@ -380,15 +380,16 @@
         "workedSolution"
       ];
 
+      var OPTION_COLUMNS = ["optionA", "optionB", "optionC", "optionD", "optionE", "optionF", "optionG", "optionH"];
       var SUBJECT_COLUMNS = ["section", "subject"];
-      var SOURCE_COLUMNS = ["sourceExam", "sourceYear", "sourcePaper", "sourceSection", "sourceQuestionNumber", "originalReference"];
-      var IMAGE_COLUMNS = ["imagePath", "imageAlt"];
+      var SOURCE_COLUMNS = ["sourceExam", "sourceYear", "sourcePaper", "sourceSection", "sourceQuestionNumber", "sourcePage", "originalReference"];
+      var IMAGE_COLUMNS = ["hasImage", "imagePath", "imageAlt", "diagramType", "imageStatus"];
 
       var SAMPLE_CSV = [
-        "internalId,section,subject,topicCode,topicName,difficulty,questionText,optionA,optionB,optionC,optionD,optionE,correctAnswer,workedSolution,quickestMethod,commonTrap,tags,status,sourceExam,sourceYear,sourcePaper,sourceSection,sourceQuestionNumber,originalReference,imagePath,imageAlt",
-        "M1-ALG-001,Maths 1,,ALG,Algebra,easy,\"Solve 3x - 7 = 11.\",\"x = 4\",\"x = 5\",\"x = 6\",\"x = 7\",\"None of the above\",C,\"3x - 7 = 11, so 3x = 18 and x = 6.\",\"Add 7 first, then divide by 3.\",\"Dividing before adding 7.\",\"linear equations|algebra\",approved,ESAT Practice,2026,Sample Paper,Maths 1,1,ESAT-2026-M1-Q1,assets/images/m1-alg-001.png,Diagram showing the linear equation balance",
-        "M2-CAL-001,,maths2,CAL,Calculus,medium,\"Differentiate y = x^3.\",\"x^2\",\"2x\",\"3x^2\",\"3x\",\"None of the above\",C,\"Using the power rule, d/dx of x^3 is 3x^2.\",\"Use the power rule.\",\"Forgetting to multiply by the old power.\",\"differentiation;power rule\",draft,ESAT Practice,2026,Sample Paper,Maths 2,2,ESAT-2026-M2-Q2,,",
-        "PHY-MEC-001,physics,,MEC,Mechanics,hard,\"A 2 kg mass accelerates at 3 m s^-2. What is the resultant force?\",\"3 N\",\"5 N\",\"6 N\",\"9 N\",\"12 N\",C,\"F = ma = 2 x 3 = 6 N.\",\"Apply F = ma directly.\",\"Using weight instead of resultant force.\",\"forces,Newton's second law\",approved,ESAT Practice,2026,Sample Paper,Physics,3,ESAT-2026-PHY-Q3,,"
+        "internalId,section,subject,topicCode,topicName,difficulty,questionText,optionA,optionB,optionC,optionD,optionE,optionF,optionG,optionH,correctAnswer,workedSolution,markSchemeNotes,quickestMethod,commonTrap,tags,status,sourceExam,sourceYear,sourcePaper,sourceSection,sourceQuestionNumber,sourcePage,originalReference,hasImage,imagePath,imageAlt,diagramType,imageStatus,solutionPath",
+        "M1-ALG-001,Maths 1,,ALG,Algebra,easy,Solve 3x - 7 = 11.,x = 4,x = 5,x = 6,x = 7,None of the above,,,,C,\"3x - 7 = 11, so 3x = 18 and x = 6.\",Answer key gives C.,\"Add 7 first, then divide by 3.\",Dividing before adding 7.,linear equations|algebra,approved,ESAT Practice,2026,Sample Paper,Maths 1,1,4,ESAT-2026-M1-Q1,yes,assets/images/m1-alg-001.png,Diagram showing the linear equation balance,diagram,ready,solutions/sample/M1-ALG-001.md",
+        "M2-CAL-001,,maths2,CAL,Calculus,medium,Differentiate y = x^3.,x^2,2x,3x^2,3x,None of the above,,,,C,\"Using the power rule, d/dx of x^3 is 3x^2.\",Answer key gives C.,Use the power rule.,Forgetting to multiply by the old power.,differentiation;power rule,draft,ESAT Practice,2026,Sample Paper,Maths 2,2,5,ESAT-2026-M2-Q2,no,,,,not-needed,solutions/sample/M2-CAL-001.md",
+        "PHY-MEC-001,physics,,MEC,Mechanics,hard,A 2 kg mass accelerates at 3 m s^-2. What is the resultant force?,3 N,5 N,6 N,9 N,12 N,,,,C,F = ma = 2 x 3 = 6 N.,Answer key gives C.,Apply F = ma directly.,Using weight instead of resultant force.,\"forces,Newton's second law\",approved,ESAT Practice,2026,Sample Paper,Physics,3,6,ESAT-2026-PHY-Q3,no,,,,not-needed,solutions/sample/PHY-MEC-001.md"
       ].join("\n");
 
       function $(selector) {
@@ -512,7 +513,7 @@
 
       function parseAnswerIndex(value) {
         var answer = trimCell(value).toUpperCase();
-        var labels = ["A", "B", "C", "D", "E"];
+        var labels = ["A", "B", "C", "D", "E", "F", "G", "H"];
         return labels.indexOf(answer);
       }
 
@@ -637,7 +638,11 @@
           var subject = normaliseSubject(rowSubject(row));
           var answerIndex = parseAnswerIndex(row.correctAnswer);
           var difficulty = parseDifficulty(row.difficulty);
-          var options = [row.optionA, row.optionB, row.optionC, row.optionD, row.optionE].map(trimCell);
+          var options = OPTION_COLUMNS.map(function (column) {
+            return trimCell(row[column]);
+          }).filter(function (option) {
+            return option !== "";
+          });
           var question;
           var source;
           var image;
@@ -655,7 +660,9 @@
           }
 
           if (answerIndex === -1) {
-            rowErrors.push("Row " + rowNumber + ": correctAnswer must be A, B, C, D, or E.");
+            rowErrors.push("Row " + rowNumber + ": correctAnswer must be A, B, C, D, E, F, G, or H.");
+          } else if (answerIndex >= options.length) {
+            rowErrors.push("Row " + rowNumber + ": correctAnswer points to an option column that is blank.");
           }
 
           if (difficulty === null) {
@@ -685,15 +692,21 @@
             topic: row.topicName,
             question: row.questionText,
             options: options,
+            correctAnswer: row.correctAnswer,
             answerIndex: answerIndex,
             explanation: row.workedSolution
           };
 
           if (difficulty !== undefined) question.difficulty = difficulty;
+          if (row.markSchemeNotes) question.markSchemeNotes = row.markSchemeNotes;
           if (row.quickestMethod) question.quickestMethod = row.quickestMethod;
           if (row.commonTrap) question.commonTrap = row.commonTrap;
           if (parseTags(row.tags).length) question.tags = parseTags(row.tags);
           if (row.status) question.status = row.status;
+          if (row.solutionPath) question.solutionPath = row.solutionPath;
+          if (row.hasImage) question.hasImage = /^yes|true|1$/i.test(row.hasImage);
+          if (row.imageStatus) question.imageStatus = row.imageStatus;
+          if (row.diagramType) question.diagramType = row.diagramType;
 
           if (hasAnyValue(row, SOURCE_COLUMNS)) {
             source = {};
@@ -702,6 +715,7 @@
             if (row.sourcePaper) source.paper = row.sourcePaper;
             if (row.sourceSection) source.section = row.sourceSection;
             if (row.sourceQuestionNumber) source.questionNumber = row.sourceQuestionNumber;
+            if (row.sourcePage) source.page = row.sourcePage;
             if (row.originalReference) source.originalReference = row.originalReference;
             question.source = source;
           }

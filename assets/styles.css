@@ -760,6 +760,30 @@ code {
     text-align: left;
   }
 }
+.question-image-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 1.2rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--soft);
+}
+
+.question-image-wrap[hidden] {
+  display: none;
+}
+
+.question-image {
+  display: block;
+  max-width: 100%;
+  max-height: 420px;
+  width: auto;
+  height: auto;
+  border-radius: var(--radius-sm);
+  object-fit: contain;
+}
+
 /* Lightweight local maths rendering */
 .math-rendered {
   font-family: inherit;

@@ -101,8 +101,8 @@
   function getLatestResult() {
     var profile = getCurrentProfile();
 
-    if (profile && profile.latestResult) {
-      return profile.latestResult;
+    if (profile) {
+      return profile.latestResult || null;
     }
 
     return loadJSON(LATEST_RESULT_KEY, null);
@@ -259,7 +259,7 @@
   }
 
   function labelForIndex(index) {
-    var labels = ["A", "B", "C", "D", "E"];
+    var labels = ["A", "B", "C", "D", "E", "F", "G", "H"];
     return labels[Number(index)] || "-";
   }
 

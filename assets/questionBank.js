@@ -1219,6 +1219,7 @@ window.ESAT_QUESTION_BANK = {
             "originalReference": "ENGAA 2016 Section 1 Q4"
           },
           "image": {
+            "src": "assets/question-images/ENGAA_2016_P1_S1_Q04_graph.png",
             "alt": "imageNeeded=yes; straight-line graph of y against x through the origin, passing through x = 2.0 and y = 10, with dashed guide lines to those values."
           }
         }

@@ -97,6 +97,9 @@
     var numerator;
     var denominator;
     var radicand;
+    var massNumber;
+    var protonNumber;
+    var elementSymbol;
 
     if (command === "frac") {
       numerator = parseGroup(input, nextIndex);
@@ -121,6 +124,24 @@
             "<span class=\"math-radicand\">" + radicand.html + "</span>" +
           "</span>",
         index: radicand.index
+      };
+    }
+
+    if (command === "nuclide") {
+      massNumber = parseGroup(input, nextIndex);
+      protonNumber = parseGroup(input, massNumber.index);
+      elementSymbol = parseGroup(input, protonNumber.index);
+
+      return {
+        html:
+          "<span class=\"nuclide\">" +
+            "<span class=\"nuclide-numbers\">" +
+              "<span>" + massNumber.html + "</span>" +
+              "<span>" + protonNumber.html + "</span>" +
+            "</span>" +
+            "<span class=\"nuclide-symbol\">" + elementSymbol.html + "</span>" +
+          "</span>",
+        index: elementSymbol.index
       };
     }
 

@@ -8,38 +8,38 @@
   </marker>
 </defs>
 <style>
-  .label{font:24px Arial,Helvetica,sans-serif;fill:#222}.line{stroke:#222;stroke-width:2.4;fill:none;marker-end:url(#arrow)}.circle{stroke:#222;stroke-width:2.4;fill:#fff}.dot{fill:#777;stroke:#222;stroke-width:2}.iso{font:20px Arial,Helvetica,sans-serif;fill:#222;text-anchor:middle}.small{font:16px Arial,Helvetica,sans-serif;fill:#222;text-anchor:middle}.mass{font-size:16px}.proton{font-size:16px}.symbol{font-size:22px}
+  .label{font:24px Arial,Helvetica,sans-serif;fill:#222}.line{stroke:#222;stroke-width:2.4;fill:none;marker-end:url(#arrow)}.circle{stroke:#222;stroke-width:2.4;fill:#fff}.dot{fill:#777;stroke:#222;stroke-width:2}.iso-mass,.iso-proton{font:16px Arial,Helvetica,sans-serif;fill:#222;text-anchor:end}.iso-symbol{font:28px Arial,Helvetica,sans-serif;fill:#222;text-anchor:start;dominant-baseline:middle}.particle-mass,.particle-proton{font:12px Arial,Helvetica,sans-serif;fill:#222;text-anchor:end}.particle-symbol{font:18px Arial,Helvetica,sans-serif;fill:#222;text-anchor:start;dominant-baseline:middle}
 </style>
 <g id="diagram-1" transform="translate(45,38)">
   <text class="label" x="128" y="18">diagram 1</text>
   <circle class="circle" cx="155" cy="145" r="52"/>
-  <text class="iso" x="155" y="137"><tspan class="mass" x="145" dy="-2">235</tspan><tspan class="proton" x="145" dy="18">92</tspan><tspan class="symbol" dx="4" dy="-9">U</tspan></text>
-  <circle class="dot" cx="36" cy="145" r="5"/><text class="small" x="36" y="126">1</text><text class="small" x="36" y="169">p</text><line class="line" x1="48" y1="145" x2="92" y2="145"/>
-  <circle class="circle" cx="315" cy="76" r="42"/><text class="iso" x="315" y="68"><tspan class="mass" x="305" dy="-2">144</tspan><tspan class="proton" x="305" dy="18">56</tspan><tspan class="symbol" dx="4" dy="-9">Ba</tspan></text><line class="line" x1="203" y1="123" x2="267" y2="93"/>
-  <circle class="circle" cx="315" cy="222" r="42"/><text class="iso" x="315" y="214"><tspan class="mass" x="305" dy="-2">89</tspan><tspan class="proton" x="305" dy="18">36</tspan><tspan class="symbol" dx="4" dy="-9">Kr</tspan></text><line class="line" x1="203" y1="167" x2="267" y2="202"/>
-  <circle class="dot" cx="245" cy="128" r="5"/><text class="small" x="264" y="123">n</text><line class="line" x1="203" y1="134" x2="238" y2="128"/>
-  <circle class="dot" cx="245" cy="162" r="5"/><text class="small" x="264" y="157">n</text><line class="line" x1="203" y1="152" x2="238" y2="162"/>
+  <g class="isotope" transform="translate(155,145)"><text class="iso-mass" x="-12" y="-18">235</text><text class="iso-proton" x="-12" y="13">92</text><text class="iso-symbol" x="8" y="4">U</text></g>
+  <circle class="dot" cx="36" cy="145" r="5"/><g class="particle" transform="translate(35,122)"><text class="particle-mass" x="-8" y="-8">1</text><text class="particle-proton" x="-8" y="11">1</text><text class="particle-symbol" x="5" y="2">p</text></g><line class="line" x1="48" y1="145" x2="92" y2="145"/>
+  <circle class="circle" cx="315" cy="76" r="42"/><g class="isotope" transform="translate(315,76)"><text class="iso-mass" x="-16" y="-18">144</text><text class="iso-proton" x="-16" y="13">56</text><text class="iso-symbol" x="8" y="4">Ba</text></g><line class="line" x1="203" y1="123" x2="267" y2="93"/>
+  <circle class="circle" cx="315" cy="222" r="42"/><g class="isotope" transform="translate(315,222)"><text class="iso-mass" x="-16" y="-18">89</text><text class="iso-proton" x="-16" y="13">36</text><text class="iso-symbol" x="8" y="4">Kr</text></g><line class="line" x1="203" y1="167" x2="267" y2="202"/>
+  <circle class="dot" cx="245" cy="128" r="5"/><g class="particle" transform="translate(267,118)"><text class="particle-mass" x="-8" y="-8">1</text><text class="particle-proton" x="-8" y="11">0</text><text class="particle-symbol" x="5" y="2">n</text></g><line class="line" x1="203" y1="134" x2="238" y2="128"/>
+  <circle class="dot" cx="245" cy="162" r="5"/><g class="particle" transform="translate(267,158)"><text class="particle-mass" x="-8" y="-8">1</text><text class="particle-proton" x="-8" y="11">0</text><text class="particle-symbol" x="5" y="2">n</text></g><line class="line" x1="203" y1="152" x2="238" y2="162"/>
 </g>
 <g id="diagram-2" transform="translate(455,38)">
   <text class="label" x="128" y="18">diagram 2</text>
   <circle class="circle" cx="155" cy="145" r="52"/>
-  <text class="iso" x="155" y="137"><tspan class="mass" x="145" dy="-2">235</tspan><tspan class="proton" x="145" dy="18">92</tspan><tspan class="symbol" dx="4" dy="-9">U</tspan></text>
-  <circle class="dot" cx="36" cy="145" r="5"/><text class="small" x="36" y="126">1</text><text class="small" x="36" y="169">n</text><line class="line" x1="48" y1="145" x2="92" y2="145"/>
-  <circle class="circle" cx="315" cy="76" r="42"/><text class="iso" x="315" y="68"><tspan class="mass" x="305" dy="-2">137</tspan><tspan class="proton" x="305" dy="18">54</tspan><tspan class="symbol" dx="4" dy="-9">Xe</tspan></text><line class="line" x1="203" y1="123" x2="267" y2="93"/>
-  <circle class="circle" cx="315" cy="222" r="42"/><text class="iso" x="315" y="214"><tspan class="mass" x="305" dy="-2">96</tspan><tspan class="proton" x="305" dy="18">38</tspan><tspan class="symbol" dx="4" dy="-9">Sr</tspan></text><line class="line" x1="203" y1="167" x2="267" y2="202"/>
-  <circle class="dot" cx="235" cy="128" r="5"/><text class="small" x="254" y="123">n</text><line class="line" x1="203" y1="134" x2="228" y2="128"/>
-  <circle class="dot" cx="235" cy="162" r="5"/><text class="small" x="254" y="157">n</text><line class="line" x1="203" y1="152" x2="228" y2="162"/>
-  <circle class="dot" cx="278" cy="145" r="5"/><text class="small" x="297" y="140">n</text><line class="line" x1="203" y1="145" x2="271" y2="145"/>
+  <g class="isotope" transform="translate(155,145)"><text class="iso-mass" x="-12" y="-18">235</text><text class="iso-proton" x="-12" y="13">92</text><text class="iso-symbol" x="8" y="4">U</text></g>
+  <circle class="dot" cx="36" cy="145" r="5"/><g class="particle" transform="translate(35,122)"><text class="particle-mass" x="-8" y="-8">1</text><text class="particle-proton" x="-8" y="11">0</text><text class="particle-symbol" x="5" y="2">n</text></g><line class="line" x1="48" y1="145" x2="92" y2="145"/>
+  <circle class="circle" cx="315" cy="76" r="42"/><g class="isotope" transform="translate(315,76)"><text class="iso-mass" x="-16" y="-18">137</text><text class="iso-proton" x="-16" y="13">54</text><text class="iso-symbol" x="8" y="4">Xe</text></g><line class="line" x1="203" y1="123" x2="267" y2="93"/>
+  <circle class="circle" cx="315" cy="222" r="42"/><g class="isotope" transform="translate(315,222)"><text class="iso-mass" x="-16" y="-18">96</text><text class="iso-proton" x="-16" y="13">38</text><text class="iso-symbol" x="8" y="4">Sr</text></g><line class="line" x1="203" y1="167" x2="267" y2="202"/>
+  <circle class="dot" cx="235" cy="128" r="5"/><g class="particle" transform="translate(258,118)"><text class="particle-mass" x="-8" y="-8">1</text><text class="particle-proton" x="-8" y="11">0</text><text class="particle-symbol" x="5" y="2">n</text></g><line class="line" x1="203" y1="134" x2="228" y2="128"/>
+  <circle class="dot" cx="235" cy="162" r="5"/><g class="particle" transform="translate(258,159)"><text class="particle-mass" x="-8" y="-8">1</text><text class="particle-proton" x="-8" y="11">0</text><text class="particle-symbol" x="5" y="2">n</text></g><line class="line" x1="203" y1="152" x2="228" y2="162"/>
+  <circle class="dot" cx="278" cy="145" r="5"/><g class="particle" transform="translate(300,138)"><text class="particle-mass" x="-8" y="-8">1</text><text class="particle-proton" x="-8" y="11">0</text><text class="particle-symbol" x="5" y="2">n</text></g><line class="line" x1="203" y1="145" x2="271" y2="145"/>
 </g>
 <g id="diagram-3" transform="translate(250,340)">
   <text class="label" x="128" y="18">diagram 3</text>
   <circle class="circle" cx="155" cy="145" r="52"/>
-  <text class="iso" x="155" y="137"><tspan class="mass" x="145" dy="-2">235</tspan><tspan class="proton" x="145" dy="18">92</tspan><tspan class="symbol" dx="4" dy="-9">U</tspan></text>
-  <circle class="dot" cx="36" cy="145" r="5"/><text class="small" x="36" y="126">1</text><text class="small" x="36" y="169">n</text><line class="line" x1="48" y1="145" x2="92" y2="145"/>
-  <circle class="circle" cx="315" cy="76" r="42"/><text class="iso" x="315" y="68"><tspan class="mass" x="305" dy="-2">87</tspan><tspan class="proton" x="305" dy="18">35</tspan><tspan class="symbol" dx="4" dy="-9">Br</tspan></text><line class="line" x1="203" y1="123" x2="267" y2="93"/>
-  <circle class="circle" cx="315" cy="222" r="42"/><text class="iso" x="315" y="214"><tspan class="mass" x="305" dy="-2">145</tspan><tspan class="proton" x="305" dy="18">57</tspan><tspan class="symbol" dx="4" dy="-9">La</tspan></text><line class="line" x1="203" y1="167" x2="267" y2="202"/>
-  <circle class="dot" cx="235" cy="128" r="5"/><text class="small" x="254" y="123">n</text><line class="line" x1="203" y1="134" x2="228" y2="128"/>
-  <circle class="dot" cx="235" cy="162" r="5"/><text class="small" x="254" y="157">n</text><line class="line" x1="203" y1="152" x2="228" y2="162"/>
-  <circle class="dot" cx="278" cy="145" r="5"/><text class="small" x="297" y="140">n</text><line class="line" x1="203" y1="145" x2="271" y2="145"/>
+  <g class="isotope" transform="translate(155,145)"><text class="iso-mass" x="-12" y="-18">235</text><text class="iso-proton" x="-12" y="13">92</text><text class="iso-symbol" x="8" y="4">U</text></g>
+  <circle class="dot" cx="36" cy="145" r="5"/><g class="particle" transform="translate(35,122)"><text class="particle-mass" x="-8" y="-8">1</text><text class="particle-proton" x="-8" y="11">0</text><text class="particle-symbol" x="5" y="2">n</text></g><line class="line" x1="48" y1="145" x2="92" y2="145"/>
+  <circle class="circle" cx="315" cy="76" r="42"/><g class="isotope" transform="translate(315,76)"><text class="iso-mass" x="-16" y="-18">87</text><text class="iso-proton" x="-16" y="13">35</text><text class="iso-symbol" x="8" y="4">Br</text></g><line class="line" x1="203" y1="123" x2="267" y2="93"/>
+  <circle class="circle" cx="315" cy="222" r="42"/><g class="isotope" transform="translate(315,222)"><text class="iso-mass" x="-16" y="-18">145</text><text class="iso-proton" x="-16" y="13">57</text><text class="iso-symbol" x="8" y="4">La</text></g><line class="line" x1="203" y1="167" x2="267" y2="202"/>
+  <circle class="dot" cx="235" cy="128" r="5"/><g class="particle" transform="translate(258,118)"><text class="particle-mass" x="-8" y="-8">1</text><text class="particle-proton" x="-8" y="11">0</text><text class="particle-symbol" x="5" y="2">n</text></g><line class="line" x1="203" y1="134" x2="228" y2="128"/>
+  <circle class="dot" cx="235" cy="162" r="5"/><g class="particle" transform="translate(258,159)"><text class="particle-mass" x="-8" y="-8">1</text><text class="particle-proton" x="-8" y="11">0</text><text class="particle-symbol" x="5" y="2">n</text></g><line class="line" x1="203" y1="152" x2="228" y2="162"/>
+  <circle class="dot" cx="278" cy="145" r="5"/><g class="particle" transform="translate(300,138)"><text class="particle-mass" x="-8" y="-8">1</text><text class="particle-proton" x="-8" y="11">0</text><text class="particle-symbol" x="5" y="2">n</text></g><line class="line" x1="203" y1="145" x2="271" y2="145"/>
 </g>
 </svg>

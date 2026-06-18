@@ -2,15 +2,15 @@ id,internalId,section,topicCode,topicName,difficulty,questionText,optionA,option
 ENGAA_2016_P1_Q01,ENGAA_2016_P1_Q01,maths1,ALG-INEQ,Inequalities,2,"Find the complete set of solutions to
 
 x/2 − 6 < 8",x < 4,x > 4,x < 20,x > 20,x < 22,x > 22,x < 28,x > 28,G,6,"Add 6 to both sides to get x/2 < 14, then multiply by 2 to get x < 28.",Answer key gives G.,"Move the constant first: x/2 < 14, so x < 28.",Multiplying only one side by 2 or treating the displayed fraction as 2x. The inequality sign does not reverse because the multiplication is by positive 2.,inequalities|linear inequalities|algebra,ready,ENGAA,2016,P1,Part A Mathematics and Physics,1,4,ENGAA 2016 P1 Q01,no,,,,not-needed,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q01.md,
-ENGAA_2016_P1_Q02,ENGAA_2016_P1_Q02,physics,NUC,Nuclear Physics,2,"A nuclide ²¹⁴₈₂Pb changes by radioactive decay into the nuclide ²¹⁰₈₂Pb.
+ENGAA_2016_P1_Q02,ENGAA_2016_P1_Q02,physics,NUC,Nuclear Physics,2,"A nuclide \nuclide{214}{82}{Pb} changes by radioactive decay into the nuclide \nuclide{210}{82}{Pb}.
 
 Which combination of emissions produces this change?",3 alpha,2 alpha and 1 beta,2 alpha and 2 beta,1 alpha and 2 beta,3 beta,,,,D,3,"The mass number falls by 4 while the atomic number is unchanged. One alpha emission changes A by -4 and Z by -2; two beta-minus emissions then increase Z by 2, restoring the atomic number to 82.",Answer key gives D.,Match mass first: a drop of 4 means one alpha. Then restore proton number with two beta-minus decays.,Counting only the mass change and forgetting that alpha decay also changes the atomic number.,radioactive decay|alpha decay|beta decay|nuclear physics,ready,ENGAA,2016,P1,Part A Mathematics and Physics,2,4,ENGAA 2016 P1 Q02,no,,,,not-needed,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q02.md,
 ENGAA_2016_P1_Q03,ENGAA_2016_P1_Q03,maths1,SURD,Surds,2,"Which one of the following is a simplification of
 
-(√3 − √2)²?",1 − 2√6,5 − 2√6,2√3 − 2√2,1,5 − 2√3,13 − 2√6,5 + 2√6,5√6,B,1,Use (a − b)² = a² − 2ab + b². This gives 3 − 2√6 + 2 = 5 − 2√6.,Answer key gives B.,Square the surds separately and remember the cross term is −2√3√2 = −2√6.,Dropping the cross term or simplifying sqrt(3)sqrt(2) incorrectly.,surds|expanding brackets|algebra,ready,ENGAA,2016,P1,Part A Mathematics and Physics,3,5,ENGAA 2016 P1 Q03,no,,,,not-needed,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q03.md,
+(\sqrt{3} − \sqrt{2})^{2}?",1 − 2\sqrt{6},5 − 2\sqrt{6},2\sqrt{3} − 2\sqrt{2},1,5 − 2\sqrt{3},13 − 2\sqrt{6},5 + 2\sqrt{6},5\sqrt{6},B,1,Use (a − b)^{2} = a^{2} − 2ab + b^{2}. This gives 3 − 2\sqrt{6} + 2 = 5 − 2\sqrt{6}.,Answer key gives B.,Square the surds separately and remember the cross term is −2\sqrt{3}\sqrt{2} = −2\sqrt{6}.,Dropping the cross term or simplifying sqrt(3)sqrt(2) incorrectly.,surds|expanding brackets|algebra,ready,ENGAA,2016,P1,Part A Mathematics and Physics,3,5,ENGAA 2016 P1 Q03,no,,,,not-needed,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q03.md,
 ENGAA_2016_P1_Q04,ENGAA_2016_P1_Q04,physics,MECH-GRAPH,Mechanics Graphs,3,"The graph shown of quantity y against quantity x represents the motion of a body.
 
-(The scales on both axes are in the appropriate S.I. units, and the gravitational field strength g is 10 N kg⁻¹.)
+(The scales on both axes are in the appropriate S.I. units, and the gravitational field strength g is 10 N kg^{-1}.)
 
 Which two of the following could the graph represent?
 
@@ -44,10 +44,10 @@ The value of the scanner depreciates by 20% every year.
 By how much has the scanner reduced in value after 2 years?",£600,£3000,£5400,£6000,£9000,£9600,£12 000,,C,2,"After one year the value is 80% of £15 000, and after two years it is 0.8^2 x 15000 = £9600. The reduction is £15 000 - £9600 = £5400.",Answer key gives C.,"Use the multiplier 0.8 twice, then subtract the remaining value from the original price.","Subtracting 40% of the original price; successive 20% decreases compound, so the second decrease is 20% of the reduced value.",percentages|depreciation|multipliers,ready,ENGAA,2016,P1,Part A Mathematics and Physics,9,10,ENGAA 2016 P1 Q09,no,,,,not-needed,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q09.md,
 ENGAA_2016_P1_Q10,ENGAA_2016_P1_Q10,physics,ASTRO-RADIATION,Radiation and Proportionality,3,"The total power P radiated by a star is given by:
 
-P = kR²T⁴
+P = kR^{2}T^{4}
 
 where R is the radius of the star, T is its surface temperature and k is a constant.
 
-The power currently radiated by the Sun is 4.0 × 10²⁶ W. Towards the end of the Sun’s life its radius will increase by a factor of a hundred and its surface temperature will decrease by a factor of two.
+The power currently radiated by the Sun is 4.0 \times 10^{26} W. Towards the end of the Sun’s life its radius will increase by a factor of a hundred and its surface temperature will decrease by a factor of two.
 
-What will be the power radiated by the Sun when these changes have occurred?",2.5 × 10²⁷ W,1.0 × 10²⁸ W,2.0 × 10²⁸ W,2.5 × 10²⁹ W,1.0 × 10³⁰ W,2.0 × 10³⁰ W,2.5 × 10³³ W,1.0 × 10³⁴ W,D,3,The radius factor contributes 100² = 10 000. The temperature factor contributes (1/2)⁴ = 1/16. The net factor is 10 000/16 = 625. Therefore the new power is 4.0 × 10²⁶ × 625 = 2.5 × 10²⁹ W.,Answer key gives D.,"Compute the proportional change only: 100² divided by 2⁴ equals 625, then multiply 4.0 × 10²⁶ by 625.","Forgetting that temperature is raised to the fourth power, or applying the radius factor only once instead of squaring it.",proportionality|powers|radiation|astrophysics,ready,ENGAA,2016,P1,Part A Mathematics and Physics,10,10,ENGAA 2016 P1 Q10,no,,,,not-needed,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q10.md,
+What will be the power radiated by the Sun when these changes have occurred?",2.5 \times 10^{27} W,1.0 \times 10^{28} W,2.0 \times 10^{28} W,2.5 \times 10^{29} W,1.0 \times 10^{30} W,2.0 \times 10^{30} W,2.5 \times 10^{33} W,1.0 \times 10^{34} W,D,3,The radius factor contributes 100^{2} = 10 000. The temperature factor contributes (1/2)^{4} = 1/16. The net factor is 10 000/16 = 625. Therefore the new power is 4.0 \times 10^{26} \times 625 = 2.5 \times 10^{29} W.,Answer key gives D.,"Compute the proportional change only: 100^{2} divided by 2^{4} equals 625, then multiply 4.0 \times 10^{26} by 625.","Forgetting that temperature is raised to the fourth power, or applying the radius factor only once instead of squaring it.",proportionality|powers|radiation|astrophysics,ready,ENGAA,2016,P1,Part A Mathematics and Physics,10,10,ENGAA 2016 P1 Q10,no,,,,not-needed,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q10.md,

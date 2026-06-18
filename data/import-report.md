@@ -38,6 +38,7 @@ The local checkout for this PR branch did not contain those PDFs, and `git fetch
 - Q04 now keeps the bracketed S.I. units / `g` note as a separate paragraph and lays out numbered statements 1-4 on separate lines.
 - Q06 keeps the prompt concise and relies on the diagram image rather than flattening the diagram into text.
 - Q07-Q10 now preserve paragraph breaks from the source paper, including the displayed formula in Q10.
+- The exam renderer now splits question bodies into paragraphs, centred formula blocks and numbered statement rows for a more exam-like layout.
 
 ## Image notes
 
@@ -53,6 +54,7 @@ The local checkout for this PR branch did not contain those PDFs, and `git fetch
 - Each imported question has the expected number of answer options from the source question.
 - Q04 and Q06 have image paths that exist in `assets/question-images/`.
 - Q01, Q03, Q04 and Q10 were corrected/reformatted against the source paper text extracted from the ENGAA 2016 Section 1 PDF.
+- Q02 nuclear notation now uses `\nuclide{mass}{proton}{symbol}` and Q10 powers now use renderer syntax such as `R^{2}T^{4}` and `10^{26}` for consistent display.
 - Imported questions include A-F, A-G and A-H option sets; runtime support remains A-H and no options are truncated.
 - Status is set to `ready` for this batch, as requested.
 

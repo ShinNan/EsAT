@@ -767,6 +767,62 @@ code {
   line-height: 1.65;
 }
 
+
+.question-paragraph {
+  margin: 0 0 1rem;
+}
+
+.question-formula {
+  margin: 1rem 0 1.2rem;
+  text-align: center;
+  font-size: 1.25em;
+  line-height: 1.8;
+}
+
+.question-statement-list {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1rem 0 1.2rem;
+}
+
+.question-statement {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.question-statement-number {
+  color: var(--ink);
+  font-weight: 750;
+  text-align: right;
+}
+
+.question-statement-text {
+  line-height: 1.55;
+}
+
+.nuclide {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.06em;
+  vertical-align: middle;
+}
+
+.nuclide-numbers {
+  display: inline-grid;
+  grid-template-rows: auto auto;
+  align-items: center;
+  margin-right: 0.03em;
+  font-size: 0.62em;
+  line-height: 0.9;
+  text-align: right;
+}
+
+.nuclide-symbol {
+  font-size: 1em;
+}
+
 .question-image-wrap {
   display: flex;
   justify-content: center;

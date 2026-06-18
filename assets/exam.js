@@ -760,6 +760,88 @@
     return state.config.profileName + " · " + names.join(", ") + " · " + state.config.questionCount + " questions · " + state.config.paceLabel;
   }
 
+
+  function isNumberedStatementBlock(block) {
+    return /^(\d+)\s+(.+)$/.test(block);
+  }
+
+  function isFormulaBlock(block) {
+    var compact = String(block || "").trim();
+    if (!compact || compact.length > 80) return false;
+    return /(?:=|<|>|≤|≥|\^|\\times|\\frac|\\cdot)/.test(compact);
+  }
+
+  function appendQuestionParagraph(container, block) {
+    var paragraph = document.createElement("p");
+    paragraph.className = "question-paragraph math-rendered";
+    paragraph.innerHTML = renderMath(block);
+    container.appendChild(paragraph);
+  }
+
+  function appendQuestionFormula(container, block) {
+    var formula = document.createElement("div");
+    formula.className = "question-formula math-rendered";
+    formula.innerHTML = renderMath(block);
+    container.appendChild(formula);
+  }
+
+  function appendQuestionStatement(list, block) {
+    var match = block.match(/^(\d+)\s+(.+)$/);
+    var statement = document.createElement("div");
+    var number = document.createElement("span");
+    var text = document.createElement("span");
+
+    statement.className = "question-statement";
+    number.className = "question-statement-number";
+    text.className = "question-statement-text math-rendered";
+
+    number.textContent = match[1];
+    text.innerHTML = renderMath(match[2]);
+
+    statement.appendChild(number);
+    statement.appendChild(text);
+    list.appendChild(statement);
+  }
+
+  function renderQuestionBody(text) {
+    var container = $("#questionText");
+    var blocks;
+    var statementList = null;
+
+    if (!container) return;
+
+    container.innerHTML = "";
+    container.classList.remove("math-rendered");
+
+    blocks = String(text || "")
+      .split(/\n\s*\n/)
+      .map(function (block) { return block.trim(); })
+      .filter(Boolean);
+
+    if (!blocks.length) return;
+
+    blocks.forEach(function (block) {
+      if (isNumberedStatementBlock(block)) {
+        if (!statementList) {
+          statementList = document.createElement("div");
+          statementList.className = "question-statement-list";
+          container.appendChild(statementList);
+        }
+        appendQuestionStatement(statementList, block);
+        return;
+      }
+
+      statementList = null;
+
+      if (isFormulaBlock(block)) {
+        appendQuestionFormula(container, block);
+        return;
+      }
+
+      appendQuestionParagraph(container, block);
+    });
+  }
+
   function renderOptions(question) {
     var answerList = $("#answerList");
     var selected = state.selectedAnswers[state.currentIndex];
@@ -893,7 +975,7 @@
     $("#questionTopic").textContent = question.topic;
     $("#questionDifficulty").textContent = "Difficulty " + question.difficulty;
 
-    setMath("#questionText", question.question);
+    renderQuestionBody(question.question);
     renderQuestionImage(question);
 
     renderOptions(question);

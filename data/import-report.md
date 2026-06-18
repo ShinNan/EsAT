@@ -43,8 +43,8 @@ The local checkout for this PR branch did not contain those PDFs, and `git fetch
 ## Image notes
 
 - Q04 graph and Q06 fission diagrams are still recreated SVG assets, not true PDF crops, because the PR checkout did not include `source-papers/ENGAA 2016 Section 1.pdf` and `git fetch origin main` failed in this environment.
-- Q04 was redrawn to more closely follow the paper: axes, labels, dashed guide lines, the line through the origin, and the 0.0 / 2.0 / 10 scale labels are included.
-- Q06 was redrawn as a diagram with nuclei, arrows, emitted neutrons, daughter nuclei and labels, rather than text-only equation boxes.
+- Q04 was redrawn to more closely follow the paper: axes, labels, dashed guide lines, the line through the origin, and the 0.0 / 2.0 / 10 scale labels are included. A final SVG QC pass increased padding and separated the origin labels so `0` and `0.0` no longer overlap.
+- Q06 was redrawn as a diagram with nuclei, arrows, emitted neutrons, daughter nuclei and labels, rather than text-only equation boxes. A final SVG QC pass enlarged the viewBox, moved diagram 3 fully inside the canvas, and standardised fonts, arrows, line weights and isotope label layout.
 - `imageStatus` is set to `ready-recreated-close` for Q04 and Q06. Replace with true PDF crops when the source PDF is available locally if exact visual fidelity is required.
 
 ## Validation notes

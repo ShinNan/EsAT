@@ -1,930 +1,449 @@
 /*
   ESAT Simulator Question Bank
   --------------------------------
-  How to edit:
-  1. Copy one question object.
-  2. Change id, topic, difficulty, question, options, answerIndex and explanation.
-  3. answerIndex starts from 0:
-     0 = first option, 1 = second option, 2 = third option, 3 = fourth option.
-  4. Keep subject as one of:
-     "maths1", "maths2", "physics"
+  Generated from data/question-bank.csv.
+  Source batch: ENGAA 2016 Paper 1, Questions 1-10.
+  Keep question IDs stable so localStorage profile progress remains valid.
 */
 
 window.ESAT_QUESTION_BANK = {
-  version: "1.0.0",
-  lastUpdated: "2026-06-02",
-  subjects: {
-    maths1: {
-      label: "Maths 1",
-      shortLabel: "M1",
-      description: "Core mathematical fluency, algebra, graphs, geometry, sequences and problem solving.",
-      questions: [
+  "version": "1.0.0",
+  "lastUpdated": "2026-06-15",
+  "subjects": {
+    "maths1": {
+      "label": "Maths 1",
+      "shortLabel": "M1",
+      "description": "Core mathematical fluency, algebra, graphs, geometry, sequences and problem solving.",
+      "questions": [
         {
-          id: "M1-ALG-001",
-          subject: "maths1",
-          topic: "Algebra",
-          difficulty: 1,
-          question: "Solve 3x - 7 = 11.",
-          options: ["x = 4", "x = 5", "x = 6", "x = 7"],
-          answerIndex: 2,
-          explanation: "3x - 7 = 11, so 3x = 18 and x = 6.",
-          tags: ["linear equations"]
+          "id": "ENGAA_2016_P1_Q01",
+          "subject": "maths1",
+          "topicCode": "ALG-INEQ",
+          "topic": "Inequalities",
+          "difficulty": 2,
+          "question": "Find the complete set of solutions to\n\nx/2 − 6 < 8",
+          "options": [
+            "x < 4",
+            "x > 4",
+            "x < 20",
+            "x > 20",
+            "x < 22",
+            "x > 22",
+            "x < 28",
+            "x > 28"
+          ],
+          "correctAnswer": "G",
+          "answerIndex": 6,
+          "explanation": "Add 6 to both sides to get x/2 < 14, then multiply by 2 to get x < 28.",
+          "markSchemeNotes": "Answer key gives G.",
+          "quickestMethod": "Move the constant first: x/2 < 14, so x < 28.",
+          "commonTrap": "Multiplying only one side by 2 or treating the displayed fraction as 2x. The inequality sign does not reverse because the multiplication is by positive 2.",
+          "tags": [
+            "inequalities",
+            "linear inequalities",
+            "algebra"
+          ],
+          "hasImage": false,
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "1",
+            "page": "4",
+            "originalReference": "ENGAA 2016 P1 Q01"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q01.md"
         },
         {
-          id: "M1-ALG-002",
-          subject: "maths1",
-          topic: "Algebra",
-          difficulty: 1,
-          question: "Expand (2x - 3)(x + 5).",
-          options: ["2x^2 + 7x - 15", "2x^2 - 7x - 15", "2x^2 + 10x - 3", "2x^2 + 7x + 15"],
-          answerIndex: 0,
-          explanation: "2x times x is 2x^2, 2x times 5 is 10x, -3 times x is -3x, and -3 times 5 is -15. This gives 2x^2 + 7x - 15.",
-          tags: ["expanding brackets"]
+          "id": "ENGAA_2016_P1_Q03",
+          "subject": "maths1",
+          "topicCode": "SURD",
+          "topic": "Surds",
+          "difficulty": 2,
+          "question": "Which one of the following is a simplification of\n\n(√3 − √2)²?",
+          "options": [
+            "1 − 2√6",
+            "5 − 2√6",
+            "2√3 − 2√2",
+            "1",
+            "5 − 2√3",
+            "13 − 2√6",
+            "5 + 2√6",
+            "5√6"
+          ],
+          "correctAnswer": "B",
+          "answerIndex": 1,
+          "explanation": "Use (a − b)² = a² − 2ab + b². This gives 3 − 2√6 + 2 = 5 − 2√6.",
+          "markSchemeNotes": "Answer key gives B.",
+          "quickestMethod": "Square the surds separately and remember the cross term is −2√3√2 = −2√6.",
+          "commonTrap": "Dropping the cross term or simplifying sqrt(3)sqrt(2) incorrectly.",
+          "tags": [
+            "surds",
+            "expanding brackets",
+            "algebra"
+          ],
+          "hasImage": false,
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "3",
+            "page": "5",
+            "originalReference": "ENGAA 2016 P1 Q03"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q03.md"
         },
         {
-          id: "M1-ALG-003",
-          subject: "maths1",
-          topic: "Algebra",
-          difficulty: 1,
-          question: "Factorise x^2 - 9x + 20.",
-          options: ["(x - 2)(x - 10)", "(x - 4)(x - 5)", "(x + 4)(x + 5)", "(x - 1)(x - 20)"],
-          answerIndex: 1,
-          explanation: "The two numbers multiply to 20 and add to -9, so they are -4 and -5.",
-          tags: ["factorising quadratics"]
+          "id": "ENGAA_2016_P1_Q05",
+          "subject": "maths1",
+          "topicCode": "RATIO",
+          "topic": "Ratio",
+          "difficulty": 2,
+          "question": "The ratio of Q:R is 5:2 and the ratio of R:S is 3:10.\n\nWhich one of the following gives the ratio Q:S in its simplest form?",
+          "options": [
+            "1:2",
+            "2:1",
+            "3:4",
+            "3:25",
+            "4:3",
+            "25:3"
+          ],
+          "correctAnswer": "C",
+          "answerIndex": 2,
+          "explanation": "Make the R parts match. Q:R = 5:2 is equivalent to 15:6, and R:S = 3:10 is equivalent to 6:20. Therefore Q:S = 15:20 = 3:4.",
+          "markSchemeNotes": "Answer key gives C.",
+          "quickestMethod": "Scale both ratios so R is 6, then compare Q and S directly.",
+          "commonTrap": "Multiplying the visible Q and S numbers without matching the shared R term first.",
+          "tags": [
+            "ratio",
+            "proportion"
+          ],
+          "hasImage": false,
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "5",
+            "page": "7",
+            "originalReference": "ENGAA 2016 P1 Q05"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q05.md"
         },
         {
-          id: "M1-ALG-004",
-          subject: "maths1",
-          topic: "Algebra",
-          difficulty: 1,
-          question: "Solve x^2 = 49.",
-          options: ["x = 7 only", "x = -7 only", "x = 0 or 7", "x = -7 or 7"],
-          answerIndex: 3,
-          explanation: "Both 7^2 and (-7)^2 are equal to 49.",
-          tags: ["quadratics"]
+          "id": "ENGAA_2016_P1_Q07",
+          "subject": "maths1",
+          "topicCode": "STAT-MEAN",
+          "topic": "Averages",
+          "difficulty": 2,
+          "question": "The mean age of the twenty members of a running club is exactly 28.\n\nThe mean age increases by exactly 2 years when two new members join.\n\nWhat is the mean age of the two new members?",
+          "options": [
+            "20 years",
+            "22 years",
+            "30 years",
+            "40 years",
+            "50 years",
+            "52 years"
+          ],
+          "correctAnswer": "E",
+          "answerIndex": 4,
+          "explanation": "The original total age is 20 x 28 = 560. With 22 members the new mean is 30, so the new total is 22 x 30 = 660. The two new members therefore total 100 years, giving a mean of 50 years.",
+          "markSchemeNotes": "Answer key gives E.",
+          "quickestMethod": "Compare total ages before and after: 660 - 560 = 100 for two people.",
+          "commonTrap": "Adding 2 years to 28 and assuming the new members average 30, which ignores the existing 20 members.",
+          "tags": [
+            "mean",
+            "averages",
+            "statistics"
+          ],
+          "hasImage": false,
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "7",
+            "page": "9",
+            "originalReference": "ENGAA 2016 P1 Q07"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q07.md"
         },
         {
-          id: "M1-FUN-001",
-          subject: "maths1",
-          topic: "Functions",
-          difficulty: 1,
-          question: "If f(x) = 2x + 1, what is f(f(3))?",
-          options: ["7", "12", "15", "18"],
-          answerIndex: 2,
-          explanation: "f(3) = 7, then f(7) = 15.",
-          tags: ["functions"]
-        },
-        {
-          id: "M1-FUN-002",
-          subject: "maths1",
-          topic: "Functions",
-          difficulty: 1,
-          question: "y is proportional to x^2. If x is doubled, what happens to y?",
-          options: ["y is doubled", "y is tripled", "y is quadrupled", "y is halved"],
-          answerIndex: 2,
-          explanation: "If y is proportional to x^2, doubling x multiplies y by 2^2 = 4.",
-          tags: ["proportion"]
-        },
-        {
-          id: "M1-CG-001",
-          subject: "maths1",
-          topic: "Coordinate Geometry",
-          difficulty: 1,
-          question: "Find the equation of the line through (2, 5) and (6, 13).",
-          options: ["y = 2x + 1", "y = 2x - 1", "y = x + 3", "y = 4x - 3"],
-          answerIndex: 0,
-          explanation: "The gradient is (13 - 5) / (6 - 2) = 2. Using (2,5), 5 = 2(2) + c, so c = 1.",
-          tags: ["straight lines"]
-        },
-        {
-          id: "M1-CG-002",
-          subject: "maths1",
-          topic: "Coordinate Geometry",
-          difficulty: 1,
-          question: "A line has gradient -1/3. What is the gradient of a perpendicular line?",
-          options: ["-3", "-1/3", "1/3", "3"],
-          answerIndex: 3,
-          explanation: "Perpendicular gradients multiply to -1. Therefore the perpendicular gradient is 3.",
-          tags: ["perpendicular gradients"]
-        },
-        {
-          id: "M1-SEQ-001",
-          subject: "maths1",
-          topic: "Sequences",
-          difficulty: 1,
-          question: "Find the nth term of the sequence 5, 9, 13, 17, ...",
-          options: ["4n + 1", "5n - 1", "4n - 1", "n + 4"],
-          answerIndex: 0,
-          explanation: "The common difference is 4. The sequence is 4n + 1.",
-          tags: ["arithmetic sequences"]
-        },
-        {
-          id: "M1-SEQ-002",
-          subject: "maths1",
-          topic: "Sequences",
-          difficulty: 1,
-          question: "What is the next term in the sequence 3, 6, 12, 24, ...?",
-          options: ["30", "36", "48", "72"],
-          answerIndex: 2,
-          explanation: "Each term is multiplied by 2, so the next term is 48.",
-          tags: ["geometric sequences"]
-        },
-        {
-          id: "M1-TRI-001",
-          subject: "maths1",
-          topic: "Trigonometry",
-          difficulty: 1,
-          question: "In a right-angled triangle, sin theta = 3/5 and theta is acute. What is cos theta?",
-          options: ["2/5", "3/5", "4/5", "5/4"],
-          answerIndex: 2,
-          explanation: "Using a 3-4-5 triangle, the adjacent side is 4 and the hypotenuse is 5.",
-          tags: ["right angle trigonometry"]
-        },
-        {
-          id: "M1-TRI-002",
-          subject: "maths1",
-          topic: "Trigonometry",
-          difficulty: 1,
-          question: "What is tan 45 degrees?",
-          options: ["0", "1/2", "1", "sqrt(3)"],
-          answerIndex: 2,
-          explanation: "In a 45 degree right-angled triangle, the opposite and adjacent sides are equal, so tan 45 degrees = 1.",
-          tags: ["exact trig values"]
-        },
-        {
-          id: "M1-CAL-001",
-          subject: "maths1",
-          topic: "Basic Calculus",
-          difficulty: 2,
-          question: "Differentiate y = 3x^2 - 4x + 1.",
-          options: ["6x - 4", "3x - 4", "6x + 1", "x^3 - 2x^2 + x"],
-          answerIndex: 0,
-          explanation: "The derivative of 3x^2 is 6x, the derivative of -4x is -4, and the constant differentiates to 0.",
-          tags: ["differentiation"]
-        },
-        {
-          id: "M1-CAL-002",
-          subject: "maths1",
-          topic: "Basic Calculus",
-          difficulty: 2,
-          question: "The curve y = x^2 - 6x + 8 has a stationary point. What is the x-coordinate of this point?",
-          options: ["2", "3", "4", "6"],
-          answerIndex: 1,
-          explanation: "dy/dx = 2x - 6. Setting dy/dx = 0 gives x = 3.",
-          tags: ["stationary points"]
-        },
-        {
-          id: "M1-PRO-001",
-          subject: "maths1",
-          topic: "Probability",
-          difficulty: 1,
-          question: "A fair six-sided die is rolled once. What is the probability of rolling a number greater than 4?",
-          options: ["1/6", "1/3", "1/2", "2/3"],
-          answerIndex: 1,
-          explanation: "The possible outcomes greater than 4 are 5 and 6, so the probability is 2/6 = 1/3.",
-          tags: ["probability"]
-        },
-        {
-          id: "M1-PRO-002",
-          subject: "maths1",
-          topic: "Probability",
-          difficulty: 2,
-          question: "Events A and B are independent. P(A) = 0.3 and P(B) = 0.5. What is P(A and B)?",
-          options: ["0.15", "0.20", "0.30", "0.80"],
-          answerIndex: 0,
-          explanation: "For independent events, P(A and B) = P(A)P(B) = 0.3 x 0.5 = 0.15.",
-          tags: ["independent events"]
-        },
-        {
-          id: "M1-ALG-005",
-          subject: "maths1",
-          topic: "Algebra",
-          difficulty: 2,
-          question: "Solve the simultaneous equations 2x + y = 9 and x - y = 3.",
-          options: ["x = 3, y = 3", "x = 4, y = 1", "x = 5, y = -1", "x = 2, y = 5"],
-          answerIndex: 1,
-          explanation: "Adding the equations gives 3x = 12, so x = 4. Then x - y = 3 gives y = 1.",
-          tags: ["simultaneous equations"]
-        },
-        {
-          id: "M1-NUM-001",
-          subject: "maths1",
-          topic: "Number",
-          difficulty: 1,
-          question: "Simplify 2^3 x 2^5.",
-          options: ["2^8", "2^15", "4^8", "4^15"],
-          answerIndex: 0,
-          explanation: "When multiplying powers with the same base, add the indices: 2^3 x 2^5 = 2^8.",
-          tags: ["indices"]
-        },
-        {
-          id: "M1-NUM-002",
-          subject: "maths1",
-          topic: "Number",
-          difficulty: 1,
-          question: "The ratio a:b is 2:5. If a + b = 21, what is a?",
-          options: ["4", "6", "8", "15"],
-          answerIndex: 1,
-          explanation: "There are 7 parts in total. Each part is 3, so a = 2 x 3 = 6.",
-          tags: ["ratio"]
-        },
-        {
-          id: "M1-GEO-001",
-          subject: "maths1",
-          topic: "Geometry",
-          difficulty: 1,
-          question: "What is the area of a circle with radius 3?",
-          options: ["3pi", "6pi", "9pi", "18pi"],
-          answerIndex: 2,
-          explanation: "Area = pi r^2 = pi x 3^2 = 9pi.",
-          tags: ["area"]
-        },
-        {
-          id: "M1-ALG-006",
-          subject: "maths1",
-          topic: "Algebra",
-          difficulty: 1,
-          question: "Solve |x| = 5.",
-          options: ["x = 5 only", "x = -5 only", "x = -5 or 5", "x = 0 or 5"],
-          answerIndex: 2,
-          explanation: "The absolute value of both 5 and -5 is 5.",
-          tags: ["absolute value"]
-        },
-        {
-          id: "M1-FUN-003",
-          subject: "maths1",
-          topic: "Functions",
-          difficulty: 1,
-          question: "For y = 1/x, what happens to y when x is doubled?",
-          options: ["y is doubled", "y is halved", "y is squared", "y is unchanged"],
-          answerIndex: 1,
-          explanation: "If x becomes 2x, then y becomes 1/(2x), which is half the original value.",
-          tags: ["reciprocal functions"]
-        },
-        {
-          id: "M1-CG-003",
-          subject: "maths1",
-          topic: "Coordinate Geometry",
-          difficulty: 1,
-          question: "What is the y-intercept of the line y = 3x - 4?",
-          options: ["-4", "-3", "3", "4"],
-          answerIndex: 0,
-          explanation: "The y-intercept is the constant term in y = mx + c, so it is -4.",
-          tags: ["straight lines"]
-        },
-        {
-          id: "M1-DAT-001",
-          subject: "maths1",
-          topic: "Data",
-          difficulty: 1,
-          question: "Find the median of 2, 5, 9, 10, 20.",
-          options: ["5", "9", "10", "20"],
-          answerIndex: 1,
-          explanation: "The median is the middle value when the data are in order, so it is 9.",
-          tags: ["median"]
-        },
-        {
-          id: "M1-GEO-002",
-          subject: "maths1",
-          topic: "Geometry",
-          difficulty: 1,
-          question: "Two angles in a triangle are 40 degrees and 65 degrees. What is the third angle?",
-          options: ["65 degrees", "70 degrees", "75 degrees", "85 degrees"],
-          answerIndex: 2,
-          explanation: "Angles in a triangle sum to 180 degrees. The third angle is 180 - 40 - 65 = 75 degrees.",
-          tags: ["angles"]
-        },
-        {
-          id: "M1-ALG-007",
-          subject: "maths1",
-          topic: "Algebra",
-          difficulty: 1,
-          question: "Solve the inequality 4x + 1 < 13.",
-          options: ["x < 3", "x > 3", "x < 12", "x > 12"],
-          answerIndex: 0,
-          explanation: "4x + 1 < 13 gives 4x < 12, so x < 3.",
-          tags: ["inequalities"]
-        },
-        {
-          id: "M1-ALG-008",
-          subject: "maths1",
-          topic: "Algebra",
-          difficulty: 2,
-          question: "Complete the square: x^2 + 6x + 11.",
-          options: ["(x + 3)^2 + 2", "(x + 3)^2 - 2", "(x - 3)^2 + 2", "(x - 3)^2 - 2"],
-          answerIndex: 0,
-          explanation: "x^2 + 6x + 11 = (x + 3)^2 + 2.",
-          tags: ["completing the square"]
+          "id": "ENGAA_2016_P1_Q09",
+          "subject": "maths1",
+          "topicCode": "PERCENT",
+          "topic": "Percentages",
+          "difficulty": 2,
+          "question": "A medical scanner is bought for £15 000.\n\nThe value of the scanner depreciates by 20% every year.\n\nBy how much has the scanner reduced in value after 2 years?",
+          "options": [
+            "£600",
+            "£3000",
+            "£5400",
+            "£6000",
+            "£9000",
+            "£9600",
+            "£12 000"
+          ],
+          "correctAnswer": "C",
+          "answerIndex": 2,
+          "explanation": "After one year the value is 80% of £15 000, and after two years it is 0.8^2 x 15000 = £9600. The reduction is £15 000 - £9600 = £5400.",
+          "markSchemeNotes": "Answer key gives C.",
+          "quickestMethod": "Use the multiplier 0.8 twice, then subtract the remaining value from the original price.",
+          "commonTrap": "Subtracting 40% of the original price; successive 20% decreases compound, so the second decrease is 20% of the reduced value.",
+          "tags": [
+            "percentages",
+            "depreciation",
+            "multipliers"
+          ],
+          "hasImage": false,
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "9",
+            "page": "10",
+            "originalReference": "ENGAA 2016 P1 Q09"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q09.md"
         }
       ]
     },
-
-    maths2: {
-      label: "Maths 2",
-      shortLabel: "M2",
-      description: "More advanced mathematical reasoning, calculus, vectors, trigonometry and algebraic fluency.",
-      questions: [
-        {
-          id: "M2-CAL-001",
-          subject: "maths2",
-          topic: "Calculus",
-          difficulty: 1,
-          question: "Differentiate y = x^3.",
-          options: ["x^2", "2x", "3x^2", "3x"],
-          answerIndex: 2,
-          explanation: "Using the power rule, d/dx of x^3 is 3x^2.",
-          tags: ["differentiation"]
-        },
-        {
-          id: "M2-CAL-002",
-          subject: "maths2",
-          topic: "Calculus",
-          difficulty: 1,
-          question: "Integrate 6x with respect to x.",
-          options: ["6", "6x^2 + C", "3x^2 + C", "x^6 + C"],
-          answerIndex: 2,
-          explanation: "The integral of 6x is 3x^2 + C.",
-          tags: ["integration"]
-        },
-        {
-          id: "M2-CAL-003",
-          subject: "maths2",
-          topic: "Calculus",
-          difficulty: 1,
-          question: "Differentiate y = ln x.",
-          options: ["x", "1/x", "e^x", "ln x"],
-          answerIndex: 1,
-          explanation: "The derivative of ln x is 1/x.",
-          tags: ["logarithmic differentiation"]
-        },
-        {
-          id: "M2-ALG-001",
-          subject: "maths2",
-          topic: "Algebra",
-          difficulty: 1,
-          question: "Solve e^(2x) = e^6.",
-          options: ["x = 2", "x = 3", "x = 6", "x = 12"],
-          answerIndex: 1,
-          explanation: "Since the bases are the same, 2x = 6, so x = 3.",
-          tags: ["exponentials"]
-        },
-        {
-          id: "M2-TRI-001",
-          subject: "maths2",
-          topic: "Trigonometry",
-          difficulty: 2,
-          question: "For 0 <= x < 2pi, how many solutions are there to sin x = 0?",
-          options: ["1", "2", "3", "4"],
-          answerIndex: 1,
-          explanation: "In the interval 0 <= x < 2pi, sin x = 0 at x = 0 and x = pi.",
-          tags: ["trigonometric equations"]
-        },
-        {
-          id: "M2-TRI-002",
-          subject: "maths2",
-          topic: "Trigonometry",
-          difficulty: 1,
-          question: "Using the small-angle approximation in radians, sin 0.2 is approximately:",
-          options: ["0.02", "0.1", "0.2", "2"],
-          answerIndex: 2,
-          explanation: "For small x in radians, sin x is approximately x.",
-          tags: ["small angle approximation"]
-        },
-        {
-          id: "M2-BIN-001",
-          subject: "maths2",
-          topic: "Binomial Expansion",
-          difficulty: 2,
-          question: "What is the coefficient of x^2 in the expansion of (1 + x)^5?",
-          options: ["5", "10", "15", "20"],
-          answerIndex: 1,
-          explanation: "The coefficient of x^2 is 5 choose 2, which is 10.",
-          tags: ["binomial expansion"]
-        },
-        {
-          id: "M2-SEQ-001",
-          subject: "maths2",
-          topic: "Sequences and Series",
-          difficulty: 1,
-          question: "Find the sum 1 + 2 + 3 + ... + 20.",
-          options: ["190", "200", "210", "220"],
-          answerIndex: 2,
-          explanation: "The sum is n(n + 1)/2 = 20 x 21 / 2 = 210.",
-          tags: ["series"]
-        },
-        {
-          id: "M2-VEC-001",
-          subject: "maths2",
-          topic: "Vectors",
-          difficulty: 1,
-          question: "Find the dot product of (2, 1) and (3, -4).",
-          options: ["-2", "2", "6", "10"],
-          answerIndex: 1,
-          explanation: "The dot product is 2 x 3 + 1 x (-4) = 6 - 4 = 2.",
-          tags: ["dot product"]
-        },
-        {
-          id: "M2-VEC-002",
-          subject: "maths2",
-          topic: "Vectors",
-          difficulty: 1,
-          question: "Two non-zero vectors are perpendicular when their dot product is:",
-          options: ["-1", "0", "1", "equal to their magnitudes"],
-          answerIndex: 1,
-          explanation: "Perpendicular vectors have dot product 0.",
-          tags: ["perpendicular vectors"]
-        },
-        {
-          id: "M2-VEC-003",
-          subject: "maths2",
-          topic: "Vectors",
-          difficulty: 1,
-          question: "What is the magnitude of the vector (3, 4)?",
-          options: ["1", "5", "7", "12"],
-          answerIndex: 1,
-          explanation: "The magnitude is sqrt(3^2 + 4^2) = 5.",
-          tags: ["vector magnitude"]
-        },
-        {
-          id: "M2-CAL-004",
-          subject: "maths2",
-          topic: "Calculus",
-          difficulty: 1,
-          question: "The velocity of a particle is v = t. What is the displacement from t = 0 to t = 4?",
-          options: ["4", "8", "12", "16"],
-          answerIndex: 1,
-          explanation: "Displacement is the area under the velocity-time graph, integral of t from 0 to 4, which is 8.",
-          tags: ["kinematics", "integration"]
-        },
-        {
-          id: "M2-CAL-005",
-          subject: "maths2",
-          topic: "Calculus",
-          difficulty: 1,
-          question: "Find the second derivative of y = x^4.",
-          options: ["4x^3", "8x^2", "12x^2", "24x"],
-          answerIndex: 2,
-          explanation: "First derivative is 4x^3. Second derivative is 12x^2.",
-          tags: ["second derivative"]
-        },
-        {
-          id: "M2-CAL-006",
-          subject: "maths2",
-          topic: "Calculus",
-          difficulty: 1,
-          question: "The curve y = (x - 2)^2 + 1 has a minimum point at:",
-          options: ["(1, 2)", "(2, 1)", "(-2, 1)", "(2, -1)"],
-          answerIndex: 1,
-          explanation: "The completed square form shows the minimum is at x = 2 and y = 1.",
-          tags: ["turning points"]
-        },
-        {
-          id: "M2-SEQ-002",
-          subject: "maths2",
-          topic: "Sequences and Series",
-          difficulty: 2,
-          question: "An infinite geometric series has first term 6 and common ratio 1/3. What is its sum?",
-          options: ["6", "8", "9", "18"],
-          answerIndex: 2,
-          explanation: "The sum to infinity is a/(1 - r) = 6/(1 - 1/3) = 9.",
-          tags: ["geometric series"]
-        },
-        {
-          id: "M2-ALG-002",
-          subject: "maths2",
-          topic: "Algebra",
-          difficulty: 1,
-          question: "Solve log10(x) = 2.",
-          options: ["x = 2", "x = 10", "x = 20", "x = 100"],
-          answerIndex: 3,
-          explanation: "log10(x) = 2 means x = 10^2 = 100.",
-          tags: ["logarithms"]
-        },
-        {
-          id: "M2-CAL-007",
-          subject: "maths2",
-          topic: "Calculus",
-          difficulty: 2,
-          question: "Differentiate y = x sin x.",
-          options: ["cos x", "sin x + x cos x", "x cos x", "sin x - x cos x"],
-          answerIndex: 1,
-          explanation: "Using the product rule, d/dx of x sin x is sin x + x cos x.",
-          tags: ["product rule"]
-        },
-        {
-          id: "M2-CAL-008",
-          subject: "maths2",
-          topic: "Calculus",
-          difficulty: 2,
-          question: "Differentiate y = (2x + 1)^5.",
-          options: ["5(2x + 1)^4", "10(2x + 1)^4", "2(2x + 1)^4", "(2x + 1)^4"],
-          answerIndex: 1,
-          explanation: "Using the chain rule, multiply by the derivative of 2x + 1, giving 10(2x + 1)^4.",
-          tags: ["chain rule"]
-        },
-        {
-          id: "M2-CAL-009",
-          subject: "maths2",
-          topic: "Calculus",
-          difficulty: 1,
-          question: "Integrate cos x with respect to x.",
-          options: ["sin x + C", "-sin x + C", "tan x + C", "-cos x + C"],
-          answerIndex: 0,
-          explanation: "The derivative of sin x is cos x, so the integral of cos x is sin x + C.",
-          tags: ["trig integration"]
-        },
-        {
-          id: "M2-CAL-010",
-          subject: "maths2",
-          topic: "Calculus",
-          difficulty: 2,
-          question: "A curve is given parametrically by x = t^2 and y = t^3. What is dy/dx?",
-          options: ["3t/2", "2t/3", "3t^2", "2t"],
-          answerIndex: 0,
-          explanation: "dy/dt = 3t^2 and dx/dt = 2t, so dy/dx = 3t^2 / 2t = 3t/2.",
-          tags: ["parametric differentiation"]
-        },
-        {
-          id: "M2-CG-001",
-          subject: "maths2",
-          topic: "Coordinate Geometry",
-          difficulty: 1,
-          question: "A tangent has gradient 2. What is the gradient of the normal?",
-          options: ["-2", "-1/2", "1/2", "2"],
-          answerIndex: 1,
-          explanation: "The normal is perpendicular to the tangent, so its gradient is the negative reciprocal, -1/2.",
-          tags: ["normal gradient"]
-        },
-        {
-          id: "M2-ALG-003",
-          subject: "maths2",
-          topic: "Algebra",
-          difficulty: 2,
-          question: "For x^2 + kx + 9 = 0 to have equal roots, what values can k take?",
-          options: ["k = 3 or -3", "k = 6 or -6", "k = 9 or -9", "k = 0 only"],
-          answerIndex: 1,
-          explanation: "Equal roots require discriminant 0. k^2 - 36 = 0, so k = 6 or -6.",
-          tags: ["discriminant"]
-        },
-        {
-          id: "M2-TRI-003",
-          subject: "maths2",
-          topic: "Trigonometry",
-          difficulty: 1,
-          question: "180 degrees is equal to:",
-          options: ["pi/2 radians", "pi radians", "2pi radians", "360 radians"],
-          answerIndex: 1,
-          explanation: "180 degrees equals pi radians.",
-          tags: ["radians"]
-        },
-        {
-          id: "M2-TRI-004",
-          subject: "maths2",
-          topic: "Trigonometry",
-          difficulty: 2,
-          question: "Find the area of a sector with radius 2 and angle pi/2 radians.",
-          options: ["pi/2", "pi", "2pi", "4pi"],
-          answerIndex: 1,
-          explanation: "Sector area = 1/2 r^2 theta = 1/2 x 4 x pi/2 = pi.",
-          tags: ["sector area"]
-        },
-        {
-          id: "M2-CAL-011",
-          subject: "maths2",
-          topic: "Calculus",
-          difficulty: 1,
-          question: "If f'(a) = 0 and f''(a) > 0, then x = a is most likely a:",
-          options: ["local maximum", "local minimum", "point of inflection only", "vertical asymptote"],
-          answerIndex: 1,
-          explanation: "A positive second derivative indicates the curve is concave up, so the stationary point is a local minimum.",
-          tags: ["second derivative test"]
-        },
-        {
-          id: "M2-VEC-004",
-          subject: "maths2",
-          topic: "Vectors",
-          difficulty: 1,
-          question: "Calculate (1, 2) + 3(2, -1).",
-          options: ["(3, 1)", "(6, -3)", "(7, -1)", "(7, 5)"],
-          answerIndex: 2,
-          explanation: "3(2, -1) = (6, -3). Adding (1, 2) gives (7, -1).",
-          tags: ["vector arithmetic"]
-        },
-        {
-          id: "M2-ALG-004",
-          subject: "maths2",
-          topic: "Algebra",
-          difficulty: 1,
-          question: "Simplify ln(e^5).",
-          options: ["1", "5", "e", "5e"],
-          answerIndex: 1,
-          explanation: "ln and e are inverse functions, so ln(e^5) = 5.",
-          tags: ["logarithms"]
-        }
-      ]
+    "maths2": {
+      "label": "Maths 2",
+      "shortLabel": "M2",
+      "description": "More advanced mathematical reasoning, calculus, vectors, trigonometry and algebraic fluency.",
+      "questions": []
     },
-
-    physics: {
-      label: "Physics",
-      shortLabel: "PHY",
-      description: "Mechanics, electricity, waves, materials, nuclear physics and core physical reasoning.",
-      questions: [
+    "physics": {
+      "label": "Physics",
+      "shortLabel": "PHY",
+      "description": "Mechanics, electricity, waves, materials, particles and practical physics.",
+      "questions": [
         {
-          id: "PHY-MEC-001",
-          subject: "physics",
-          topic: "Mechanics",
-          difficulty: 1,
-          question: "A resultant force of 6 N acts on a mass of 2 kg. What is its acceleration?",
-          options: ["2 m s^-2", "3 m s^-2", "6 m s^-2", "12 m s^-2"],
-          answerIndex: 1,
-          explanation: "Using F = ma, a = F/m = 6/2 = 3 m s^-2.",
-          tags: ["Newton's second law"]
+          "id": "ENGAA_2016_P1_Q02",
+          "subject": "physics",
+          "topicCode": "NUC",
+          "topic": "Nuclear Physics",
+          "difficulty": 2,
+          "question": "A nuclide ²¹⁴₈₂Pb changes by radioactive decay into the nuclide ²¹⁰₈₂Pb.\n\nWhich combination of emissions produces this change?",
+          "options": [
+            "3 alpha",
+            "2 alpha and 1 beta",
+            "2 alpha and 2 beta",
+            "1 alpha and 2 beta",
+            "3 beta"
+          ],
+          "correctAnswer": "D",
+          "answerIndex": 3,
+          "explanation": "The mass number falls by 4 while the atomic number is unchanged. One alpha emission changes A by -4 and Z by -2; two beta-minus emissions then increase Z by 2, restoring the atomic number to 82.",
+          "markSchemeNotes": "Answer key gives D.",
+          "quickestMethod": "Match mass first: a drop of 4 means one alpha. Then restore proton number with two beta-minus decays.",
+          "commonTrap": "Counting only the mass change and forgetting that alpha decay also changes the atomic number.",
+          "tags": [
+            "radioactive decay",
+            "alpha decay",
+            "beta decay",
+            "nuclear physics"
+          ],
+          "hasImage": false,
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "2",
+            "page": "4",
+            "originalReference": "ENGAA 2016 P1 Q02"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q02.md"
         },
         {
-          id: "PHY-MEC-002",
-          subject: "physics",
-          topic: "Mechanics",
-          difficulty: 1,
-          question: "What is the weight of a 5 kg object when g = 9.8 N kg^-1?",
-          options: ["4.9 N", "9.8 N", "49 N", "98 N"],
-          answerIndex: 2,
-          explanation: "Weight = mg = 5 x 9.8 = 49 N.",
-          tags: ["weight"]
+          "id": "ENGAA_2016_P1_Q04",
+          "subject": "physics",
+          "topicCode": "MECH-GRAPH",
+          "topic": "Mechanics Graphs",
+          "difficulty": 3,
+          "question": "The graph shown of quantity y against quantity x represents the motion of a body.\n\n(The scales on both axes are in the appropriate S.I. units, and the gravitational field strength g is 10 N kg⁻¹.)\n\nWhich two of the following could the graph represent?\n\n1  kinetic energy against velocity for an object of mass 10 kg undergoing free-fall\n\n2  potential energy against height for an object of mass 20 kg being lifted by a constant external force\n\n3  velocity against time for an object of mass 20 kg being accelerated by a resultant force of 100 N\n\n4  work done by an external force of 5 N against distance moved for an object of mass 12 kg being moved at constant speed by (and in the direction of) the external force",
+          "options": [
+            "1 and 2",
+            "1 and 3",
+            "1 and 4",
+            "2 and 3",
+            "2 and 4",
+            "3 and 4"
+          ],
+          "correctAnswer": "F",
+          "answerIndex": 5,
+          "explanation": "The graph is a straight line through the origin with gradient 10/2 = 5. Kinetic energy varies with v^2, so statement 1 is not linear. Potential energy mgh for m = 20 has gradient 200, so statement 2 is not this graph. For statement 3, acceleration is F/m = 100/20 = 5, so v = 5t. For statement 4, work W = Fs = 5s. Therefore statements 3 and 4 match.",
+          "markSchemeNotes": "Answer key gives F.",
+          "quickestMethod": "Find the gradient, 5, then test each proposed relation for linearity and gradient.",
+          "commonTrap": "Accepting any straight-line proportionality without checking the actual gradient or forgetting kinetic energy is proportional to v^2.",
+          "tags": [
+            "graphs",
+            "mechanics",
+            "work",
+            "acceleration"
+          ],
+          "hasImage": true,
+          "imagePath": "assets/question-images/ENGAA_2016_P1_Q04_graph.svg",
+          "imageAlt": "Graph of y against x with axes labelled x and y, a line through the origin, and dashed guide lines showing x = 2.0 and y = 10.",
+          "diagramType": "graph",
+          "imageStatus": "ready-recreated-close",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "4",
+            "page": "6",
+            "originalReference": "ENGAA 2016 P1 Q04"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q04.md"
         },
         {
-          id: "PHY-MEC-003",
-          subject: "physics",
-          topic: "Mechanics",
-          difficulty: 1,
-          question: "A 0.5 kg object moves at 4 m s^-1. What is its momentum?",
-          options: ["0.5 kg m s^-1", "2 kg m s^-1", "4 kg m s^-1", "8 kg m s^-1"],
-          answerIndex: 1,
-          explanation: "Momentum = mv = 0.5 x 4 = 2 kg m s^-1.",
-          tags: ["momentum"]
+          "id": "ENGAA_2016_P1_Q06",
+          "subject": "physics",
+          "topicCode": "NUC-FISSION",
+          "topic": "Nuclear Fission",
+          "difficulty": 3,
+          "question": "A uranium-235 nucleus can undergo fission to produce two smaller nuclei.\n\nWhich of the diagrams, if any, could represent this process?",
+          "options": [
+            "none of them",
+            "1 only",
+            "2 only",
+            "3 only",
+            "1 and 2 only",
+            "1 and 3 only",
+            "2 and 3 only",
+            "1, 2 and 3"
+          ],
+          "correctAnswer": "C",
+          "answerIndex": 2,
+          "explanation": "Check conservation of nucleon number and proton number. Diagram 2 balances: 235 + 1 = 96 + 137 + 3 and 92 = 38 + 54. The other diagrams do not conserve the required totals, so only diagram 2 is possible.",
+          "markSchemeNotes": "Answer key gives C.",
+          "quickestMethod": "For each diagram, add mass numbers and atomic numbers on both sides. Reject any diagram where either total changes.",
+          "commonTrap": "Checking mass number only and not checking proton number, or missing emitted neutrons.",
+          "tags": [
+            "nuclear fission",
+            "conservation",
+            "nuclear physics"
+          ],
+          "hasImage": true,
+          "imagePath": "assets/question-images/ENGAA_2016_P1_Q06_fission-diagrams.svg",
+          "imageAlt": "Three fission diagrams labelled diagram 1, diagram 2 and diagram 3, each showing an incoming particle or neutron striking uranium-235 and arrows to daughter nuclei plus emitted neutrons.",
+          "diagramType": "nuclear diagram",
+          "imageStatus": "ready-recreated-close",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "6",
+            "page": "8",
+            "originalReference": "ENGAA 2016 P1 Q06"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q06.md"
         },
         {
-          id: "PHY-MEC-004",
-          subject: "physics",
-          topic: "Mechanics",
-          difficulty: 1,
-          question: "A 2 kg object moves at 3 m s^-1. What is its kinetic energy?",
-          options: ["3 J", "6 J", "9 J", "18 J"],
-          answerIndex: 2,
-          explanation: "Kinetic energy = 1/2 mv^2 = 1/2 x 2 x 3^2 = 9 J.",
-          tags: ["kinetic energy"]
+          "id": "ENGAA_2016_P1_Q08",
+          "subject": "physics",
+          "topicCode": "ELEC-POWER",
+          "topic": "Electricity",
+          "difficulty": 3,
+          "question": "A circuit consists of a 5.0 Ω resistor and a variable resistor connected in series with a 24 V battery.\n\nThe variable resistor has a minimum resistance of 3.0 Ω and a maximum resistance of 15 Ω. The battery and the connecting wires have negligible resistance.\n\nWhat is the maximum power dissipated in the 5.0 Ω resistor?",
+          "options": [
+            "7.2 W",
+            "18 W",
+            "27 W",
+            "45 W",
+            "72 W",
+            "75 W"
+          ],
+          "correctAnswer": "D",
+          "answerIndex": 3,
+          "explanation": "Power in the fixed 5.0 ohm resistor is I^2R. The current is largest when the variable resistor is at its minimum value, so total resistance is 5.0 + 3.0 = 8.0 ohm. The current is 24/8 = 3.0 A, and the fixed-resistor power is 3.0^2 x 5.0 = 45 W.",
+          "markSchemeNotes": "Answer key gives D.",
+          "quickestMethod": "Use the minimum total resistance to maximize current, then apply P = I^2R to the 5 ohm resistor.",
+          "commonTrap": "Using P = V^2/R with the full 24 V across the 5 ohm resistor; the 24 V is across both series resistors.",
+          "tags": [
+            "electric circuits",
+            "power",
+            "resistance",
+            "series circuits"
+          ],
+          "hasImage": false,
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "8",
+            "page": "9",
+            "originalReference": "ENGAA 2016 P1 Q08"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q08.md"
         },
         {
-          id: "PHY-ENE-001",
-          subject: "physics",
-          topic: "Energy",
-          difficulty: 1,
-          question: "100 J of energy is transferred in 5 s. What is the power?",
-          options: ["5 W", "10 W", "20 W", "500 W"],
-          answerIndex: 2,
-          explanation: "Power = energy/time = 100/5 = 20 W.",
-          tags: ["power"]
-        },
-        {
-          id: "PHY-ELE-001",
-          subject: "physics",
-          topic: "Electricity",
-          difficulty: 1,
-          question: "10 C of charge passes a point in 2 s. What is the current?",
-          options: ["2 A", "5 A", "10 A", "20 A"],
-          answerIndex: 1,
-          explanation: "Current = charge/time = 10/2 = 5 A.",
-          tags: ["current"]
-        },
-        {
-          id: "PHY-ELE-002",
-          subject: "physics",
-          topic: "Electricity",
-          difficulty: 1,
-          question: "A current of 3 A flows through a 4 ohm resistor. What is the potential difference?",
-          options: ["1.3 V", "7 V", "12 V", "24 V"],
-          answerIndex: 2,
-          explanation: "Using V = IR, V = 3 x 4 = 12 V.",
-          tags: ["Ohm's law"]
-        },
-        {
-          id: "PHY-ELE-003",
-          subject: "physics",
-          topic: "Electricity",
-          difficulty: 1,
-          question: "Two resistors of 2 ohm and 3 ohm are connected in series. What is the total resistance?",
-          options: ["1 ohm", "5 ohm", "6 ohm", "12 ohm"],
-          answerIndex: 1,
-          explanation: "For series resistors, total resistance is the sum: 2 + 3 = 5 ohm.",
-          tags: ["series circuits"]
-        },
-        {
-          id: "PHY-ELE-004",
-          subject: "physics",
-          topic: "Electricity",
-          difficulty: 2,
-          question: "A 6 ohm resistor and a 3 ohm resistor are connected in parallel. What is the total resistance?",
-          options: ["2 ohm", "3 ohm", "6 ohm", "9 ohm"],
-          answerIndex: 0,
-          explanation: "1/R = 1/6 + 1/3 = 1/6 + 2/6 = 3/6 = 1/2, so R = 2 ohm.",
-          tags: ["parallel circuits"]
-        },
-        {
-          id: "PHY-ELE-005",
-          subject: "physics",
-          topic: "Electricity",
-          difficulty: 1,
-          question: "A charge of 2 C moves through a potential difference of 5 V. How much energy is transferred?",
-          options: ["2.5 J", "5 J", "7 J", "10 J"],
-          answerIndex: 3,
-          explanation: "Energy transferred = QV = 2 x 5 = 10 J.",
-          tags: ["electrical energy"]
-        },
-        {
-          id: "PHY-WAV-001",
-          subject: "physics",
-          topic: "Waves",
-          difficulty: 1,
-          question: "A wave has frequency 50 Hz and wavelength 0.40 m. What is its speed?",
-          options: ["20 m s^-1", "50 m s^-1", "125 m s^-1", "200 m s^-1"],
-          answerIndex: 0,
-          explanation: "Wave speed = frequency x wavelength = 50 x 0.40 = 20 m s^-1.",
-          tags: ["wave speed"]
-        },
-        {
-          id: "PHY-WAV-002",
-          subject: "physics",
-          topic: "Waves",
-          difficulty: 1,
-          question: "A wave has frequency 5 Hz. What is its period?",
-          options: ["0.2 s", "1 s", "2 s", "5 s"],
-          answerIndex: 0,
-          explanation: "Period T = 1/f = 1/5 = 0.2 s.",
-          tags: ["period"]
-        },
-        {
-          id: "PHY-MAT-001",
-          subject: "physics",
-          topic: "Materials",
-          difficulty: 1,
-          question: "An object has mass 200 g and volume 50 cm^3. What is its density?",
-          options: ["2 g cm^-3", "4 g cm^-3", "50 g cm^-3", "250 g cm^-3"],
-          answerIndex: 1,
-          explanation: "Density = mass/volume = 200/50 = 4 g cm^-3.",
-          tags: ["density"]
-        },
-        {
-          id: "PHY-MEC-005",
-          subject: "physics",
-          topic: "Mechanics",
-          difficulty: 1,
-          question: "A force of 100 N acts over an area of 2 m^2. What is the pressure?",
-          options: ["20 Pa", "50 Pa", "100 Pa", "200 Pa"],
-          answerIndex: 1,
-          explanation: "Pressure = force/area = 100/2 = 50 Pa.",
-          tags: ["pressure"]
-        },
-        {
-          id: "PHY-MAT-002",
-          subject: "physics",
-          topic: "Materials",
-          difficulty: 1,
-          question: "A spring has spring constant 100 N m^-1 and extension 0.020 m. What is the force?",
-          options: ["0.2 N", "2 N", "20 N", "200 N"],
-          answerIndex: 1,
-          explanation: "Using F = kx, F = 100 x 0.020 = 2 N.",
-          tags: ["Hooke's law"]
-        },
-        {
-          id: "PHY-ENE-002",
-          subject: "physics",
-          topic: "Energy",
-          difficulty: 1,
-          question: "A 2 kg object is lifted by 3 m. Take g = 10 N kg^-1. What is the gain in gravitational potential energy?",
-          options: ["6 J", "15 J", "30 J", "60 J"],
-          answerIndex: 3,
-          explanation: "Gain in GPE = mgh = 2 x 10 x 3 = 60 J.",
-          tags: ["gravitational potential energy"]
-        },
-        {
-          id: "PHY-ENE-003",
-          subject: "physics",
-          topic: "Energy",
-          difficulty: 1,
-          question: "A device transfers 60 J of energy, of which 30 J is useful. What is its efficiency?",
-          options: ["25%", "50%", "75%", "200%"],
-          answerIndex: 1,
-          explanation: "Efficiency = useful output / total input = 30/60 = 0.5 = 50%.",
-          tags: ["efficiency"]
-        },
-        {
-          id: "PHY-WAV-003",
-          subject: "physics",
-          topic: "Waves",
-          difficulty: 1,
-          question: "When a light ray enters a more optically dense medium, it generally bends:",
-          options: ["away from the normal", "towards the normal", "parallel to the surface", "back along its original path"],
-          answerIndex: 1,
-          explanation: "When light slows down entering a more optically dense medium, it bends towards the normal.",
-          tags: ["refraction"]
-        },
-        {
-          id: "PHY-NUC-001",
-          subject: "physics",
-          topic: "Nuclear Physics",
-          difficulty: 1,
-          question: "What is the charge of an alpha particle?",
-          options: ["-1e", "0", "+1e", "+2e"],
-          answerIndex: 3,
-          explanation: "An alpha particle is a helium nucleus with charge +2e.",
-          tags: ["alpha radiation"]
-        },
-        {
-          id: "PHY-NUC-002",
-          subject: "physics",
-          topic: "Nuclear Physics",
-          difficulty: 1,
-          question: "In beta-minus decay, the emitted particle is:",
-          options: ["an electron", "a proton", "a neutron", "an alpha particle"],
-          answerIndex: 0,
-          explanation: "Beta-minus radiation is the emission of an electron.",
-          tags: ["beta decay"]
-        },
-        {
-          id: "PHY-NUC-003",
-          subject: "physics",
-          topic: "Nuclear Physics",
-          difficulty: 1,
-          question: "After two half-lives, what fraction of the original radioactive nuclei remains?",
-          options: ["1/2", "1/3", "1/4", "1/8"],
-          answerIndex: 2,
-          explanation: "After one half-life, 1/2 remains. After two half-lives, 1/4 remains.",
-          tags: ["half-life"]
-        },
-        {
-          id: "PHY-FLD-001",
-          subject: "physics",
-          topic: "Fields",
-          difficulty: 1,
-          question: "The magnetic force on a current-carrying wire is maximum when the current is:",
-          options: ["parallel to the field", "perpendicular to the field", "zero", "opposite to the field but still parallel"],
-          answerIndex: 1,
-          explanation: "The magnetic force is maximum when the current is perpendicular to the magnetic field.",
-          tags: ["magnetic force"]
-        },
-        {
-          id: "PHY-ELE-006",
-          subject: "physics",
-          topic: "Electricity",
-          difficulty: 2,
-          question: "A transformer has 50 turns on the primary coil and 100 turns on the secondary coil. If the primary voltage is 10 V, what is the secondary voltage?",
-          options: ["5 V", "10 V", "20 V", "100 V"],
-          answerIndex: 2,
-          explanation: "Vs/Vp = Ns/Np = 100/50 = 2, so Vs = 20 V.",
-          tags: ["transformers"]
-        },
-        {
-          id: "PHY-ELE-007",
-          subject: "physics",
-          topic: "Electricity",
-          difficulty: 1,
-          question: "A capacitor stores 6 C of charge at 3 V. What is its capacitance?",
-          options: ["0.5 F", "2 F", "9 F", "18 F"],
-          answerIndex: 1,
-          explanation: "Capacitance C = Q/V = 6/3 = 2 F.",
-          tags: ["capacitance"]
-        },
-        {
-          id: "PHY-ELE-008",
-          subject: "physics",
-          topic: "Electricity",
-          difficulty: 2,
-          question: "A resistor of 1000 ohm is connected to a capacitor of 0.002 F. What is the time constant?",
-          options: ["0.002 s", "0.5 s", "2 s", "2000 s"],
-          answerIndex: 2,
-          explanation: "Time constant = RC = 1000 x 0.002 = 2 s.",
-          tags: ["capacitors"]
-        },
-        {
-          id: "PHY-NUC-004",
-          subject: "physics",
-          topic: "Nuclear Physics",
-          difficulty: 1,
-          question: "Nuclear fission is best described as:",
-          options: ["two light nuclei joining", "a heavy nucleus splitting", "an electron changing energy level", "a substance becoming ionised"],
-          answerIndex: 1,
-          explanation: "Fission is the splitting of a heavy nucleus into smaller nuclei.",
-          tags: ["fission"]
-        },
-        {
-          id: "PHY-ELE-009",
-          subject: "physics",
-          topic: "Electricity",
-          difficulty: 1,
-          question: "The unit ohm is equivalent to:",
-          options: ["A/V", "V/A", "C/s", "J/s"],
-          answerIndex: 1,
-          explanation: "Resistance R = V/I, so the ohm is equivalent to V/A.",
-          tags: ["units"]
+          "id": "ENGAA_2016_P1_Q10",
+          "subject": "physics",
+          "topicCode": "ASTRO-RADIATION",
+          "topic": "Radiation and Proportionality",
+          "difficulty": 3,
+          "question": "The total power P radiated by a star is given by:\n\nP = kR²T⁴\n\nwhere R is the radius of the star, T is its surface temperature and k is a constant.\n\nThe power currently radiated by the Sun is 4.0 × 10²⁶ W. Towards the end of the Sun’s life its radius will increase by a factor of a hundred and its surface temperature will decrease by a factor of two.\n\nWhat will be the power radiated by the Sun when these changes have occurred?",
+          "options": [
+            "2.5 × 10²⁷ W",
+            "1.0 × 10²⁸ W",
+            "2.0 × 10²⁸ W",
+            "2.5 × 10²⁹ W",
+            "1.0 × 10³⁰ W",
+            "2.0 × 10³⁰ W",
+            "2.5 × 10³³ W",
+            "1.0 × 10³⁴ W"
+          ],
+          "correctAnswer": "D",
+          "answerIndex": 3,
+          "explanation": "The radius factor contributes 100² = 10 000. The temperature factor contributes (1/2)⁴ = 1/16. The net factor is 10 000/16 = 625. Therefore the new power is 4.0 × 10²⁶ × 625 = 2.5 × 10²⁹ W.",
+          "markSchemeNotes": "Answer key gives D.",
+          "quickestMethod": "Compute the proportional change only: 100² divided by 2⁴ equals 625, then multiply 4.0 × 10²⁶ by 625.",
+          "commonTrap": "Forgetting that temperature is raised to the fourth power, or applying the radius factor only once instead of squaring it.",
+          "tags": [
+            "proportionality",
+            "powers",
+            "radiation",
+            "astrophysics"
+          ],
+          "hasImage": false,
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "10",
+            "page": "10",
+            "originalReference": "ENGAA 2016 P1 Q10"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q10.md"
         }
       ]
     }

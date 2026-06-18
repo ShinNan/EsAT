@@ -5,7 +5,7 @@
   var ACTIVE_EXAM_KEY = "esatSimulator.activeExam";
   var LATEST_RESULT_KEY = "esatSimulator.latestResult";
   var WRONG_QUESTIONS_KEY = "esatSimulator.wrongQuestions";
-  var OPTION_LABELS = ["A", "B", "C", "D", "E"];
+  var OPTION_LABELS = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
   var state = {
     config: null,
@@ -564,6 +564,7 @@
   function normaliseQuestion(question, occurrence, config) {
     var options = Array.isArray(question.options) ? question.options.slice() : [];
     var answerIndex = Number(question.answerIndex);
+    var image = question.image && typeof question.image === "object" ? question.image : null;
     var optionObjects;
     var newAnswerIndex;
 
@@ -574,13 +575,9 @@
       answerIndex = 0;
     }
 
-    if (options.length > 5) {
-      options = options.slice(0, 5);
-      if (answerIndex > 4) answerIndex = 4;
-    }
-
-    while (options.length < 5) {
-      options.push("None of the above");
+    if (options.length > OPTION_LABELS.length) {
+      options = options.slice(0, OPTION_LABELS.length);
+      if (answerIndex >= OPTION_LABELS.length) answerIndex = OPTION_LABELS.length - 1;
     }
 
     optionObjects = options.map(function (text, index) {
@@ -610,6 +607,9 @@
       }),
       answerIndex: newAnswerIndex,
       explanation: question.explanation || "",
+      imagePath: question.imagePath || (image && image.src) || "",
+      imageAlt: question.imageAlt || (image && image.alt) || "",
+      diagramType: question.diagramType || "",
       tags: Array.isArray(question.tags) ? question.tags.slice() : []
     };
   }
@@ -760,6 +760,88 @@
     return state.config.profileName + " · " + names.join(", ") + " · " + state.config.questionCount + " questions · " + state.config.paceLabel;
   }
 
+
+  function isNumberedStatementBlock(block) {
+    return /^(\d+)\s+(.+)$/.test(block);
+  }
+
+  function isFormulaBlock(block) {
+    var compact = String(block || "").trim();
+    if (!compact || compact.length > 80) return false;
+    return /(?:=|<|>|≤|≥|\^|\\times|\\frac|\\cdot)/.test(compact);
+  }
+
+  function appendQuestionParagraph(container, block) {
+    var paragraph = document.createElement("p");
+    paragraph.className = "question-paragraph math-rendered";
+    paragraph.innerHTML = renderMath(block);
+    container.appendChild(paragraph);
+  }
+
+  function appendQuestionFormula(container, block) {
+    var formula = document.createElement("div");
+    formula.className = "question-formula math-rendered";
+    formula.innerHTML = renderMath(block);
+    container.appendChild(formula);
+  }
+
+  function appendQuestionStatement(list, block) {
+    var match = block.match(/^(\d+)\s+(.+)$/);
+    var statement = document.createElement("div");
+    var number = document.createElement("span");
+    var text = document.createElement("span");
+
+    statement.className = "question-statement";
+    number.className = "question-statement-number";
+    text.className = "question-statement-text math-rendered";
+
+    number.textContent = match[1];
+    text.innerHTML = renderMath(match[2]);
+
+    statement.appendChild(number);
+    statement.appendChild(text);
+    list.appendChild(statement);
+  }
+
+  function renderQuestionBody(text) {
+    var container = $("#questionText");
+    var blocks;
+    var statementList = null;
+
+    if (!container) return;
+
+    container.innerHTML = "";
+    container.classList.remove("math-rendered");
+
+    blocks = String(text || "")
+      .split(/\n\s*\n/)
+      .map(function (block) { return block.trim(); })
+      .filter(Boolean);
+
+    if (!blocks.length) return;
+
+    blocks.forEach(function (block) {
+      if (isNumberedStatementBlock(block)) {
+        if (!statementList) {
+          statementList = document.createElement("div");
+          statementList.className = "question-statement-list";
+          container.appendChild(statementList);
+        }
+        appendQuestionStatement(statementList, block);
+        return;
+      }
+
+      statementList = null;
+
+      if (isFormulaBlock(block)) {
+        appendQuestionFormula(container, block);
+        return;
+      }
+
+      appendQuestionParagraph(container, block);
+    });
+  }
+
   function renderOptions(question) {
     var answerList = $("#answerList");
     var selected = state.selectedAnswers[state.currentIndex];
@@ -862,6 +944,24 @@
     });
   }
 
+  function renderQuestionImage(question) {
+    var imageWrap = $("#questionImageWrap");
+    var image = $("#questionImage");
+
+    if (!imageWrap || !image) return;
+
+    if (question.imagePath) {
+      image.src = question.imagePath;
+      image.alt = question.imageAlt || "Question diagram";
+      imageWrap.hidden = false;
+      return;
+    }
+
+    imageWrap.hidden = true;
+    image.removeAttribute("src");
+    image.alt = "";
+  }
+
   function renderQuestion() {
     var question;
 
@@ -875,7 +975,8 @@
     $("#questionTopic").textContent = question.topic;
     $("#questionDifficulty").textContent = "Difficulty " + question.difficulty;
 
-    setMath("#questionText", question.question);
+    renderQuestionBody(question.question);
+    renderQuestionImage(question);
 
     renderOptions(question);
     renderNavigator();

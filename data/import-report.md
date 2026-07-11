@@ -43,9 +43,12 @@ checkout. That limitation no longer applies on `main`.
 
 ## Image status and reproducible crops
 
-Q04 and Q06 use reviewed source-PDF PNG crops with
-`imageStatus: ready-pdf-crop`. Their normalized boxes and deterministic output
-paths are defined in `data/pdf-crops.json` with status `approved`.
+Q04 and Q06 currently use the previously working SVG image paths with
+`imageStatus: ready-svg-fallback`. This is a deliberate live-site hotfix: the
+PNG workflow and its outputs remain in the repository but are not used by the
+runtime bank until browser rendering is re-approved. Their normalized boxes and
+deterministic PNG outputs remain defined in `data/pdf-crops.json` with status
+`approved`.
 
 Use the browser selector and manifest-driven PyMuPDF tool documented in
 `docs/pdf-crop-workflow.md` to review only the non-text diagram region. The
@@ -54,22 +57,23 @@ GitHub Actions artifact without any manual screenshot upload.
 
 - Q04: the crop contains only the graph and preserves every axis label and guide.
 - Q06: the crop contains all three diagrams and preserves every isotope label.
-- The earlier recreated SVGs remain in the repository as historical fallbacks;
-  the CSV and runtime bank point to the approved PNGs.
+- The PNG crops remain reviewable artifacts; the CSV and runtime bank now point
+  to the recreated SVG fallbacks while live PNG rendering is investigated.
 
 ## Diagram workflow decisions
 
-| Question ID | Diagram type | Current method | Outcome |
+| Question ID | Diagram type | Prepared crop workflow | Live image outcome |
 | --- | --- | --- | --- |
-| ENGAA_2016_P1_Q04 | Straight-line graph | Source-PDF PNG crop | Approved: the crop includes only the graph, axes, labels, and guides. |
-| ENGAA_2016_P1_Q06 | Nuclear fission diagrams | Source-PDF PNG crop | Approved: all three diagrams, arrows, and isotope labels are present. |
+| ENGAA_2016_P1_Q04 | Straight-line graph | Source-PDF PNG crop retained | SVG fallback is live while PNG browser rendering is reviewed. |
+| ENGAA_2016_P1_Q06 | Nuclear fission diagrams | Source-PDF PNG crop retained | SVG fallback is live while PNG browser rendering is reviewed. |
 
 ## Validation notes
 
 - All IDs are unique.
 - All `answerIndex` values match `correctAnswer`.
 - Every question has the expected number of source-paper answer options.
-- Q04 and Q06 reference existing, approved PNG assets.
+- Q04 and Q06 reference existing SVG fallback assets in both the runtime bank
+  and CSV; approved PNG outputs and manifest entries remain present.
 - Imported questions include A-F, A-G, and A-H option sets; runtime support
   remains A-H and no options are truncated.
 - Crop manifest validation checks source files, page bounds, safe output paths,

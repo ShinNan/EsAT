@@ -300,10 +300,10 @@ window.ESAT_QUESTION_BANK = {
             "acceleration"
           ],
           "hasImage": true,
-          "imagePath": "assets/question-images/ENGAA_2016_P1_Q04_graph.png",
+          "imagePath": "assets/question-images/ENGAA_2016_P1_Q04_graph.svg",
           "imageAlt": "Graph of y against x with axes labelled x and y, a line through the origin, and dashed guide lines showing x = 2.0 and y = 10.",
           "diagramType": "graph",
-          "imageStatus": "ready-pdf-crop",
+          "imageStatus": "ready-svg-fallback",
           "source": {
             "exam": "ENGAA",
             "year": "2016",
@@ -345,10 +345,10 @@ window.ESAT_QUESTION_BANK = {
             "nuclear physics"
           ],
           "hasImage": true,
-          "imagePath": "assets/question-images/ENGAA_2016_P1_Q06_fission-diagrams.png",
+          "imagePath": "assets/question-images/ENGAA_2016_P1_Q06_fission-diagrams.svg",
           "imageAlt": "Three fission diagrams labelled diagram 1, diagram 2 and diagram 3, each showing an incoming particle or neutron striking uranium-235 and arrows to daughter nuclei plus emitted neutrons.",
           "diagramType": "nuclear diagram",
-          "imageStatus": "ready-pdf-crop",
+          "imageStatus": "ready-svg-fallback",
           "source": {
             "exam": "ENGAA",
             "year": "2016",

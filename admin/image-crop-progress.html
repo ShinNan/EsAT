@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESAT image workflow progress</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; color: #221b33; background: #f7f5fb; }
+    body { max-width: 920px; margin: 0 auto; padding: 28px 18px 48px; }
+    .status { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 24px 0; }
+    .card, .panel { background: #fff; border: 1px solid #ded7ea; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px #2b164012; }
+    .done { border-top: 5px solid #218b4b; } .next { border-top: 5px solid #b76b00; } .later { border-top: 5px solid #7656b5; }
+    .label { font-size: .78rem; font-weight: 700; color: #66517e; text-transform: uppercase; }
+    code, pre { background: #f1eef7; border-radius: 6px; } code { padding: 2px 4px; } pre { padding: 12px; overflow-x: auto; white-space: pre-wrap; }
+    .note { border-left: 4px solid #b76b00; padding-left: 12px; } li + li { margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <p class="label">Image recovery dashboard</p>
+  <h1>Q04 / Q06: current progress and your next decision</h1>
+  <p>This page separates the emergency live fix from the optional PNG review. You do not need to take or upload a screenshot for the live hotfix.</p>
+  <section class="status" aria-label="Workflow status">
+    <article class="card done"><p class="label">Step 1 complete</p><h2>Restore SVGs live</h2><p>Q04 and Q06 point to the previously working SVG assets.</p></article>
+    <article class="card done"><p class="label">Step 2 complete</p><h2>Keep PNG tooling</h2><p>The crop manifest, PDF tool, debug renders, selector, and PNG outputs remain available.</p></article>
+    <article class="card next"><p class="label">Step 3 later: you review</p><h2>Check crop preview</h2><p>Only if we re-enable PNGs: approve or adjust each crop.</p></article>
+    <article class="card later"><p class="label">Step 4 later: Codex verifies</p><h2>Deploy and inspect</h2><p>A separate PR can re-enable PNGs only after a browser screenshot confirms the full diagram renders.</p></article>
+  </section>
+  <section class="panel"><h2>What you need to do now</h2><p><strong>Nothing for the image crop.</strong> Review and merge the hotfix PR after its checks pass. PNG files are retained but no longer selected by the question bank.</p></section>
+  <section class="panel">
+    <h2>When we later review PNG crops</h2>
+    <ol>
+      <li>Open Codespaces at the repository root and run:</li>
+    </ol>
+    <pre>python3 -m pip install -r requirements-tools.txt
+python3 tools/crop_pdf_images.py prepare
+python3 -m http.server 4173</pre>
+    <ol start="2">
+      <li>Open <a href="../tools/crop_selector.html">the crop selector</a> at <code>http://localhost:4173/tools/crop_selector.html</code>.</li>
+      <li>Choose Q04 or Q06 from the task list. The preview should contain only the diagram area.</li>
+      <li>Check all labels, arrows or axes, diagram numbers, and a small clean margin. Do not include question text.</li>
+      <li>Tell Codex only: <code>Q04 approve</code>, <code>Q04 adjust</code>, <code>Q06 approve</code>, or <code>Q06 adjust</code>. You do not upload the crop.</li>
+    </ol>
+    <p class="note">After approval, Codex will make a separate PNG-enable PR and inspect the deployed webpage screenshot before calling it ready.</p>
+  </section>
+</body>
+</html>

@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "documents": {
+    "ENGAA_2016_Section1": {
+      "pdf": "source-papers/ENGAA 2016 Section 1.pdf",
+      "debugDpi": 150,
+      "outputDpi": 300
+    }
+  },
+  "crops": [
+    {
+      "id": "ENGAA_2016_P1_Q04_graph",
+      "questionId": "ENGAA_2016_P1_Q04",
+      "document": "ENGAA_2016_Section1",
+      "page": 6,
+      "box": [
+        0.336134,
+        0.089074,
+        0.722689,
+        0.30285
+      ],
+      "output": "assets/question-images/ENGAA_2016_P1_Q04_graph.png",
+      "alt": "Graph of y against x with a straight line through the origin and dashed guides at x = 2.0 and y = 10.",
+      "status": "approved",
+      "note": "Approved against the source PDF; the crop contains only the graph and all axis labels."
+    },
+    {
+      "id": "ENGAA_2016_P1_Q06_fission_diagrams",
+      "questionId": "ENGAA_2016_P1_Q06",
+      "document": "ENGAA_2016_Section1",
+      "page": 8,
+      "box": [
+        0.117647,
+        0.130641,
+        0.848739,
+        0.433492
+      ],
+      "output": "assets/question-images/ENGAA_2016_P1_Q06_fission-diagrams.png",
+      "alt": "Three fission diagrams labelled diagram 1, diagram 2 and diagram 3, showing uranium-235 and the resulting daughter nuclei and neutrons.",
+      "status": "approved",
+      "note": "Approved against the source PDF; all three diagrams and isotope labels are complete."
+    }
+  ]
+}

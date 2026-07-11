@@ -3,19 +3,20 @@
 ## Summary
 
 - Imported ENGAA 2016 Paper 1 questions 1 to 10.
-- Replaced the test question bank in `assets/questionBank.js` with these 10 ready-status questions.
-- Created `data/question-bank.csv` as the spreadsheet-style backup.
-- Created per-question solution files in `solutions/ENGAA/2016/P1/`.
+- Stored the runtime bank in `assets/questionBank.js` and the spreadsheet-style
+  source in `data/question-bank.csv`.
+- Added per-question solution files in `solutions/ENGAA/2016/P1/`.
 - Added image assets for Q04 and Q06 in `assets/question-images/`.
 
 ## Source files
 
-Source files identified from the repository `main` branch / GitHub UI:
+The repository contains the source files used by the image workflow:
 
 - `source-papers/ENGAA 2016 Section 1.pdf`
 - `source-mark-schemes/ENGAA 2016 Section 1 Answer Key.pdf`
 
-The local checkout for this PR branch did not contain those PDFs, and `git fetch origin main` failed in this environment with a 403 tunnel error. Therefore Q04/Q06 image assets remain recreated SVGs rather than true PDF crops. Once `main` is merged into this branch, those source PDFs should be present at the paths above and can be used for a true crop pass. The raw annotated solution PDF was still not present in `solutions-raw/ENGAA/2016/`.
+The earlier import note said the question PDF was unavailable in the working
+checkout. That limitation no longer applies on `main`.
 
 ## Imported questions
 
@@ -34,39 +35,40 @@ The local checkout for this PR branch did not contain those PDFs, and `git fetch
 
 ## Formatting pass
 
-- Reformatted Q01-Q10 question text to preserve meaningful line breaks.
-- Q04 now keeps the bracketed S.I. units / `g` note as a separate paragraph and lays out numbered statements 1-4 on separate lines.
-- Q06 keeps the prompt concise and relies on the diagram image rather than flattening the diagram into text.
-- Q07-Q10 now preserve paragraph breaks from the source paper, including the displayed formula in Q10.
-- The exam renderer now splits question bodies into paragraphs, centred formula blocks and numbered statement rows for a more exam-like layout.
+- Preserved meaningful paragraph breaks in Q01-Q10.
+- Q04 keeps the bracketed S.I. units / `g` note and numbered statements.
+- Q06 relies on a diagram image instead of flattening the diagram into text.
+- The renderer supports formula blocks, numbered statement rows, isotope
+  notation, A-H options, and per-question images.
 
-## Image notes
+## Image status and reproducible crops
 
-- Q04 graph and Q06 fission diagrams are still recreated SVG assets, not true PDF crops, because the PR checkout did not include `source-papers/ENGAA 2016 Section 1.pdf` and `git fetch origin main` failed in this environment.
-- Q04 was redrawn to more closely follow the paper: axes, labels, dashed guide lines, the line through the origin, and the 0.0 / 2.0 / 10 scale labels are included. A final SVG QC pass increased padding and separated the origin labels so `0` and `0.0` no longer overlap.
-- Q06 was redrawn as a diagram with nuclei, arrows, emitted neutrons, daughter nuclei and labels, rather than text-only equation boxes. A final SVG QC pass enlarged the viewBox, moved diagram 3 fully inside the canvas, and standardised fonts, arrows, line weights and isotope labels using separate right-aligned mass/proton text plus fixed-position element symbols.
-- `imageStatus` is set to `ready-recreated-close` for Q04 and Q06. Replace with true PDF crops when the source PDF is available locally if exact visual fidelity is required.
+Q04 and Q06 use reviewed source-PDF PNG crops with
+`imageStatus: ready-pdf-crop`. Their normalized boxes and deterministic output
+paths are defined in `data/pdf-crops.json` with status `approved`.
+
+Use the browser selector and manifest-driven PyMuPDF tool documented in
+`docs/pdf-crop-workflow.md` to review only the non-text diagram region. The
+workflow produces canonical debug filenames, deterministic PNG outputs, and a
+GitHub Actions artifact without any manual screenshot upload.
+
+- Q04: the crop contains only the graph and preserves every axis label and guide.
+- Q06: the crop contains all three diagrams and preserves every isotope label.
+- The earlier recreated SVGs remain in the repository as historical fallbacks;
+  the CSV and runtime bank point to the approved PNGs.
 
 ## Validation notes
 
 - All IDs are unique.
 - All `answerIndex` values match `correctAnswer`.
-- Each imported question has the expected number of answer options from the source question.
-- Q04 and Q06 have image paths that exist in `assets/question-images/`.
-- Q01, Q03, Q04 and Q10 were corrected/reformatted against the source paper text extracted from the ENGAA 2016 Section 1 PDF.
-- Q02 nuclear notation now uses `\nuclide{mass}{proton}{symbol}` and Q10 powers now use renderer syntax such as `R^{2}T^{4}` and `10^{26}` for consistent display.
-- Imported questions include A-F, A-G and A-H option sets; runtime support remains A-H and no options are truncated.
-- Status is set to `ready` for this batch, as requested.
+- Every question has the expected number of source-paper answer options.
+- Q04 and Q06 reference existing, approved PNG assets.
+- Imported questions include A-F, A-G, and A-H option sets; runtime support
+  remains A-H and no options are truncated.
+- Crop manifest validation checks source files, page bounds, safe output paths,
+  unique crop IDs/outputs, normalized boxes, and alt text for approved crops.
 
-## Conflict-resolution notes
+## Remaining review
 
-GitHub reported merge conflicts in `admin/csv-converter.html` and `assets/questionBank.js` after PDFs were uploaded to `main`. Resolve those by keeping this PR branch's completed converter/schema additions and the ENGAA Q01-Q10 question bank, while also keeping the `main` branch source PDF files. In particular:
-
-- `admin/csv-converter.html` should keep the PR branch fields for `markSchemeNotes`, `solutionPath`, `hasImage`, `imageStatus`, `diagramType`, `sourcePage`, and optional `optionF`-`optionH`.
-- `assets/questionBank.js` should keep the PR branch `window.ESAT_QUESTION_BANK` with the ENGAA Q01-Q10 imported questions, not the old test-only question bank from `main`.
-
-## Items to check before merging
-
-- Confirm Q01 inequality text against `source-papers/ENGAA 2016 Section 1.pdf`.
-- Confirm Q04 and Q06 recreated diagrams are acceptable or replace them with true PDF crops from `source-papers/ENGAA 2016 Section 1.pdf`.
-- Confirm copyright/public-repo suitability for using ENGAA source question text and diagrams.
+- Confirm copyright/public-repository suitability before publishing source
+  question text or PDF-derived images.

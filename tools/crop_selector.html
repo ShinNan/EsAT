@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <base href="../">
+  <title>PDF question image crop selector</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f3ff;
+      --panel: #ffffff;
+      --ink: #21163d;
+      --muted: #6b6480;
+      --line: #ddd6fe;
+      --brand: #6d28d9;
+      --brand-dark: #4c1d95;
+      --ok: #0f7a45;
+      --danger: #b42318;
+      --shadow: 0 18px 55px rgba(54, 31, 94, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(124, 58, 237, 0.16), transparent 32rem),
+        linear-gradient(180deg, #fff, var(--bg));
+      font: 15px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    main {
+      width: min(1500px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 1.5rem 0 3rem;
+    }
+
+    h1, h2, p { margin-top: 0; }
+    h1 { margin-bottom: .45rem; font-size: clamp(1.8rem, 4vw, 3rem); letter-spacing: -.04em; }
+    h2 { margin-bottom: .7rem; font-size: 1.1rem; }
+    p { color: var(--muted); }
+
+    code, pre, input[data-mono] {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    code { padding: .08rem .28rem; border-radius: .3rem; color: var(--brand-dark); background: #ede9fe; }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 1.25rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, .95);
+      box-shadow: var(--shadow);
+    }
+
+    .top-grid, .workspace, .details-grid, .coordinate-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .top-grid { grid-template-columns: minmax(0, 1.2fr) minmax(320px, .8fr); margin: 1rem 0; }
+    .workspace { grid-template-columns: minmax(0, 1.55fr) minmax(320px, .65fr); align-items: start; }
+    .details-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .coordinate-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    label { display: grid; gap: .35rem; color: var(--muted); font-size: .86rem; font-weight: 750; }
+
+    input, select, textarea, button {
+      min-height: 2.6rem;
+      border: 1px solid var(--line);
+      border-radius: .75rem;
+      padding: .62rem .75rem;
+      color: var(--ink);
+      background: #fff;
+      font: inherit;
+    }
+
+    input:focus, select:focus, textarea:focus, button:focus-visible, canvas:focus-visible {
+      outline: 3px solid rgba(109, 40, 217, .22);
+      outline-offset: 2px;
+    }
+
+    textarea { min-height: 5.5rem; resize: vertical; }
+
+    button {
+      border-color: var(--brand);
+      color: #fff;
+      background: var(--brand);
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    button.secondary { border-color: var(--line); color: var(--brand-dark); background: #f1edff; }
+    button:disabled { opacity: .52; cursor: not-allowed; }
+
+    .row { display: flex; flex-wrap: wrap; gap: .65rem; align-items: end; }
+    .grow { flex: 1 1 22rem; }
+    .actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .75rem; }
+
+    .status {
+      margin-top: .75rem;
+      border-radius: .75rem;
+      padding: .65rem .75rem;
+      color: var(--muted);
+      background: #f7f5ff;
+    }
+    .status.ok { color: var(--ok); background: #eaf8f0; }
+    .status.error { color: var(--danger); background: #fff0ee; }
+
+    .canvas-shell {
+      position: relative;
+      min-height: 24rem;
+      overflow: auto;
+      border: 1px dashed #b8a9e7;
+      border-radius: 1rem;
+      padding: .5rem;
+      background:
+        linear-gradient(45deg, #f6f3ff 25%, transparent 25%),
+        linear-gradient(-45deg, #f6f3ff 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #f6f3ff 75%),
+        linear-gradient(-45deg, transparent 75%, #f6f3ff 75%);
+      background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+      background-size: 16px 16px;
+    }
+
+    #pageCanvas {
+      display: block;
+      max-width: none;
+      border-radius: .5rem;
+      cursor: crosshair;
+      touch-action: none;
+      box-shadow: 0 5px 18px rgba(0, 0, 0, .16);
+    }
+
+    .empty-message {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 2rem;
+      text-align: center;
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    #previewCanvas {
+      display: block;
+      width: 100%;
+      max-height: 25rem;
+      border: 1px solid var(--line);
+      border-radius: .75rem;
+      background: #fff;
+      object-fit: contain;
+    }
+
+    pre {
+      min-height: 7rem;
+      max-height: 18rem;
+      overflow: auto;
+      margin: .75rem 0 0;
+      border: 1px solid var(--line);
+      border-radius: .75rem;
+      padding: .75rem;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      color: #2f2150;
+      background: #faf9ff;
+      font-size: .82rem;
+    }
+
+    .hint { margin: .5rem 0 0; font-size: .86rem; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+    @media (max-width: 980px) {
+      .top-grid, .workspace { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      main { width: min(100% - 1rem, 1500px); }
+      .details-grid, .coordinate-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>PDF question image crop selector</h1>
+      <p>Draw only around the non-text diagram. The selector returns a normalized, DPI-independent box that the Python tool can rebuild in bulk.</p>
+    </header>
+
+    <section class="top-grid" aria-label="Image and crop task controls">
+      <div class="panel">
+        <h2>1. Load a debug render</h2>
+        <div class="row">
+          <label class="grow" for="imagePath">
+            Debug image path / URL
+            <input id="imagePath" data-mono value="debug-renders/ENGAA_2016_Section1_page_08_grid.png" autocomplete="off">
+          </label>
+          <button id="loadPathButton" type="button">Load image path</button>
+        </div>
+        <div class="row" style="margin-top:.65rem">
+          <label class="grow" for="fileInput">
+            Debug render PNG fallback
+            <input id="fileInput" type="file" accept="image/png,image/jpeg,image/webp">
+          </label>
+          <button id="loadIndexButton" class="secondary" type="button">Reload crop task index</button>
+        </div>
+        <p class="hint">Repo-relative paths resolve from the server root, so <code>debug-renders/...</code> works even though this page lives in <code>tools/</code>.</p>
+        <div id="loadStatus" class="status" role="status">Loading <code>debug-renders/index.json</code>…</div>
+      </div>
+
+      <div class="panel">
+        <h2>2. Choose a manifest task</h2>
+        <label for="taskSelect">
+          Crop task
+          <select id="taskSelect">
+            <option value="">Manual selection</option>
+          </select>
+        </label>
+        <div class="actions">
+          <button id="previousTaskButton" class="secondary" type="button">Previous</button>
+          <button id="nextTaskButton" class="secondary" type="button">Next</button>
+          <button id="resetButton" class="secondary" type="button">Reset box</button>
+        </div>
+        <p id="taskSummary" class="hint">Run <code>python3 tools/crop_pdf_images.py prepare</code> to populate the task list.</p>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <div class="panel">
+        <h2>3. Draw the crop box</h2>
+        <p class="hint">Drag from one corner to the opposite corner. Redraw at any time; use the numeric fields for fine adjustments.</p>
+        <div id="canvasShell" class="canvas-shell">
+          <img id="pageImage" class="sr-only" alt="Loaded PDF debug render">
+          <canvas id="pageCanvas" tabindex="0" aria-label="PDF page image. Drag to select a crop rectangle."></canvas>
+          <div id="emptyMessage" class="empty-message">Load a debug-render image to begin.</div>
+        </div>
+      </div>
+
+      <aside class="panel">
+        <h2>Crop preview</h2>
+        <canvas id="previewCanvas" width="1" height="1" aria-label="Selected crop preview"></canvas>
+        <p id="pixelSummary" class="hint">No crop selected.</p>
+
+        <h2 style="margin-top:1rem">Normalized box</h2>
+        <div class="coordinate-grid">
+          <label for="x0">x0<input id="x0" type="number" min="0" max="1" step="0.0001" disabled></label>
+          <label for="y0">y0<input id="y0" type="number" min="0" max="1" step="0.0001" disabled></label>
+          <label for="x1">x1<input id="x1" type="number" min="0" max="1" step="0.0001" disabled></label>
+          <label for="y1">y1<input id="y1" type="number" min="0" max="1" step="0.0001" disabled></label>
+        </div>
+      </aside>
+    </section>
+
+    <section class="panel" style="margin-top:1rem">
+      <h2>4. Save the reviewed box</h2>
+      <div class="details-grid">
+        <label for="cropId">Crop ID<input id="cropId" data-mono value="ENGAA_2016_P1_Q06_fission_diagrams"></label>
+        <label for="questionId">Question ID<input id="questionId" data-mono value="ENGAA_2016_P1_Q06"></label>
+        <label for="documentKey">Document key<input id="documentKey" data-mono value="ENGAA_2016_Section1"></label>
+        <label for="pageNumber">PDF page number (1-based)<input id="pageNumber" type="number" min="1" step="1" value="8"></label>
+        <label for="outputPath">Output path<input id="outputPath" data-mono value="assets/question-images/ENGAA_2016_P1_Q06_fission-diagrams.png"></label>
+        <label for="reviewStatus">Review status
+          <select id="reviewStatus"><option value="reviewed">reviewed</option><option value="approved">approved</option><option value="needs-review">needs-review</option></select>
+        </label>
+      </div>
+      <label for="altText" style="margin-top:.65rem">Image alt text<textarea id="altText">Three fission diagrams labelled diagram 1, diagram 2 and diagram 3, showing uranium-235 and the resulting daughter nuclei and neutrons.</textarea></label>
+      <label for="noteText" style="margin-top:.65rem">Note<textarea id="noteText">Prefer the true PDF crop after the box has been visually approved because the isotope notation must be exact.</textarea></label>
+
+      <pre id="commandOutput" aria-live="polite">Draw a crop box to generate a command.</pre>
+      <div class="actions">
+        <button id="copyCommandButton" type="button" disabled>Copy set-box command</button>
+        <button id="copyEntryButton" class="secondary" type="button" disabled>Copy manifest entry</button>
+        <button id="downloadPreviewButton" class="secondary" type="button" disabled>Download preview PNG</button>
+      </div>
+      <div id="actionStatus" class="status" role="status">Nothing to copy yet.</div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var pageImage = document.getElementById("pageImage");
+      var pageCanvas = document.getElementById("pageCanvas");
+      var previewCanvas = document.getElementById("previewCanvas");
+      var canvasShell = document.getElementById("canvasShell");
+      var pageContext = pageCanvas.getContext("2d");
+      var previewContext = previewCanvas.getContext("2d");
+      var coordinateIds = ["x0", "y0", "x1", "y1"];
+      var tasks = [];
+      var selection = null;
+      var dragStart = null;
+      var currentObjectUrl = null;
+      var renderedSize = { width: 0, height: 0, dpr: 1 };
+
+      function $(id) { return document.getElementById(id); }
+      function clamp(value) { return Math.max(0, Math.min(1, value)); }
+      function round(value) { return Number(value.toFixed(6)); }
+      function setStatus(id, message, kind) { var element = $(id); element.className = "status" + (kind ? " " + kind : ""); element.textContent = message; }
+
+      function resolveRepoUrl(path) {
+        return new URL(String(path || "").trim(), document.baseURI).href;
+      }
+
+      function setPageImageSource(source, label) {
+        if (currentObjectUrl && source !== currentObjectUrl) {
+          URL.revokeObjectURL(currentObjectUrl);
+          currentObjectUrl = null;
+        }
+        pageImage.src = source;
+        setStatus("loadStatus", "Loading " + (label || resolveRepoUrl(source)) + "…");
+      }
+
+      function loadImagePath() {
+        var enteredPath = $("imagePath").value.trim();
+        if (!enteredPath) {
+          setStatus("loadStatus", "Enter a debug image path or URL.", "error");
+          return;
+        }
+        setPageImageSource(enteredPath, resolveRepoUrl(enteredPath));
+      }
+
+      function normalizeBox(box) {
+        if (!Array.isArray(box) || box.length !== 4) return null;
+        var values = box.map(Number);
+        if (values.some(function (value) { return !Number.isFinite(value); })) return null;
+        var x0 = clamp(Math.min(values[0], values[2]));
+        var y0 = clamp(Math.min(values[1], values[3]));
+        var x1 = clamp(Math.max(values[0], values[2]));
+        var y1 = clamp(Math.max(values[1], values[3]));
+        if (x1 - x0 < 0.0001 || y1 - y0 < 0.0001) return null;
+        return [round(x0), round(y0), round(x1), round(y1)];
+      }
+
+      function pointerPosition(event) {
+        var rect = pageCanvas.getBoundingClientRect();
+        return [clamp((event.clientX - rect.left) / rect.width), clamp((event.clientY - rect.top) / rect.height)];
+      }
+
+      function resizeAndDraw() {
+        if (!pageImage.naturalWidth || !pageImage.naturalHeight) return;
+        var available = Math.max(280, canvasShell.clientWidth - 18);
+        var displayWidth = Math.min(pageImage.naturalWidth, available);
+        var displayHeight = displayWidth * pageImage.naturalHeight / pageImage.naturalWidth;
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
+        renderedSize = { width: displayWidth, height: displayHeight, dpr: dpr };
+        pageCanvas.style.width = displayWidth + "px";
+        pageCanvas.style.height = displayHeight + "px";
+        pageCanvas.width = Math.max(1, Math.round(displayWidth * dpr));
+        pageCanvas.height = Math.max(1, Math.round(displayHeight * dpr));
+        pageContext.setTransform(dpr, 0, 0, dpr, 0, 0);
+        drawPage();
+      }
+
+      function drawPage() {
+        if (!renderedSize.width) return;
+        pageContext.clearRect(0, 0, renderedSize.width, renderedSize.height);
+        pageContext.drawImage(pageImage, 0, 0, renderedSize.width, renderedSize.height);
+        if (!selection) return;
+        var x = selection[0] * renderedSize.width;
+        var y = selection[1] * renderedSize.height;
+        var width = (selection[2] - selection[0]) * renderedSize.width;
+        var height = (selection[3] - selection[1]) * renderedSize.height;
+        pageContext.save();
+        pageContext.fillStyle = "rgba(40, 20, 70, .34)";
+        pageContext.beginPath();
+        pageContext.rect(0, 0, renderedSize.width, renderedSize.height);
+        pageContext.rect(x, y, width, height);
+        pageContext.fill("evenodd");
+        pageContext.strokeStyle = "#ff2d55";
+        pageContext.lineWidth = 2;
+        pageContext.setLineDash([8, 5]);
+        pageContext.strokeRect(x, y, width, height);
+        pageContext.restore();
+      }
+
+      function syncCoordinates() {
+        coordinateIds.forEach(function (id, index) {
+          var field = $(id);
+          field.disabled = !selection;
+          field.value = selection ? selection[index].toFixed(6) : "";
+        });
+      }
+
+      function drawPreview() {
+        if (!selection || !pageImage.naturalWidth) {
+          previewCanvas.width = 1;
+          previewCanvas.height = 1;
+          previewContext.clearRect(0, 0, 1, 1);
+          $("pixelSummary").textContent = "No crop selected.";
+          return;
+        }
+        var sx = Math.round(selection[0] * pageImage.naturalWidth);
+        var sy = Math.round(selection[1] * pageImage.naturalHeight);
+        var sourceWidth = Math.max(1, Math.round((selection[2] - selection[0]) * pageImage.naturalWidth));
+        var sourceHeight = Math.max(1, Math.round((selection[3] - selection[1]) * pageImage.naturalHeight));
+        var scale = Math.min(1, 1000 / Math.max(sourceWidth, sourceHeight));
+        previewCanvas.width = Math.max(1, Math.round(sourceWidth * scale));
+        previewCanvas.height = Math.max(1, Math.round(sourceHeight * scale));
+        previewContext.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+        previewContext.drawImage(pageImage, sx, sy, sourceWidth, sourceHeight, 0, 0, previewCanvas.width, previewCanvas.height);
+        $("pixelSummary").textContent = sourceWidth + " × " + sourceHeight + " pixels in this debug render.";
+      }
+
+      function shellQuote(value) {
+        return '"' + String(value).replace(/(["\\$`])/g, "\\$1") + '"';
+      }
+
+      function manifestEntry() {
+        if (!selection) return null;
+        return {
+          id: $("cropId").value.trim(),
+          questionId: $("questionId").value.trim(),
+          document: $("documentKey").value.trim(),
+          page: Number($("pageNumber").value),
+          box: selection.map(round),
+          output: $("outputPath").value.trim(),
+          alt: $("altText").value.trim(),
+          status: $("reviewStatus").value,
+          note: $("noteText").value.trim()
+        };
+      }
+
+      function updateOutput() {
+        var entry = manifestEntry();
+        var valid = entry && entry.id && entry.questionId && entry.document && entry.page >= 1 && entry.output;
+        $("copyCommandButton").disabled = !valid;
+        $("copyEntryButton").disabled = !valid;
+        $("downloadPreviewButton").disabled = !valid;
+        if (!valid) {
+          $("commandOutput").textContent = "Draw a crop box and complete the task fields to generate a command.";
+          return;
+        }
+        var box = entry.box.join(",");
+        $("commandOutput").textContent = "python3 tools/crop_pdf_images.py set-box --id " + shellQuote(entry.id) + " --box " + shellQuote(box) + " --status " + entry.status + " --build";
+        try { localStorage.setItem("esat-crop:" + entry.id, JSON.stringify(entry)); } catch (error) { /* storage is optional */ }
+      }
+
+      function selectionChanged() {
+        drawPage();
+        syncCoordinates();
+        drawPreview();
+        updateOutput();
+      }
+
+      function applyTask(task) {
+        if (!task) return;
+        $("cropId").value = task.id || "";
+        $("questionId").value = task.questionId || "";
+        $("documentKey").value = task.document || "";
+        $("pageNumber").value = task.page || 1;
+        $("outputPath").value = task.output || "";
+        $("altText").value = task.alt || "";
+        $("noteText").value = task.note || "";
+        $("reviewStatus").value = task.status === "approved" ? "approved" : "reviewed";
+        selection = normalizeBox(task.box);
+        var cached = null;
+        try { cached = JSON.parse(localStorage.getItem("esat-crop:" + task.id) || "null"); } catch (error) { cached = null; }
+        if (cached && normalizeBox(cached.box)) selection = normalizeBox(cached.box);
+        $("imagePath").value = task.image || $("imagePath").value;
+        $("taskSummary").textContent = (task.questionId || task.id) + " · page " + task.page + " · " + (task.status || "needs-review");
+        selectionChanged();
+        loadImagePath();
+      }
+
+      function loadSelectedTask() {
+        var index = Number($("taskSelect").value);
+        if (Number.isInteger(index) && tasks[index]) applyTask(tasks[index]);
+      }
+
+      function moveTask(delta) {
+        if (!tasks.length) return;
+        var current = Number($("taskSelect").value);
+        if (!Number.isInteger(current)) current = delta > 0 ? -1 : 0;
+        current = (current + delta + tasks.length) % tasks.length;
+        $("taskSelect").value = String(current);
+        loadSelectedTask();
+      }
+
+      async function loadTaskIndex() {
+        setStatus("loadStatus", "Loading debug-renders/index.json…");
+        try {
+          var response = await fetch("debug-renders/index.json", { cache: "no-store" });
+          if (!response.ok) throw new Error("HTTP " + response.status);
+          var payload = await response.json();
+          if (!payload || !Array.isArray(payload.tasks)) throw new Error("index has no tasks array");
+          tasks = payload.tasks;
+          $("taskSelect").innerHTML = '<option value="">Manual selection</option>' + tasks.map(function (task, index) {
+            var label = (task.questionId || task.id) + " · page " + task.page + " · " + (task.status || "needs-review");
+            return '<option value="' + index + '">' + label.replace(/&/g, "&amp;").replace(/</g, "&lt;") + "</option>";
+          }).join("");
+          setStatus("loadStatus", "Loaded " + tasks.length + " crop task" + (tasks.length === 1 ? "" : "s") + ".", "ok");
+          if (tasks.length) { $("taskSelect").value = "0"; applyTask(tasks[0]); }
+        } catch (error) {
+          tasks = [];
+          setStatus("loadStatus", "Task index unavailable (" + error.message + "). You can still load a path or local file.", "error");
+        }
+      }
+
+      async function copyText(text, successMessage) {
+        try {
+          await navigator.clipboard.writeText(text);
+          setStatus("actionStatus", successMessage, "ok");
+        } catch (error) {
+          setStatus("actionStatus", "Clipboard access failed. Select and copy the text manually.", "error");
+        }
+      }
+
+      pageImage.addEventListener("load", function () {
+        $("emptyMessage").hidden = true;
+        resizeAndDraw();
+        selectionChanged();
+        setStatus("loadStatus", "Loaded " + pageImage.naturalWidth + " × " + pageImage.naturalHeight + " image.", "ok");
+      });
+      pageImage.addEventListener("error", function () {
+        $("emptyMessage").hidden = false;
+        setStatus("loadStatus", "Could not load the image. Run the server from the repository root and check the path.", "error");
+      });
+
+      pageCanvas.addEventListener("pointerdown", function (event) {
+        if (!pageImage.naturalWidth) return;
+        dragStart = pointerPosition(event);
+        selection = [dragStart[0], dragStart[1], dragStart[0], dragStart[1]];
+        pageCanvas.setPointerCapture(event.pointerId);
+        selectionChanged();
+      });
+      pageCanvas.addEventListener("pointermove", function (event) {
+        if (!dragStart) return;
+        var end = pointerPosition(event);
+        selection = normalizeBox([dragStart[0], dragStart[1], end[0], end[1]]) || [dragStart[0], dragStart[1], end[0], end[1]];
+        drawPage();
+      });
+      pageCanvas.addEventListener("pointerup", function (event) {
+        if (!dragStart) return;
+        var end = pointerPosition(event);
+        selection = normalizeBox([dragStart[0], dragStart[1], end[0], end[1]]);
+        dragStart = null;
+        selectionChanged();
+      });
+      pageCanvas.addEventListener("pointercancel", function () { dragStart = null; selectionChanged(); });
+
+      coordinateIds.forEach(function (id) {
+        $(id).addEventListener("change", function () {
+          selection = normalizeBox(coordinateIds.map(function (coordinateId) { return Number($(coordinateId).value); }));
+          selectionChanged();
+        });
+      });
+
+      $("loadPathButton").addEventListener("click", loadImagePath);
+      $("imagePath").addEventListener("keydown", function (event) { if (event.key === "Enter") loadImagePath(); });
+      $("fileInput").addEventListener("change", function (event) {
+        var file = event.target.files && event.target.files[0];
+        if (!file) return;
+        if (currentObjectUrl) URL.revokeObjectURL(currentObjectUrl);
+        currentObjectUrl = URL.createObjectURL(file);
+        setPageImageSource(currentObjectUrl, file.name);
+      });
+      $("loadIndexButton").addEventListener("click", loadTaskIndex);
+      $("taskSelect").addEventListener("change", loadSelectedTask);
+      $("previousTaskButton").addEventListener("click", function () { moveTask(-1); });
+      $("nextTaskButton").addEventListener("click", function () { moveTask(1); });
+      $("resetButton").addEventListener("click", function () { selection = null; selectionChanged(); });
+
+      ["cropId", "questionId", "documentKey", "pageNumber", "outputPath", "altText", "noteText", "reviewStatus"].forEach(function (id) {
+        $(id).addEventListener("input", updateOutput);
+        $(id).addEventListener("change", updateOutput);
+      });
+
+      $("copyCommandButton").addEventListener("click", function () { copyText($("commandOutput").textContent, "Command copied. Run it from the repository root."); });
+      $("copyEntryButton").addEventListener("click", function () { var entry = manifestEntry(); if (entry) copyText(JSON.stringify(entry, null, 2), "Manifest entry copied."); });
+      $("downloadPreviewButton").addEventListener("click", function () {
+        var entry = manifestEntry();
+        if (!entry) return;
+        try {
+          previewCanvas.toBlob(function (blob) {
+            if (!blob) return setStatus("actionStatus", "Preview export failed.", "error");
+            var link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = entry.output.split("/").pop() || "crop.png";
+            link.click();
+            setTimeout(function () { URL.revokeObjectURL(link.href); }, 1000);
+            setStatus("actionStatus", "Preview PNG downloaded. The Python build remains the canonical output.", "ok");
+          }, "image/png");
+        } catch (error) {
+          setStatus("actionStatus", "Preview export is blocked for this cross-origin image.", "error");
+        }
+      });
+
+      window.addEventListener("resize", resizeAndDraw);
+      window.addEventListener("beforeunload", function () { if (currentObjectUrl) URL.revokeObjectURL(currentObjectUrl); });
+      loadTaskIndex();
+    }());
+  </script>
+</body>
+</html>

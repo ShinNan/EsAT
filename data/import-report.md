@@ -47,12 +47,21 @@ The local checkout for this PR branch did not contain those PDFs, and `git fetch
 - Q06 was redrawn as a diagram with nuclei, arrows, emitted neutrons, daughter nuclei and labels, rather than text-only equation boxes. A final SVG QC pass enlarged the viewBox, moved diagram 3 fully inside the canvas, and standardised fonts, arrows, line weights and isotope labels using separate right-aligned mass/proton text plus fixed-position element symbols.
 - `imageStatus` is set to `ready-recreated-close` for Q04 and Q06. Replace with true PDF crops when the source PDF is available locally if exact visual fidelity is required.
 
+
+## Diagram workflow decisions
+
+| Question ID | Diagram type | Method used | Reason for method choice | Image path | Remaining warning |
+| --- | --- | --- | --- | --- | --- |
+| ENGAA_2016_P1_Q04 | simple straight-line graph | recreated-svg main; pdf-crop comparison pending | The graph is simple, has few labels, and the recreated SVG is readable with no overlap. A comparison crop should be generated with `tools/crop_pdf_images.py` once the source PDF is present in this branch. | `assets/question-images/ENGAA_2016_P1_Q04_graph.svg`; pending comparison `assets/question-images/ENGAA_2016_P1_Q04_graph_crop.png` | [CHECK PDF] comparison crop not committed because `source-papers/ENGAA 2016 Section 1.pdf` is not present in this PR checkout. |
+| ENGAA_2016_P1_Q06 | nuclear fission diagram | pdf-crop required; pending | Nuclear diagrams use exact notation and multi-part structure, so the decision rule requires a true PDF crop rather than a recreated SVG. | current fallback `assets/question-images/ENGAA_2016_P1_Q06_fission-diagrams.svg`; target crop `assets/question-images/ENGAA_2016_P1_Q06_fission-diagrams.png` | [CHECK PDF] PNG crop and `questionBank.js` imagePath update are pending until the source PDF is available in this branch and PyMuPDF can run. |
+
 ## Validation notes
 
 - All IDs are unique.
 - All `answerIndex` values match `correctAnswer`.
 - Each imported question has the expected number of answer options from the source question.
 - Q04 and Q06 have image paths that exist in `assets/question-images/`.
+- Added `tools/crop_pdf_images.py` for the true-crop workflow; it renders page debug images at 300 DPI and writes the Q04 comparison crop plus Q06 required PNG crop once `source-papers/ENGAA 2016 Section 1.pdf` is present locally.
 - Q01, Q03, Q04 and Q10 were corrected/reformatted against the source paper text extracted from the ENGAA 2016 Section 1 PDF.
 - Q02 nuclear notation now uses `\nuclide{mass}{proton}{symbol}` and Q10 powers now use renderer syntax such as `R^{2}T^{4}` and `10^{26}` for consistent display.
 - Imported questions include A-F, A-G and A-H option sets; runtime support remains A-H and no options are truncated.

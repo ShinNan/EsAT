@@ -768,7 +768,18 @@
   function isFormulaBlock(block) {
     var compact = String(block || "").trim();
     if (!compact || compact.length > 80) return false;
+    if (/^\\\[[\s\S]*\\\]$/.test(compact)) return true;
+    if (hasProseWords(compact)) return false;
+    if (/(?:=|<|>|\^|\\times|\\frac|\\sqrt|\\cdot|\\propto)/.test(compact)) return true;
     return /(?:=|<|>|≤|≥|\^|\\times|\\frac|\\cdot)/.test(compact);
+  }
+
+  function hasProseWords(value) {
+    var text = String(value || "")
+      .replace(/\\\([\s\S]*?\\\)/g, "")
+      .replace(/\\\[[\s\S]*?\\\]/g, "")
+      .replace(/\\[A-Za-z]+(?:\s*\{[^{}]*\})*/g, "");
+    return /[A-Za-z]{3,}|[a-z]{2,}/.test(text);
   }
 
   function appendQuestionParagraph(container, block) {

@@ -126,6 +126,7 @@
         if ((question.hasImage || image.path) && !image.path) warnings.push("Question expects an image but imagePath is missing.");
         if (image.path && image.path.replace(/\\/g, "/").indexOf("debug-renders/") === 0) warnings.push("Live imagePath points to debug-renders/.");
         if ((question.hasImage || image.path) && !/^ready/.test(question.imageStatus || "")) warnings.push("imageStatus is not ready.");
+        if (/^ready/.test(question.status || "") && /\[Image needed:/i.test(String(question.question || ""))) warnings.push("Ready question still contains an image-needed placeholder.");
         if (!question.status) warnings.push("status is missing.");
         if (!question.quickestMethod) warnings.push("quickestMethod is missing.");
         if (!question.commonTrap) warnings.push("commonTrap is missing.");
@@ -134,7 +135,28 @@
       }
       function isFormulaBlock(block) {
         var value = String(block || "").trim();
+        if (!value || value.length > 100) return false;
+        if (/^\\\[[\s\S]*\\\]$/.test(value)) return true;
+        if (hasProseWords(value)) return false;
+        if (/(?:=|<|>|\^|\\times|\\frac|\\sqrt|\\cdot|\\propto)/.test(value)) return true;
         return value.length <= 100 && /(?:=|<|>|≤|≥|\^|\\times|\\frac|\\sqrt|\\cdot)/.test(value);
+      }
+      function hasProseWords(value) {
+        var text = String(value || "")
+          .replace(/\\\([\s\S]*?\\\)/g, "")
+          .replace(/\\\[[\s\S]*?\\\]/g, "")
+          .replace(/\\[A-Za-z]+(?:\s*\{[^{}]*\})*/g, "");
+        return /[A-Za-z]{3,}|[a-z]{2,}/.test(text);
+      }
+      function visibleRenderWarnings(html) {
+        var scratch = document.createElement("div");
+        var text;
+        scratch.innerHTML = html;
+        text = scratch.textContent || "";
+        return [
+          /\[Image needed:/i.test(text) ? "Rendered student preview still shows an image-needed placeholder." : "",
+          /\\\(|\\\)|\\\[|\\\]/.test(text) ? "Rendered student preview still shows raw LaTeX delimiters." : ""
+        ].filter(Boolean);
       }
       function renderQuestion(value) {
         var html = "";
@@ -163,10 +185,12 @@
         var image = imageData(question);
         var source = question.source || {};
         var card = document.createElement("article");
+        var questionHTML = renderQuestion(question.question);
         var options = (question.options || []).map(function (option, index) {
           var correct = index === question.answerIndex;
           return "<li class='preview-option" + (correct ? " correct" : "") + "'><span class='preview-option-letter'>" + labels[index] + "</span><div>" + renderMath(option) + "</div></li>";
         }).join("");
+        warnings = Array.from(new Set(warnings.concat(visibleRenderWarnings(questionHTML))));
         var imageHTML = image.path ? "<figure class='preview-image-wrap'><img class='preview-image' src='" + escapeHTML(image.path) + "' alt='" + escapeHTML(image.alt) + "'><figcaption>" + escapeHTML(image.path) + " · " + escapeHTML(question.imageStatus || "missing status") + "</figcaption></figure>" : "";
         var warningHTML = warnings.length ? "<ul class='warning-list'>" + warnings.map(function (warning) { return "<li>" + escapeHTML(warning) + "</li>"; }).join("") + "</ul>" : "<ul class='warning-list' hidden></ul>";
         card.className = "question-preview-card" + (warnings.length ? " has-warning" : "");
@@ -175,7 +199,7 @@
         card.dataset.warning = warnings.length ? "true" : "false";
         card.dataset.formulaWarnings = String([question.question, question.explanation, question.quickestMethod, question.commonTrap].concat(question.options || []).some(function (value) { return formulaWarnings(value).length; }));
         card.innerHTML = "<header class='preview-card-header'><div><h3>" + escapeHTML(question.id) + "</h3><div class='preview-meta'><span>" + escapeHTML(subjectLabel) + "</span><span>" + escapeHTML(question.topic || "No topic") + "</span><span>Difficulty " + escapeHTML(question.difficulty || "-") + "</span><span>" + escapeHTML(sourceLabel(question) || "No source") + "</span></div></div><span class='status-chip" + (/^ready/.test(question.status || "") ? "" : " status-not-ready") + "'>" + escapeHTML(question.status || "missing") + "</span></header>" +
-          "<div class='preview-card-body'>" + warningHTML + "<div class='preview-question'>" + renderQuestion(question.question) + "</div>" + imageHTML +
+          "<div class='preview-card-body'>" + warningHTML + "<div class='preview-question'>" + questionHTML + "</div>" + imageHTML +
           "<div><strong>Display mode</strong><div class='path-value'>" + escapeHTML(question.displayMode || "simple-html") + "</div></div>" +
           "<div><strong>Image path/status</strong><div class='path-value'>" + escapeHTML(image.path || "No image") + " · " + escapeHTML(question.imageStatus || "missing") + "</div></div>" +
           "<ol class='preview-options'>" + options + "</ol><div><strong>Correct answer:</strong> " + escapeHTML(question.correctAnswer || labels[question.answerIndex] || "-") + "</div>" +

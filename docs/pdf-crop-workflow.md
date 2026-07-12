@@ -49,7 +49,7 @@ Example:
 ```bash
 python3 tools/crop_pdf_images.py set-box \
   --id "ENGAA_2016_P1_Q06_fission_diagrams" \
-  --box "0.117647,0.112827,0.848739,0.433492" \
+  --box "0.117647,0.130641,0.848739,0.433492" \
   --status reviewed \
   --build
 ```
@@ -90,6 +90,11 @@ python3 tools/crop_pdf_images.py build --id ENGAA_2016_P1_Q06_fission_diagrams
 - `approved` crops require useful alt text.
 - Generated debug renders are ignored by Git; final reviewed assets are not.
 - Keep an existing SVG when it is clearer than the PDF comparison crop.
+
+Q04 and Q06 currently use the checked SVG files as their live images. The Q06
+PNG task is deliberately only `reviewed`: an earlier committed PNG was
+truncated, and the regenerated crop remains experimental until a maintainer
+compares the final file and the deployed question with the source paper.
 
 The GitHub Actions workflow validates the manifest, runs the tests, builds all
 debug pages and crops, and uploads them as a review artifact. It has read-only

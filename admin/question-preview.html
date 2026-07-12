@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="../">
+  <title>Question preview | ESAT Simulator</title>
+  <meta name="description" content="Visual QA list for every question in the ESAT Simulator question bank.">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+  <style>
+    body { background: #f7f5fb; }
+    .preview-shell { width: min(1180px, calc(100% - 2rem)); margin: 0 auto; padding: 1.5rem 0 4rem; }
+    .preview-header { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; margin-bottom: 1rem; }
+    .preview-header h1 { margin: 0.2rem 0; color: var(--purple-950); }
+    .preview-header p { max-width: 76ch; margin: 0; color: var(--muted); line-height: 1.55; }
+    .summary-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.65rem; margin: 1rem 0; }
+    .summary-card { padding: 0.8rem; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
+    .summary-card span { display: block; color: var(--muted); font-size: 0.76rem; font-weight: 750; text-transform: uppercase; }
+    .summary-card strong { display: block; margin-top: 0.2rem; color: var(--purple-950); font-size: 1.5rem; }
+    .preview-controls { position: sticky; top: 0; z-index: 10; display: flex; flex-wrap: wrap; align-items: center; gap: 0.55rem; margin: 1rem 0 1.4rem; padding: 0.75rem; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,255,255,.96); box-shadow: var(--shadow-sm); }
+    .preview-controls button, .preview-controls select { min-height: 40px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--purple-950); padding: 0.55rem 0.8rem; font-weight: 750; }
+    .preview-controls button.active { border-color: var(--purple-500); background: var(--purple-50); color: var(--purple-800); }
+    .preview-section { margin-top: 1.5rem; }
+    .preview-section > h2 { margin: 0 0 0.75rem; color: var(--purple-950); }
+    .question-preview-list { display: grid; gap: 1rem; }
+    .question-preview-card { overflow: hidden; border: 1px solid var(--line); border-radius: 18px; background: #fff; box-shadow: var(--shadow-sm); }
+    .question-preview-card.has-warning { border-color: rgba(183,107,0,.45); }
+    .preview-card-header { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; padding: 0.85rem 1rem; border-bottom: 1px solid var(--line); background: var(--purple-50); }
+    .preview-card-header h3 { margin: 0; color: var(--purple-950); font-size: 1rem; }
+    .preview-meta { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.45rem; }
+    .preview-meta span { padding: 0.23rem 0.45rem; border-radius: 999px; background: #fff; color: var(--muted); font-size: 0.75rem; font-weight: 700; }
+    .status-chip { padding: 0.32rem 0.55rem; border-radius: 999px; background: var(--success-bg); color: var(--success); font-size: 0.78rem; font-weight: 850; white-space: nowrap; }
+    .status-chip.status-not-ready { background: #fff7e6; color: #8a4b00; }
+    .preview-card-body { display: grid; gap: 0.9rem; padding: 1rem; }
+    .preview-question { color: var(--purple-950); font-size: 1.02rem; line-height: 1.52; }
+    .preview-question p { margin: 0 0 0.7rem; }
+    .preview-formula { margin: 0.55rem 0 0.8rem; text-align: center; }
+    .preview-formula .katex-display { margin: 0.2rem 0; overflow-x: auto; overflow-y: hidden; }
+    .preview-statements { display: grid; gap: 0.5rem; margin: 0.65rem 0; }
+    .preview-statement { display: grid; grid-template-columns: 2rem 1fr; gap: 0.55rem; }
+    .preview-statement > strong { text-align: right; }
+    .preview-image-wrap { display: grid; justify-items: center; gap: 0.4rem; margin: 0; padding: 0.7rem; border: 1px solid var(--line); border-radius: 14px; background: var(--soft); }
+    .preview-image { display: block; max-width: 100%; max-height: min(430px, 52vh); width: auto; height: auto; object-fit: contain; }
+    .preview-image-wrap figcaption, .path-value { color: var(--muted); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 0.75rem; overflow-wrap: anywhere; }
+    .preview-options { display: grid; gap: 0.45rem; margin: 0; padding: 0; list-style: none; }
+    .preview-option { display: grid; grid-template-columns: 2rem 1fr; gap: 0.55rem; align-items: center; min-height: 42px; padding: 0.45rem 0.6rem; border: 1px solid var(--line); border-radius: 11px; }
+    .preview-option.correct { border-color: rgba(19,122,70,.35); background: var(--success-bg); }
+    .preview-option-letter { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--purple-100); color: var(--purple-800); font-weight: 850; }
+    .teaching-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 0.65rem; }
+    .teaching-box { padding: 0.7rem; border-radius: 12px; background: var(--soft); line-height: 1.5; }
+    .teaching-box strong { display: block; margin-bottom: 0.2rem; color: var(--purple-950); }
+    .warning-list { margin: 0; padding: 0.7rem 0.8rem 0.7rem 1.8rem; border-radius: 12px; background: #fff7e6; color: #8a4b00; }
+    .warning-list[hidden], .question-preview-card[hidden], .preview-section[hidden] { display: none; }
+    .empty-preview { padding: 2rem; border: 1px dashed var(--line); border-radius: 16px; background: #fff; color: var(--muted); text-align: center; }
+    @media (max-width: 900px) { .summary-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 650px) { .preview-shell { width: min(100% - 1rem, 1180px); } .preview-header { flex-direction: column; } .summary-grid { grid-template-columns: repeat(2, 1fr); } .teaching-grid { grid-template-columns: 1fr; } .preview-card-header { flex-direction: column; } }
+  </style>
+</head>
+<body>
+  <main class="preview-shell">
+    <header class="preview-header">
+      <div>
+        <p class="eyebrow">Maintainer visual QA</p>
+        <h1>Question bank preview</h1>
+        <p>Review every imported question without starting an exam. Warnings are prompts for human checking; run <code>python3 tools/validate_question_bank.py</code> for merge-blocking file checks.</p>
+      </div>
+      <a class="button button-secondary" href="index.html">Open site</a>
+    </header>
+
+    <section class="summary-grid" aria-label="Question bank checklist">
+      <div class="summary-card"><span>Total questions</span><strong id="totalCount">0</strong></div>
+      <div class="summary-card"><span>With images</span><strong id="imageCount">0</strong></div>
+      <div class="summary-card"><span>Missing images</span><strong id="missingImageCount">0</strong></div>
+      <div class="summary-card"><span>Formula warnings</span><strong id="formulaWarningCount">0</strong></div>
+      <div class="summary-card"><span>Ready questions</span><strong id="readyCount">0</strong></div>
+      <div class="summary-card"><span>Draft questions</span><strong id="draftCount">0</strong></div>
+    </section>
+
+    <div class="preview-controls" aria-label="Preview filters">
+      <button type="button" class="active" data-mode="all">Show all</button>
+      <button type="button" data-mode="images">Only with images</button>
+      <button type="button" data-mode="warnings">Only warnings</button>
+      <label for="subjectFilter">Module</label>
+      <select id="subjectFilter"><option value="all">All modules</option></select>
+    </div>
+
+    <div id="previewRoot"></div>
+    <div id="emptyPreview" class="empty-preview" hidden>No questions match the current filters.</div>
+  </main>
+
+  <script src="assets/questionBank.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+  <script src="assets/app.js"></script>
+  <script src="assets/math.js"></script>
+  <script>
+    (function () {
+      "use strict";
+
+      var labels = ["A", "B", "C", "D", "E", "F", "G", "H"];
+      var state = { mode: "all", subject: "all", missingImages: 0 };
+
+      function escapeHTML(value) { return window.ESATMath.escapeHTML(value === undefined ? "" : value); }
+      function renderMath(value, options) { return window.ESATMath.renderToString(value, options); }
+      function imageData(question) {
+        var nested = question.image && typeof question.image === "object" ? question.image : {};
+        return { path: question.imagePath || nested.src || "", alt: question.imageAlt || nested.alt || "Question diagram" };
+      }
+      function formulaWarnings(value) {
+        var text = String(value || "");
+        var warnings = [];
+        if (/\bsqrt\s*\(/i.test(text)) warnings.push("Use \\sqrt{...} instead of sqrt(...).");
+        if (/(^|[^\\\w])(?:[A-Za-z]|\d+)\s*\/\s*(?:[A-Za-z]|\d+)(?!\w)/.test(text)) warnings.push("Use \\frac{...}{...} for a mathematical fraction.");
+        if (/\^(?!\{)[A-Za-z0-9]/.test(text)) warnings.push("Put powers in braces, for example R^{2}.");
+        return warnings;
+      }
+      function questionWarnings(question) {
+        var warnings = [];
+        var formulaFields = [question.question, question.explanation, question.quickestMethod, question.commonTrap].concat(question.options || []);
+        var image = imageData(question);
+        formulaFields.forEach(function (value) { warnings = warnings.concat(formulaWarnings(value)); });
+        if ((question.hasImage || image.path) && !image.path) warnings.push("Question expects an image but imagePath is missing.");
+        if (image.path && image.path.replace(/\\/g, "/").indexOf("debug-renders/") === 0) warnings.push("Live imagePath points to debug-renders/.");
+        if ((question.hasImage || image.path) && !/^ready/.test(question.imageStatus || "")) warnings.push("imageStatus is not ready.");
+        if (!question.status) warnings.push("status is missing.");
+        if (!question.quickestMethod) warnings.push("quickestMethod is missing.");
+        if (!question.commonTrap) warnings.push("commonTrap is missing.");
+        if (!question.solutionPath) warnings.push("solutionPath is missing.");
+        return Array.from(new Set(warnings));
+      }
+      function isFormulaBlock(block) {
+        var value = String(block || "").trim();
+        return value.length <= 100 && /(?:=|<|>|≤|≥|\^|\\times|\\frac|\\sqrt|\\cdot)/.test(value);
+      }
+      function renderQuestion(value) {
+        var html = "";
+        var statementsOpen = false;
+        String(value || "").split(/\n\s*\n/).map(function (block) { return block.trim(); }).filter(Boolean).forEach(function (block) {
+          var statement = block.match(/^(\d+)\s+(.+)$/);
+          if (statement) {
+            if (!statementsOpen) { html += "<div class='preview-statements'>"; statementsOpen = true; }
+            html += "<div class='preview-statement'><strong>" + escapeHTML(statement[1]) + "</strong><div>" + renderMath(statement[2]) + "</div></div>";
+            return;
+          }
+          if (statementsOpen) { html += "</div>"; statementsOpen = false; }
+          html += isFormulaBlock(block)
+            ? "<div class='preview-formula'>" + renderMath(block, { displayMode: true }) + "</div>"
+            : "<p>" + renderMath(block) + "</p>";
+        });
+        if (statementsOpen) html += "</div>";
+        return html;
+      }
+      function sourceLabel(question) {
+        var source = question.source || {};
+        return [source.exam, source.year, source.paper, source.questionNumber ? "Q" + source.questionNumber : ""].filter(Boolean).join(" · ");
+      }
+      function renderCard(question, subjectKey, subjectLabel) {
+        var warnings = questionWarnings(question);
+        var image = imageData(question);
+        var source = question.source || {};
+        var card = document.createElement("article");
+        var options = (question.options || []).map(function (option, index) {
+          var correct = index === question.answerIndex;
+          return "<li class='preview-option" + (correct ? " correct" : "") + "'><span class='preview-option-letter'>" + labels[index] + "</span><div>" + renderMath(option) + "</div></li>";
+        }).join("");
+        var imageHTML = image.path ? "<figure class='preview-image-wrap'><img class='preview-image' src='" + escapeHTML(image.path) + "' alt='" + escapeHTML(image.alt) + "'><figcaption>" + escapeHTML(image.path) + " · " + escapeHTML(question.imageStatus || "missing status") + "</figcaption></figure>" : "";
+        var warningHTML = warnings.length ? "<ul class='warning-list'>" + warnings.map(function (warning) { return "<li>" + escapeHTML(warning) + "</li>"; }).join("") + "</ul>" : "<ul class='warning-list' hidden></ul>";
+        card.className = "question-preview-card" + (warnings.length ? " has-warning" : "");
+        card.dataset.subject = subjectKey;
+        card.dataset.hasImage = (question.hasImage || image.path) ? "true" : "false";
+        card.dataset.warning = warnings.length ? "true" : "false";
+        card.dataset.formulaWarnings = String([question.question, question.explanation, question.quickestMethod, question.commonTrap].concat(question.options || []).some(function (value) { return formulaWarnings(value).length; }));
+        card.innerHTML = "<header class='preview-card-header'><div><h3>" + escapeHTML(question.id) + "</h3><div class='preview-meta'><span>" + escapeHTML(subjectLabel) + "</span><span>" + escapeHTML(question.topic || "No topic") + "</span><span>Difficulty " + escapeHTML(question.difficulty || "-") + "</span><span>" + escapeHTML(sourceLabel(question) || "No source") + "</span></div></div><span class='status-chip" + (/^ready/.test(question.status || "") ? "" : " status-not-ready") + "'>" + escapeHTML(question.status || "missing") + "</span></header>" +
+          "<div class='preview-card-body'>" + warningHTML + "<div class='preview-question'>" + renderQuestion(question.question) + "</div>" + imageHTML +
+          "<div><strong>Image path/status</strong><div class='path-value'>" + escapeHTML(image.path || "No image") + " · " + escapeHTML(question.imageStatus || "missing") + "</div></div>" +
+          "<ol class='preview-options'>" + options + "</ol><div><strong>Correct answer:</strong> " + escapeHTML(question.correctAnswer || labels[question.answerIndex] || "-") + "</div>" +
+          "<div class='teaching-grid'><div class='teaching-box'><strong>Quickest method</strong>" + renderMath(question.quickestMethod || "Missing") + "</div><div class='teaching-box'><strong>Common trap</strong>" + renderMath(question.commonTrap || "Missing") + "</div></div>" +
+          "<div><strong>Solution:</strong> " + (question.solutionPath ? "<a href='" + escapeHTML(question.solutionPath) + "'>" + escapeHTML(question.solutionPath) + "</a>" : "Missing") + "</div>" +
+          "<div class='path-value'>Source section: " + escapeHTML(source.section || "-") + " · page " + escapeHTML(source.page || "-") + "</div></div>";
+
+        var imageElement = card.querySelector("img");
+        if (imageElement) {
+          imageElement.addEventListener("error", function () {
+            if (card.dataset.imageMissing === "true") return;
+            card.dataset.imageMissing = "true";
+            card.dataset.warning = "true";
+            card.classList.add("has-warning");
+            var list = card.querySelector(".warning-list");
+            list.hidden = false;
+            list.insertAdjacentHTML("beforeend", "<li>Image file failed to load: " + escapeHTML(image.path) + "</li>");
+            state.missingImages += 1;
+            updateSummary();
+            applyFilters();
+          });
+        }
+        return card;
+      }
+      function allQuestions() {
+        var bank = window.ESAT_QUESTION_BANK || { subjects: {} };
+        var items = [];
+        Object.keys(bank.subjects || {}).forEach(function (subjectKey) {
+          var subject = bank.subjects[subjectKey];
+          (subject.questions || []).forEach(function (question) { items.push({ question: question, subjectKey: subjectKey, subject: subject }); });
+        });
+        return items;
+      }
+      function updateSummary() {
+        var items = allQuestions();
+        document.getElementById("totalCount").textContent = items.length;
+        document.getElementById("imageCount").textContent = items.filter(function (item) { return item.question.hasImage || imageData(item.question).path; }).length;
+        document.getElementById("missingImageCount").textContent = state.missingImages + items.filter(function (item) {
+          return item.question.hasImage && !imageData(item.question).path;
+        }).length;
+        document.getElementById("formulaWarningCount").textContent = items.filter(function (item) { return [item.question.question, item.question.explanation, item.question.quickestMethod, item.question.commonTrap].concat(item.question.options || []).some(function (value) { return formulaWarnings(value).length; }); }).length;
+        document.getElementById("readyCount").textContent = items.filter(function (item) { return /^ready/.test(item.question.status || ""); }).length;
+        document.getElementById("draftCount").textContent = items.filter(function (item) { return /^draft/.test(item.question.status || ""); }).length;
+      }
+      function applyFilters() {
+        var visible = 0;
+        document.querySelectorAll(".question-preview-card").forEach(function (card) {
+          var modeMatch = state.mode === "all" || (state.mode === "images" && card.dataset.hasImage === "true") || (state.mode === "warnings" && card.dataset.warning === "true");
+          var subjectMatch = state.subject === "all" || card.dataset.subject === state.subject;
+          card.hidden = !(modeMatch && subjectMatch);
+          if (!card.hidden) visible += 1;
+        });
+        document.querySelectorAll(".preview-section").forEach(function (section) { section.hidden = !section.querySelector(".question-preview-card:not([hidden])"); });
+        document.getElementById("emptyPreview").hidden = visible !== 0;
+      }
+      function init() {
+        var root = document.getElementById("previewRoot");
+        var bank = window.ESAT_QUESTION_BANK || { subjects: {} };
+        var select = document.getElementById("subjectFilter");
+        if (!window.ESAT_QUESTION_BANK || !Object.keys(bank.subjects || {}).length) {
+          root.innerHTML = "<section class='question-preview-card has-warning'><div class='preview-card-body'><h2>Question bank failed to load</h2><p>Check that <code>assets/questionBank.js</code> exists and contains at least one subject.</p></div></section>";
+          updateSummary();
+          document.getElementById("emptyPreview").hidden = true;
+          return;
+        }
+        Object.keys(bank.subjects || {}).forEach(function (subjectKey) {
+          var subject = bank.subjects[subjectKey];
+          var section = document.createElement("section");
+          var list = document.createElement("div");
+          var option = document.createElement("option");
+          section.className = "preview-section";
+          section.innerHTML = "<h2>" + escapeHTML(subject.label || subjectKey) + " <small>(" + (subject.questions || []).length + ")</small></h2>";
+          list.className = "question-preview-list";
+          (subject.questions || []).forEach(function (question) { list.appendChild(renderCard(question, subjectKey, subject.label || subjectKey)); });
+          section.appendChild(list);
+          root.appendChild(section);
+          option.value = subjectKey;
+          option.textContent = subject.label || subjectKey;
+          select.appendChild(option);
+        });
+        document.querySelectorAll("[data-mode]").forEach(function (button) {
+          button.addEventListener("click", function () {
+            state.mode = button.dataset.mode;
+            document.querySelectorAll("[data-mode]").forEach(function (item) { item.classList.toggle("active", item === button); });
+            applyFilters();
+          });
+        });
+        select.addEventListener("change", function () { state.subject = select.value; applyFilters(); });
+        updateSummary();
+        applyFilters();
+      }
+      document.addEventListener("DOMContentLoaded", init);
+    }());
+  </script>
+</body>
+</html>

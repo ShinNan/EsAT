@@ -96,7 +96,7 @@ def formula_warnings(value: Any) -> list[str]:
         warnings.append("use \\sqrt{...} instead of sqrt(...)")
     if re.search(r"(?<![\\\w])(?:[A-Za-z]|\d+)\s*/\s*(?:[A-Za-z]|\d+)(?!\w)", text):
         warnings.append("use \\frac{...}{...} for a mathematical fraction")
-    if re.search(r"\^[A-Za-z0-9](?![A-Za-z0-9}])", text):
+    if re.search(r"\^(?!\{)[A-Za-z0-9]", text):
         warnings.append("put powers in braces, for example R^{2}")
     return warnings
 
@@ -366,18 +366,51 @@ def validate_csv_sync(by_id: dict[str, dict[str, Any]], report: Report) -> None:
     for question_id in sorted(set(rows) & set(by_id)):
         question = by_id[question_id]
         row = rows[question_id]
-        image_path, _ = image_reference(question)
+        image_path, image_alt = image_reference(question)
+        source_data = question.get("source") if isinstance(question.get("source"), dict) else {}
+        csv_options = [row.get(f"option{label}", "") for label in OPTION_LABELS]
+        while csv_options and not csv_options[-1]:
+            csv_options.pop()
+        runtime_tags = question.get("tags") if isinstance(question.get("tags"), list) else []
+        csv_has_image = str(row.get("hasImage") or "").strip().lower() in {"yes", "true", "1"}
         comparisons = {
             "subject/section": (str(question.get("subject") or ""), row.get("section", "")),
+            "topicCode": (str(question.get("topicCode") or ""), row.get("topicCode", "")),
+            "topic": (str(question.get("topic") or ""), row.get("topicName", "")),
+            "difficulty": (str(question.get("difficulty") or ""), row.get("difficulty", "")),
+            "question": (str(question.get("question") or ""), row.get("questionText", "")),
+            "options": (question.get("options") or [], csv_options),
             "correctAnswer": (str(question.get("correctAnswer") or ""), row.get("correctAnswer", "")),
             "answerIndex": (str(question.get("answerIndex")), row.get("answerIndex", "")),
+            "explanation": (str(question.get("explanation") or ""), row.get("workedSolution", "")),
+            "markSchemeNotes": (str(question.get("markSchemeNotes") or ""), row.get("markSchemeNotes", "")),
+            "quickestMethod": (str(question.get("quickestMethod") or ""), row.get("quickestMethod", "")),
+            "commonTrap": (str(question.get("commonTrap") or ""), row.get("commonTrap", "")),
+            "tags": (runtime_tags, [tag for tag in row.get("tags", "").split("|") if tag]),
+            "status": (str(question.get("status") or ""), row.get("status", "")),
+            "source.exam": (str(source_data.get("exam") or ""), row.get("sourceExam", "")),
+            "source.year": (str(source_data.get("year") or ""), row.get("sourceYear", "")),
+            "source.paper": (str(source_data.get("paper") or ""), row.get("sourcePaper", "")),
+            "source.section": (str(source_data.get("section") or ""), row.get("sourceSection", "")),
+            "source.questionNumber": (
+                str(source_data.get("questionNumber") or ""),
+                row.get("sourceQuestionNumber", ""),
+            ),
+            "source.page": (str(source_data.get("page") or ""), row.get("sourcePage", "")),
+            "source.originalReference": (
+                str(source_data.get("originalReference") or ""),
+                row.get("originalReference", ""),
+            ),
+            "hasImage": (bool(question.get("hasImage")), csv_has_image),
             "imagePath": (image_path, row.get("imagePath", "")),
+            "imageAlt": (image_alt, row.get("imageAlt", "")),
+            "diagramType": (str(question.get("diagramType") or ""), row.get("diagramType", "")),
             "imageStatus": (str(question.get("imageStatus") or ""), row.get("imageStatus", "")),
             "solutionPath": (str(question.get("solutionPath") or ""), row.get("solutionPath", "")),
         }
         for label, (runtime, source) in comparisons.items():
             if runtime != source:
-                report.error(f"{question_id}: {label} differs between JS ({runtime!r}) and CSV ({source!r})")
+                report.error(f"{question_id}: {label} differs between questionBank.js and question-bank.csv")
 
 
 def validate_crop_assets(report: Report) -> set[Path]:

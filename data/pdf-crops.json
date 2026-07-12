@@ -37,8 +37,8 @@
       ],
       "output": "assets/question-images/ENGAA_2016_P1_Q06_fission-diagrams.png",
       "alt": "Three fission diagrams labelled diagram 1, diagram 2 and diagram 3, showing uranium-235 and the resulting daughter nuclei and neutrons.",
-      "status": "approved",
-      "note": "Approved against the source PDF; all three diagrams and isotope labels are complete."
+      "status": "reviewed",
+      "note": "Regenerated after the previously committed PNG was found truncated. The crop is retained for experimental review, while the live question uses the SVG fallback."
     }
   ]
 }

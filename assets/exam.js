@@ -25,9 +25,9 @@
     return (root || document).querySelector(selector);
   }
 
-  function renderMath(value) {
+  function renderMath(value, options) {
     if (window.ESATMath && typeof window.ESATMath.renderToString === "function") {
-      return window.ESATMath.renderToString(value);
+      return window.ESATMath.renderToString(value, options);
     }
 
     return String(value || "")
@@ -781,7 +781,7 @@
   function appendQuestionFormula(container, block) {
     var formula = document.createElement("div");
     formula.className = "question-formula math-rendered";
-    formula.innerHTML = renderMath(block);
+    formula.innerHTML = renderMath(block, { displayMode: true });
     container.appendChild(formula);
   }
 
@@ -947,19 +947,41 @@
   function renderQuestionImage(question) {
     var imageWrap = $("#questionImageWrap");
     var image = $("#questionImage");
+    var imageError = $("#questionImageError");
 
     if (!imageWrap || !image) return;
 
     if (question.imagePath) {
-      image.src = question.imagePath;
-      image.alt = question.imageAlt || "Question diagram";
       imageWrap.hidden = false;
+      imageWrap.dataset.state = "loading";
+      image.hidden = true;
+      if (imageError) imageError.hidden = true;
+      image.alt = question.imageAlt || "Question diagram";
+      image.onload = function () {
+        imageWrap.dataset.state = "ready";
+        image.hidden = false;
+        if (imageError) imageError.hidden = true;
+      };
+      image.onerror = function () {
+        imageWrap.dataset.state = "error";
+        image.hidden = true;
+        if (imageError) {
+          imageError.textContent = "The question diagram could not be loaded: " + question.imagePath;
+          imageError.hidden = false;
+        }
+      };
+      image.src = question.imagePath;
       return;
     }
 
     imageWrap.hidden = true;
+    delete imageWrap.dataset.state;
+    image.onload = null;
+    image.onerror = null;
     image.removeAttribute("src");
     image.alt = "";
+    image.hidden = false;
+    if (imageError) imageError.hidden = true;
   }
 
   function renderQuestion() {
@@ -1112,6 +1134,9 @@
           correctAnswerLabel: OPTION_LABELS[question.answerIndex],
           correctAnswerText: question.options[question.answerIndex],
           explanation: question.explanation,
+          imagePath: question.imagePath,
+          imageAlt: question.imageAlt,
+          diagramType: question.diagramType,
           status: isAnswered ? "incorrect" : "unanswered"
         });
       }
@@ -1206,7 +1231,10 @@
           question: question.question,
           options: question.options.slice(),
           answerIndex: question.answerIndex,
-          explanation: question.explanation
+          explanation: question.explanation,
+          imagePath: question.imagePath,
+          imageAlt: question.imageAlt,
+          diagramType: question.diagramType
         };
       })
     };
@@ -1274,7 +1302,7 @@
 
       if (state.isPaused || state.isFinished) return;
 
-      if (key === "a" || key === "b" || key === "c" || key === "d" || key === "e") {
+      if (/^[a-h]$/.test(key)) {
         event.preventDefault();
         selectAnswer(OPTION_LABELS.map(function (label) {
           return label.toLowerCase();

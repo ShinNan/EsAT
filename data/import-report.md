@@ -48,7 +48,7 @@ Q04 and Q06 currently use the previously working SVG image paths with
 PNG workflow and its outputs remain in the repository but are not used by the
 runtime bank until browser rendering is re-approved. Their normalized boxes and
 deterministic PNG outputs remain defined in `data/pdf-crops.json` with status
-`approved`.
+Q04 approved and Q06 reviewed after regeneration.
 
 Use the browser selector and manifest-driven PyMuPDF tool documented in
 `docs/pdf-crop-workflow.md` to review only the non-text diagram region. The
@@ -56,7 +56,8 @@ workflow produces canonical debug filenames, deterministic PNG outputs, and a
 GitHub Actions artifact without any manual screenshot upload.
 
 - Q04: the crop contains only the graph and preserves every axis label and guide.
-- Q06: the crop contains all three diagrams and preserves every isotope label.
+- Q06: the regenerated crop contains all three diagrams and preserves every
+  isotope label, but remains non-live pending the full review workflow.
 - The PNG crops remain reviewable artifacts; the CSV and runtime bank now point
   to the recreated SVG fallbacks while live PNG rendering is investigated.
 
@@ -73,11 +74,12 @@ GitHub Actions artifact without any manual screenshot upload.
 - All `answerIndex` values match `correctAnswer`.
 - Every question has the expected number of source-paper answer options.
 - Q04 and Q06 reference existing SVG fallback assets in both the runtime bank
-  and CSV; approved PNG outputs and manifest entries remain present.
+  and CSV; the Q04 approved and Q06 reviewed PNG workflow entries remain
+  present.
 - Imported questions include A-F, A-G, and A-H option sets; runtime support
   remains A-H and no options are truncated.
 - Crop manifest validation checks source files, page bounds, safe output paths,
-  unique crop IDs/outputs, normalized boxes, and alt text for approved crops.
+  unique crop IDs/outputs, normalized boxes, and alt text for reviewed crops.
 
 ## Remaining review
 

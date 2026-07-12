@@ -307,10 +307,12 @@
           <h2>Column guide</h2>
           <ul class="details-list">
             <li><strong>Required:</strong> <code>internalId</code>, <code>section</code> or <code>subject</code>, <code>topicCode</code>, <code>topicName</code>, <code>questionText</code>, <code>optionA</code> through <code>optionE</code>, <code>correctAnswer</code>, <code>workedSolution</code>.</li>
-            <li><strong>Optional teaching fields:</strong> <code>difficulty</code>, <code>markSchemeNotes</code>, <code>quickestMethod</code>, <code>commonTrap</code>, <code>tags</code>, <code>status</code>, <code>solutionPath</code>.</li>
+            <li><strong>Optional teaching fields:</strong> <code>difficulty</code>, <code>markSchemeNotes</code>, <code>quickestMethod</code>, <code>commonTrap</code>, <code>tags</code>, <code>status</code>, <code>displayMode</code>, <code>solutionPath</code>.</li>
             <li><strong>Optional source fields:</strong> <code>sourceExam</code>, <code>sourceYear</code>, <code>sourcePaper</code>, <code>sourceSection</code>, <code>sourceQuestionNumber</code>, <code>sourcePage</code>, <code>originalReference</code>.</li>
             <li><strong>Optional image fields:</strong> <code>hasImage</code>, <code>imagePath</code>, <code>imageAlt</code>, <code>diagramType</code>, <code>imageStatus</code>.</li>
             <li><strong>Correct answer:</strong> use <code>A</code>, <code>B</code>, <code>C</code>, <code>D</code>, <code>E</code>, <code>F</code>, <code>G</code>, or <code>H</code>. <code>optionF</code> to <code>optionH</code> are optional for ENGAA-style questions.</li>
+            <li><strong>Display mode:</strong> use <code>simple-html</code> for ordinary HTML plus KaTeX questions, or <code>stem-image</code> for manually checked stem screenshots with answer buttons below.</li>
+            <li><strong>Formula convention:</strong> enter LaTeX with one backslash in CSV. Use <code>\(...\)</code> for inline maths inside prose, and put a formula-only display block between blank lines. Example: <code>\frac{x}{2}</code>, not <code>x/2</code>.</li>
             <li><strong>Difficulty:</strong> use <code>1</code> to <code>5</code>, or <code>easy</code>, <code>medium</code>, <code>hard</code>.</li>
             <li><strong>Tags:</strong> separate multiple tags with commas, semicolons, or pipes.</li>
           </ul>
@@ -383,13 +385,15 @@
       var OPTION_COLUMNS = ["optionA", "optionB", "optionC", "optionD", "optionE", "optionF", "optionG", "optionH"];
       var SUBJECT_COLUMNS = ["section", "subject"];
       var SOURCE_COLUMNS = ["sourceExam", "sourceYear", "sourcePaper", "sourceSection", "sourceQuestionNumber", "sourcePage", "originalReference"];
-      var IMAGE_COLUMNS = ["hasImage", "imagePath", "imageAlt", "diagramType", "imageStatus"];
+      var ALLOWED_STATUSES = ["ready", "draft", "review", "reviewed", "approved", "needs-review"];
+      var ALLOWED_IMAGE_STATUSES = ["not-needed", "ready", "ready-svg-fallback", "ready-recreated-close", "ready-pdf-crop", "needs-review", "reviewed", "approved"];
+      var ALLOWED_DISPLAY_MODES = ["simple-html", "stem-image"];
 
       var SAMPLE_CSV = [
-        "internalId,section,subject,topicCode,topicName,difficulty,questionText,optionA,optionB,optionC,optionD,optionE,optionF,optionG,optionH,correctAnswer,workedSolution,markSchemeNotes,quickestMethod,commonTrap,tags,status,sourceExam,sourceYear,sourcePaper,sourceSection,sourceQuestionNumber,sourcePage,originalReference,hasImage,imagePath,imageAlt,diagramType,imageStatus,solutionPath",
-        "M1-ALG-001,Maths 1,,ALG,Algebra,easy,Solve 3x - 7 = 11.,x = 4,x = 5,x = 6,x = 7,None of the above,,,,C,\"3x - 7 = 11, so 3x = 18 and x = 6.\",Answer key gives C.,\"Add 7 first, then divide by 3.\",Dividing before adding 7.,linear equations|algebra,approved,ESAT Practice,2026,Sample Paper,Maths 1,1,4,ESAT-2026-M1-Q1,yes,assets/images/m1-alg-001.png,Diagram showing the linear equation balance,diagram,ready,solutions/sample/M1-ALG-001.md",
-        "M2-CAL-001,,maths2,CAL,Calculus,medium,Differentiate y = x^3.,x^2,2x,3x^2,3x,None of the above,,,,C,\"Using the power rule, d/dx of x^3 is 3x^2.\",Answer key gives C.,Use the power rule.,Forgetting to multiply by the old power.,differentiation;power rule,draft,ESAT Practice,2026,Sample Paper,Maths 2,2,5,ESAT-2026-M2-Q2,no,,,,not-needed,solutions/sample/M2-CAL-001.md",
-        "PHY-MEC-001,physics,,MEC,Mechanics,hard,A 2 kg mass accelerates at 3 m s^-2. What is the resultant force?,3 N,5 N,6 N,9 N,12 N,,,,C,F = ma = 2 x 3 = 6 N.,Answer key gives C.,Apply F = ma directly.,Using weight instead of resultant force.,\"forces,Newton's second law\",approved,ESAT Practice,2026,Sample Paper,Physics,3,6,ESAT-2026-PHY-Q3,no,,,,not-needed,solutions/sample/PHY-MEC-001.md"
+        "internalId,section,subject,topicCode,topicName,difficulty,questionText,optionA,optionB,optionC,optionD,optionE,optionF,optionG,optionH,correctAnswer,workedSolution,markSchemeNotes,quickestMethod,commonTrap,tags,status,displayMode,sourceExam,sourceYear,sourcePaper,sourceSection,sourceQuestionNumber,sourcePage,originalReference,hasImage,imagePath,imageAlt,diagramType,imageStatus,solutionPath",
+        "M1-ALG-001,Maths 1,,ALG,Algebra,easy,Solve 3x - 7 = 11.,x = 4,x = 5,x = 6,x = 7,None of the above,,,,C,\"3x - 7 = 11, so 3x = 18 and x = 6.\",Answer key gives C.,\"Add 7 first, then divide by 3.\",Dividing before adding 7.,linear equations|algebra,approved,simple-html,ESAT Practice,2026,Sample Paper,Maths 1,1,4,ESAT-2026-M1-Q1,yes,assets/images/m1-alg-001.png,Diagram showing the linear equation balance,diagram,ready,solutions/sample/M1-ALG-001.md",
+        "M2-CAL-001,,maths2,CAL,Calculus,medium,Differentiate y = x^3.,x^2,2x,3x^2,3x,None of the above,,,,C,\"Using the power rule, d/dx of x^3 is 3x^2.\",Answer key gives C.,Use the power rule.,Forgetting to multiply by the old power.,differentiation;power rule,draft,simple-html,ESAT Practice,2026,Sample Paper,Maths 2,2,5,ESAT-2026-M2-Q2,no,,,,not-needed,solutions/sample/M2-CAL-001.md",
+        "PHY-MEC-001,physics,,MEC,Mechanics,hard,A 2 kg mass accelerates at 3 m s^-2. What is the resultant force?,3 N,5 N,6 N,9 N,12 N,,,,C,F = ma = 2 x 3 = 6 N.,Answer key gives C.,Apply F = ma directly.,Using weight instead of resultant force.,\"forces,Newton's second law\",approved,simple-html,ESAT Practice,2026,Sample Paper,Physics,3,6,ESAT-2026-PHY-Q3,no,,,,not-needed,solutions/sample/PHY-MEC-001.md"
       ].join("\n");
 
       function $(selector) {
@@ -549,6 +553,17 @@
           });
       }
 
+      function formulaWarnings(value) {
+        var text = trimCell(value);
+        var messages = [];
+        if (/\bsqrt\s*\(/i.test(text)) messages.push("use \\sqrt{...} instead of sqrt(...)");
+        if (/(^|[^\\\w])(?:[A-Za-z]|\d+)\s*\/\s*(?:[A-Za-z]|\d+)(?!\w)/.test(text)) {
+          messages.push("use \\frac{...}{...} for a mathematical fraction");
+        }
+        if (/\^[A-Za-z0-9](?![A-Za-z0-9}])/.test(text)) messages.push("put powers in braces, for example R^{2}");
+        return messages;
+      }
+
       function objectFromRow(headers, cells) {
         var output = {};
 
@@ -638,14 +653,16 @@
           var subject = normaliseSubject(rowSubject(row));
           var answerIndex = parseAnswerIndex(row.correctAnswer);
           var difficulty = parseDifficulty(row.difficulty);
-          var options = OPTION_COLUMNS.map(function (column) {
+          var rawOptions = OPTION_COLUMNS.map(function (column) {
             return trimCell(row[column]);
-          }).filter(function (option) {
+          });
+          var options = rawOptions.filter(function (option) {
             return option !== "";
           });
+          var seenBlankOption = false;
           var question;
           var source;
-          var image;
+          var formulaFields;
 
           REQUIRED_COLUMNS.forEach(function (column) {
             if (trimCell(row[column]) === "") {
@@ -668,6 +685,40 @@
           if (difficulty === null) {
             rowErrors.push("Row " + rowNumber + ": difficulty must be 1-5, easy, medium, or hard when provided.");
           }
+
+          rawOptions.forEach(function (option, optionIndex) {
+            if (!option) {
+              seenBlankOption = true;
+            } else if (seenBlankOption) {
+              rowErrors.push("Row " + rowNumber + ": option columns must be contiguous; " + OPTION_COLUMNS[optionIndex] + " follows a blank option.");
+            }
+          });
+
+          if (row.status && ALLOWED_STATUSES.indexOf(row.status) === -1) {
+            warnings.push("Row " + rowNumber + ": unusual status " + row.status + ".");
+          }
+          if (row.displayMode && ALLOWED_DISPLAY_MODES.indexOf(row.displayMode) === -1) {
+            rowErrors.push("Row " + rowNumber + ": displayMode must be simple-html or stem-image.");
+          }
+          if (row.imageStatus && ALLOWED_IMAGE_STATUSES.indexOf(row.imageStatus) === -1) {
+            warnings.push("Row " + rowNumber + ": unusual imageStatus " + row.imageStatus + ".");
+          }
+          if (row.displayMode === "stem-image" && !row.imagePath) {
+            rowErrors.push("Row " + rowNumber + ": stem-image displayMode requires imagePath.");
+          }
+          if (/^(?:yes|true|1)$/i.test(row.hasImage) && !row.imagePath) {
+            rowErrors.push("Row " + rowNumber + ": hasImage is true but imagePath is blank.");
+          }
+          if (String(row.imagePath || "").replace(/\\/g, "/").indexOf("debug-renders/") === 0) {
+            rowErrors.push("Row " + rowNumber + ": imagePath must not point to debug-renders/.");
+          }
+
+          formulaFields = [row.questionText, row.workedSolution, row.quickestMethod, row.commonTrap].concat(rawOptions);
+          formulaFields.forEach(function (value) {
+            formulaWarnings(value).forEach(function (message) {
+              warnings.push("Row " + rowNumber + ": formula warning: " + message + ".");
+            });
+          });
 
           if (row.internalId) {
             if (usedIds[row.internalId]) {
@@ -703,8 +754,9 @@
           if (row.commonTrap) question.commonTrap = row.commonTrap;
           if (parseTags(row.tags).length) question.tags = parseTags(row.tags);
           if (row.status) question.status = row.status;
+          if (row.displayMode) question.displayMode = row.displayMode;
           if (row.solutionPath) question.solutionPath = row.solutionPath;
-          if (row.hasImage) question.hasImage = /^yes|true|1$/i.test(row.hasImage);
+          if (row.hasImage) question.hasImage = /^(?:yes|true|1)$/i.test(row.hasImage);
           if (row.imageStatus) question.imageStatus = row.imageStatus;
           if (row.diagramType) question.diagramType = row.diagramType;
 
@@ -720,12 +772,8 @@
             question.source = source;
           }
 
-          if (hasAnyValue(row, IMAGE_COLUMNS)) {
-            image = {};
-            if (row.imagePath) image.src = row.imagePath;
-            if (row.imageAlt) image.alt = row.imageAlt;
-            question.image = image;
-          }
+          if (row.imagePath) question.imagePath = row.imagePath;
+          if (row.imageAlt) question.imageAlt = row.imageAlt;
 
           questions.push(question);
         });

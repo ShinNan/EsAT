@@ -112,6 +112,84 @@ function findQuestion(bank, id) {
   return null;
 }
 
+function hasProseWords(value) {
+  const text = String(value || "")
+    .replace(/\\\([\s\S]*?\\\)/g, "")
+    .replace(/\\\[[\s\S]*?\\\]/g, "")
+    .replace(/\\[A-Za-z]+(?:\s*\{[^{}]*\})*/g, "");
+  return /[A-Za-z]{3,}|[a-z]{2,}/.test(text);
+}
+
+function isFormulaBlock(block) {
+  const value = String(block || "").trim();
+  if (!value || value.length > 100) return false;
+  if (/^\\\[[\s\S]*\\\]$/.test(value)) return true;
+  if (hasProseWords(value)) return false;
+  return /(?:=|<|>|\^|\\times|\\frac|\\sqrt|\\cdot|\\propto)/.test(value);
+}
+
+function renderStudentQuestionBlocks(renderer, value) {
+  return String(value || "")
+    .split(/\n\s*\n/)
+    .map(function (block) { return block.trim(); })
+    .filter(Boolean)
+    .map(function (block) {
+      const statement = block.match(/^(\d+)\s+(.+)$/);
+      if (statement) {
+        return { type: "statement", html: renderer.renderToString(statement[2]) };
+      }
+      if (isFormulaBlock(block)) {
+        return { type: "formula", html: renderer.renderToString(block, { displayMode: true }) };
+      }
+      return { type: "paragraph", html: renderer.renderToString(block) };
+    });
+}
+
+function visibleText(html) {
+  return String(html || "").replace(/<[^>]*>/g, "");
+}
+
+function checkQ11ToQ20Rendering() {
+  const bank = loadQuestionBank();
+  const renderer = loadRenderer({
+    renderToString: function (expression) {
+      return '<span class="katex">' + expression + "</span>";
+    }
+  });
+  const ids = Array.from({ length: 10 }, function (_, index) {
+    return "ENGAA_2016_P1_Q" + String(index + 11).padStart(2, "0");
+  });
+
+  assert(isFormulaBlock("P = kR^{2}T^{4}"), "formula-only variable products should remain display formula blocks");
+  assert(!isFormulaBlock("When \\(x = 8\\), \\(y = 9\\)."), "inline maths prose should not become a display formula block");
+
+  ids.forEach(function (id) {
+    const question = findQuestion(bank, id);
+    assert(question, id + " is missing from the question bank");
+    assert(question.status === "ready", id + " should be ready");
+    const renderedQuestion = renderStudentQuestionBlocks(renderer, question.question || "");
+    const renderedOptions = (question.options || []).map(function (option) {
+      return renderer.renderToString(option);
+    });
+    const visible = renderedQuestion.map(function (block) { return visibleText(block.html); })
+      .concat(renderedOptions.map(visibleText))
+      .join("\n");
+    assert(!/\[Image needed:/i.test(visible), id + " still renders an image-needed placeholder");
+    assert(!/\\\(|\\\)|\\\[|\\\]/.test(visible), id + " still renders raw LaTeX delimiters");
+  });
+
+  const q13 = findQuestion(bank, "ENGAA_2016_P1_Q13");
+  const q13Blocks = renderStudentQuestionBlocks(renderer, q13.question);
+  const q13WhenBlock = q13Blocks.find(function (block) { return visibleText(block.html).includes("When "); });
+  assert(q13WhenBlock && q13WhenBlock.type === "paragraph", "Q13 inline maths prose was treated as a display formula");
+  assert(q13WhenBlock.html.includes("katex"), "Q13 inline maths did not render through KaTeX");
+
+  const q15 = findQuestion(bank, "ENGAA_2016_P1_Q15");
+  const q15Rendered = renderStudentQuestionBlocks(renderer, q15.question).map(function (block) { return block.html; }).join("\n");
+  assert(!/\[Image needed:/i.test(q15.question), "Q15 source still contains an image-needed placeholder");
+  assert(q15Rendered.includes("120") && q15Rendered.includes("katex"), "Q15 area formula did not render");
+}
+
 function checkLiveImages() {
   const bank = loadQuestionBank();
   const expected = {
@@ -161,6 +239,7 @@ function checkRuntimeScriptOrder(relativePath, finalScript) {
 function main() {
   checkKatexPath();
   checkFallbackPath();
+  checkQ11ToQ20Rendering();
   checkLiveImages();
   checkPreviewPage();
   checkRuntimeScriptOrder("exam.html", "assets/exam.js");

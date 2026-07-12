@@ -305,6 +305,8 @@ def validate_questions(questions: list[dict[str, Any]], report: Report) -> dict[
         status = str(question.get("status") or "")
         if status and status not in ALLOWED_STATUSES:
             report.warn(f"{question_id}: unusual status {status!r}")
+        if status.startswith("ready") and "[Image needed:" in str(question.get("question") or ""):
+            report.error(f"{question_id}: ready question still contains an image-needed placeholder")
 
         display_mode = str(question.get("displayMode") or "")
         if display_mode and display_mode not in ALLOWED_DISPLAY_MODES:

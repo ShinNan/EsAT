@@ -35,7 +35,7 @@ ALLOWED_IMAGE_STATUSES = {
     "reviewed",
     "approved",
 }
-ALLOWED_DISPLAY_MODES = {"simple-html", "stem-image"}
+ALLOWED_DISPLAY_MODES = {"simple-html", "stem-image", "image-needed"}
 
 
 @dataclass
@@ -308,13 +308,15 @@ def validate_questions(questions: list[dict[str, Any]], report: Report) -> dict[
 
         display_mode = str(question.get("displayMode") or "")
         if display_mode and display_mode not in ALLOWED_DISPLAY_MODES:
-            report.error(f"{question_id}: displayMode must be simple-html or stem-image")
+            report.error(f"{question_id}: displayMode must be simple-html, stem-image, or image-needed")
 
         image_path, image_alt = image_reference(question)
         has_image = bool(question.get("hasImage") or image_path)
         image_status = str(question.get("imageStatus") or "")
         if display_mode == "stem-image" and not image_path:
             report.error(f"{question_id}: stem-image displayMode requires imagePath")
+        if display_mode == "image-needed" and not image_path:
+            report.warn(f"{question_id}: image-needed displayMode requires a manually checked image before going live")
         if image_status and image_status not in ALLOWED_IMAGE_STATUSES:
             report.warn(f"{question_id}: unusual imageStatus {image_status!r}")
         if has_image:

@@ -2,7 +2,7 @@
   ESAT Simulator Question Bank
   --------------------------------
   Generated from data/question-bank.csv.
-  Source batch: ENGAA 2016 Paper 1, Questions 1-10.
+  Source batch: ENGAA 2016 Paper 1, Questions 1-20.
   Keep question IDs stable so localStorage profile progress remains valid.
 */
 
@@ -223,6 +223,220 @@ window.ESAT_QUESTION_BANK = {
           },
           "status": "ready",
           "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q09.md"
+        },
+        {
+          "id": "ENGAA_2016_P1_Q11",
+          "subject": "maths1",
+          "topicCode": "GEOM-BEARING",
+          "topic": "Bearings and Trigonometry",
+          "difficulty": 3,
+          "question": "The point \\(A\\) is \\(4\\text{ km}\\) due East of the point \\(B\\).\n\nThe bearing of the point \\(C\\) from \\(A\\) is \\(330^{\\circ}\\) and the bearing of \\(C\\) from \\(B\\) is \\(060^{\\circ}\\).\n\nFind the distance \\(BC\\).",
+          "options": [
+            "\\(2\\text{ km}\\)",
+            "\\(2\\sqrt{3}\\text{ km}\\)",
+            "\\(4\\text{ km}\\)",
+            "\\(2\\sqrt{5}\\text{ km}\\)",
+            "\\(4\\sqrt{2}\\text{ km}\\)"
+          ],
+          "correctAnswer": "B",
+          "answerIndex": 1,
+          "explanation": "The bearings form a triangle in which the horizontal separation \\(AB\\) is \\(4\\text{ km}\\). Resolving the geometry gives \\(BC = 4\\cos 30^{\\circ} = 2\\sqrt{3}\\text{ km}\\).",
+          "markSchemeNotes": "Answer key gives B.",
+          "quickestMethod": "Draw the bearings from A and B, then use the 30 degree right-triangle relationship.",
+          "commonTrap": "Using the bearing angles directly as interior angles without first drawing the north lines.",
+          "tags": [
+            "bearings",
+            "trigonometry",
+            "geometry"
+          ],
+          "hasImage": false,
+          "displayMode": "simple-html",
+          "diagramType": "",
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "11",
+            "page": "11",
+            "originalReference": "ENGAA 2016 P1 Q11"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q11.md",
+          "reviewNotes": ""
+        },
+        {
+          "id": "ENGAA_2016_P1_Q13",
+          "subject": "maths1",
+          "topicCode": "PROP-INVERSE",
+          "topic": "Inverse Proportion",
+          "difficulty": 3,
+          "question": "The quantities \\(x\\) and \\(y\\) are positive.\n\n\\(x\\) is inversely proportional to the square root of \\(y\\).\n\nWhen \\(x = 8\\), \\(y = 9\\).\n\nWhat is the value of \\(y\\) when \\(x = 6\\)?",
+          "options": [
+            "\\(\\frac{3}{2}\\)",
+            "\\(2\\)",
+            "\\(\\frac{81}{16}\\)",
+            "\\(\\frac{27}{14}\\)",
+            "\\(12\\)",
+            "\\(16\\)"
+          ],
+          "correctAnswer": "F",
+          "answerIndex": 5,
+          "explanation": "Since \\(x \\propto \\frac{1}{\\sqrt{y}}\\), \\(x\\sqrt{y}=k\\). With \\(x=8\\) and \\(y=9\\), \\(k=24\\). When \\(x=6\\), \\(6\\sqrt{y}=24\\), so \\(\\sqrt{y}=4\\) and \\(y=16\\).",
+          "markSchemeNotes": "Answer key gives F.",
+          "quickestMethod": "Keep \\(x\\sqrt{y}\\) constant.",
+          "commonTrap": "Treating inverse square-root proportionality as inverse-square proportionality.",
+          "tags": [
+            "proportion",
+            "inverse proportion",
+            "surds"
+          ],
+          "hasImage": false,
+          "displayMode": "simple-html",
+          "diagramType": "",
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "13",
+            "page": "12",
+            "originalReference": "ENGAA 2016 P1 Q13"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q13.md",
+          "reviewNotes": ""
+        },
+        {
+          "id": "ENGAA_2016_P1_Q15",
+          "subject": "maths1",
+          "topicCode": "GEOM-AREA",
+          "topic": "Area and Quadratics",
+          "difficulty": 3,
+          "question": "In a trapezium \\(PQRS\\), the parallel sides are \\(PQ\\) and \\(RS\\).\n\n\\(PQ=(x-1)\\text{ cm}\\), \\(RS=(x+5)\\text{ cm}\\) and the vertical height \\(QR=x\\text{ cm}\\).\n\n[Image needed: trapezium labelled P, Q, R, S with side lengths x-1, x+5 and height x]\n\nThe area of the trapezium is \\(120\\text{ cm}^{2}\\).\n\nWhat is the length of \\(RS\\)?",
+          "options": [
+            "\\(9\\text{ cm}\\)",
+            "\\(10\\text{ cm}\\)",
+            "\\(11\\text{ cm}\\)",
+            "\\(12\\text{ cm}\\)",
+            "\\(15\\text{ cm}\\)",
+            "\\(17\\text{ cm}\\)"
+          ],
+          "correctAnswer": "E",
+          "answerIndex": 4,
+          "explanation": "The area is \\(\\frac{1}{2}[(x-1)+(x+5)]x = 120\\). This gives \\(x^{2}+2x-120=0\\), so \\((x+12)(x-10)=0\\). The positive value is \\(x=10\\), hence \\(RS=x+5=15\\text{ cm}\\).",
+          "markSchemeNotes": "Answer key gives E.",
+          "quickestMethod": "Use the trapezium area formula and reject the negative root.",
+          "commonTrap": "Solving for \\(x\\) but forgetting that the question asks for \\(RS=x+5\\).",
+          "tags": [
+            "area",
+            "quadratics",
+            "geometry"
+          ],
+          "hasImage": false,
+          "displayMode": "image-needed",
+          "diagramType": "geometry diagram",
+          "imageStatus": "needs-review",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "15",
+            "page": "14",
+            "originalReference": "ENGAA 2016 P1 Q15"
+          },
+          "status": "needs-review",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q15.md",
+          "reviewNotes": "Needs a manually checked diagram crop for the trapezium only."
+        },
+        {
+          "id": "ENGAA_2016_P1_Q17",
+          "subject": "maths1",
+          "topicCode": "ALG-REARRANGE",
+          "topic": "Rearranging Formulae",
+          "difficulty": 4,
+          "question": "Make \\(b\\) the subject of the formula:\n\n\\[a=\\frac{b^{2}+2}{3b^{2}-1}\\]",
+          "options": [
+            "\\(b=\\pm\\sqrt{\\frac{a+2}{3a+1}}\\)",
+            "\\(b=\\pm\\sqrt{\\frac{a+2}{3a-1}}\\)",
+            "\\(b=\\pm\\sqrt{\\frac{2-a}{3a+1}}\\)",
+            "\\(b=\\pm\\sqrt{\\frac{2-a}{3a-1}}\\)",
+            "\\(b=\\pm\\sqrt{\\frac{3}{3a+1}}\\)",
+            "\\(b=\\pm\\sqrt{\\frac{3}{3a-1}}\\)"
+          ],
+          "correctAnswer": "B",
+          "answerIndex": 1,
+          "explanation": "Start with \\(a(3b^{2}-1)=b^{2}+2\\). Then \\(3ab^{2}-a=b^{2}+2\\), so \\((3a-1)b^{2}=a+2\\). Therefore \\(b=\\pm\\sqrt{\\frac{a+2}{3a-1}}\\).",
+          "markSchemeNotes": "Answer key gives B.",
+          "quickestMethod": "Collect the \\(b^{2}\\) terms before taking the square root.",
+          "commonTrap": "Dropping the \\(\\pm\\) when taking the square root.",
+          "tags": [
+            "rearranging formulae",
+            "algebra",
+            "fractions"
+          ],
+          "hasImage": false,
+          "displayMode": "simple-html",
+          "diagramType": "",
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "17",
+            "page": "16",
+            "originalReference": "ENGAA 2016 P1 Q17"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q17.md",
+          "reviewNotes": ""
+        },
+        {
+          "id": "ENGAA_2016_P1_Q19",
+          "subject": "maths1",
+          "topicCode": "GEOM-VOLUME",
+          "topic": "Cylinder Volume",
+          "difficulty": 4,
+          "question": "A thin rectangular sheet of metal \\(10\\text{ m}\\) by \\(5\\text{ m}\\) is made into an open ended cylinder by joining the edges \\(PS\\) and \\(QR\\).\n\nThe height of the cylinder is \\(10\\text{ m}\\).\n\n[Image needed: rectangle-to-cylinder diagram]\n\nWhat is the volume, in cubic metres, enclosed by this cylinder?",
+          "options": [
+            "\\(\\frac{5}{2\\pi}\\)",
+            "\\(\\frac{25}{4\\pi}\\)",
+            "\\(\\frac{125}{2\\pi}\\)",
+            "\\(62.5\\pi\\)",
+            "\\(\\frac{125}{\\pi}\\)",
+            "\\(250\\pi\\)"
+          ],
+          "correctAnswer": "C",
+          "answerIndex": 2,
+          "explanation": "The joined edges make the circumference \\(5\\text{ m}\\), so \\(2\\pi r=5\\) and \\(r=\\frac{5}{2\\pi}\\). The height is \\(10\\text{ m}\\). Thus \\(V=\\pi r^{2}h=\\pi\\left(\\frac{5}{2\\pi}\\right)^{2}10=\\frac{125}{2\\pi}\\).",
+          "markSchemeNotes": "Answer key gives C.",
+          "quickestMethod": "Identify the circumference as \\(5\\text{ m}\\), not \\(10\\text{ m}\\), then use \\(V=\\pi r^{2}h\\).",
+          "commonTrap": "Using the sheet height as the circumference, or forgetting to square the radius.",
+          "tags": [
+            "volume",
+            "cylinders",
+            "geometry"
+          ],
+          "hasImage": false,
+          "displayMode": "image-needed",
+          "diagramType": "geometry transformation diagram",
+          "imageStatus": "needs-review",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "19",
+            "page": "18",
+            "originalReference": "ENGAA 2016 P1 Q19"
+          },
+          "status": "needs-review",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q19.md",
+          "reviewNotes": "Needs a manually checked crop for the rectangle-to-cylinder diagram only."
         }
       ]
     },
@@ -454,6 +668,229 @@ window.ESAT_QUESTION_BANK = {
           },
           "status": "ready",
           "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q10.md"
+        },
+        {
+          "id": "ENGAA_2016_P1_Q12",
+          "subject": "physics",
+          "topicCode": "WAVES",
+          "topic": "Wave Motion",
+          "difficulty": 2,
+          "question": "A transverse wave travelling through a medium has a frequency of \\(5.0\\text{ Hz}\\), a wavelength of \\(4.0\\text{ cm}\\) and an amplitude of \\(3.0\\text{ cm}\\).\n\nWhat is the total distance travelled by a particle of the medium in one minute?",
+          "options": [
+            "\\(900\\text{ cm}\\)",
+            "\\(1200\\text{ cm}\\)",
+            "\\(1800\\text{ cm}\\)",
+            "\\(2400\\text{ cm}\\)",
+            "\\(3600\\text{ cm}\\)",
+            "\\(4800\\text{ cm}\\)"
+          ],
+          "correctAnswer": "E",
+          "answerIndex": 4,
+          "explanation": "In one complete oscillation the particle travels four amplitudes, so it travels \\(4 \\times 3.0 = 12\\text{ cm}\\). In \\(60\\text{ s}\\) at \\(5.0\\text{ Hz}\\), it completes \\(300\\) oscillations. The total distance is \\(300 \\times 12 = 3600\\text{ cm}\\).",
+          "markSchemeNotes": "Answer key gives E.",
+          "quickestMethod": "Use distance per cycle \\(=4A\\), then multiply by the number of cycles.",
+          "commonTrap": "Using the wavelength instead of the amplitude for the particle's motion.",
+          "tags": [
+            "waves",
+            "frequency",
+            "amplitude"
+          ],
+          "hasImage": false,
+          "displayMode": "simple-html",
+          "diagramType": "",
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "12",
+            "page": "11",
+            "originalReference": "ENGAA 2016 P1 Q12"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q12.md",
+          "reviewNotes": ""
+        },
+        {
+          "id": "ENGAA_2016_P1_Q14",
+          "subject": "physics",
+          "topicCode": "MECH-PULLEY",
+          "topic": "Forces and Pulleys",
+          "difficulty": 4,
+          "question": "A motor is used to lift a mass of \\(5.0\\text{ kg}\\) using a pulley system as shown in the diagram. The pulley is secured to the roof using a coupling.\n\n[Image needed: pulley, coupling, rope, motor force and 5.0 kg mass diagram]\n\nThe motor needs to cause the mass to accelerate upwards at \\(0.80\\text{ m s}^{-2}\\).\n\nWhat is the minimum tension force that the coupling must be able to withstand without breaking?\n\n(The gravitational field strength \\(g\\) is \\(10\\text{ N kg}^{-1}\\). The pulley system is frictionless and has negligible mass. The rope has negligible mass and is inextensible.)",
+          "options": [
+            "\\(4.0\\text{ N}\\)",
+            "\\(8.0\\text{ N}\\)",
+            "\\(46\\text{ N}\\)",
+            "\\(50\\text{ N}\\)",
+            "\\(54\\text{ N}\\)",
+            "\\(92\\text{ N}\\)",
+            "\\(104\\text{ N}\\)",
+            "\\(108\\text{ N}\\)"
+          ],
+          "correctAnswer": "H",
+          "answerIndex": 7,
+          "explanation": "For the mass, \\(T - 50 = 5.0 \\times 0.80\\), so \\(T = 54\\text{ N}\\). The pulley is pulled down by two rope tensions, so the coupling must withstand \\(2T = 108\\text{ N}\\).",
+          "markSchemeNotes": "Answer key gives H.",
+          "quickestMethod": "Find the rope tension for the accelerating mass, then double it for the force on the pulley support.",
+          "commonTrap": "Choosing \\(54\\text{ N}\\), which is the rope tension but not the total force on the coupling.",
+          "tags": [
+            "forces",
+            "pulleys",
+            "newton second law"
+          ],
+          "hasImage": false,
+          "displayMode": "image-needed",
+          "diagramType": "pulley diagram",
+          "imageStatus": "needs-review",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "14",
+            "page": "13",
+            "originalReference": "ENGAA 2016 P1 Q14"
+          },
+          "status": "needs-review",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q14.md",
+          "reviewNotes": "Needs a manually checked diagram crop for the pulley, coupling, rope, motor force and mass."
+        },
+        {
+          "id": "ENGAA_2016_P1_Q16",
+          "subject": "physics",
+          "topicCode": "ELEC-CIRCUITS",
+          "topic": "Circuits and Energy",
+          "difficulty": 3,
+          "question": "A heater is connected in series with a resistor and a \\(6.0\\text{ V}\\) battery in the circuit shown.\n\n[Image needed: circuit diagram with heater, resistor and battery]\n\nThe total resistance of the circuit is \\(15\\Omega\\). In \\(3.0\\) minutes, \\(180\\text{ J}\\) of electrical energy is transferred into other forms in the heater.\n\nHow much charge flows through the heater in the \\(3.0\\) minutes and what is the voltage across the heater?",
+          "options": [
+            "\\(1.2\\text{ C}\\), \\(150\\text{ V}\\)",
+            "\\(1.2\\text{ C}\\), \\(216\\text{ V}\\)",
+            "\\(7.5\\text{ C}\\), \\(0.041\\text{ V}\\)",
+            "\\(7.5\\text{ C}\\), \\(24\\text{ V}\\)",
+            "\\(72\\text{ C}\\), \\(0.40\\text{ V}\\)",
+            "\\(72\\text{ C}\\), \\(2.5\\text{ V}\\)",
+            "\\(450\\text{ C}\\), \\(0.40\\text{ V}\\)",
+            "\\(450\\text{ C}\\), \\(2.5\\text{ V}\\)"
+          ],
+          "correctAnswer": "F",
+          "answerIndex": 5,
+          "explanation": "The current is \\(I=\\frac{V}{R}=\\frac{6.0}{15}=0.40\\text{ A}\\). Over \\(3.0\\) minutes, \\(t=180\\text{ s}\\), so \\(Q=It=0.40\\times180=72\\text{ C}\\). For the heater, \\(V=\\frac{W}{Q}=\\frac{180}{72}=2.5\\text{ V}\\).",
+          "markSchemeNotes": "Answer key gives F.",
+          "quickestMethod": "Use the total resistance to find current, then use the heater energy to find the heater voltage.",
+          "commonTrap": "Using the full \\(6.0\\text{ V}\\) battery voltage as the heater voltage.",
+          "tags": [
+            "circuits",
+            "charge",
+            "electrical energy"
+          ],
+          "hasImage": false,
+          "displayMode": "image-needed",
+          "diagramType": "circuit diagram",
+          "imageStatus": "needs-review",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "16",
+            "page": "15",
+            "originalReference": "ENGAA 2016 P1 Q16"
+          },
+          "status": "needs-review",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q16.md",
+          "reviewNotes": "Needs a manually checked crop for the circuit diagram; answer options are rendered as HTML."
+        },
+        {
+          "id": "ENGAA_2016_P1_Q18",
+          "subject": "physics",
+          "topicCode": "DENSITY",
+          "topic": "Density",
+          "difficulty": 3,
+          "question": "A cubic block has a hole through it with a square cross-section. The dimensions are shown on the diagram. The weight of the block is \\(30\\text{ N}\\).\n\n[Image needed: cube with square hole, side 10 cm and hole width 5.0 cm]\n\nWhat is the density of the material from which the block is made?\n\n(The gravitational field strength \\(g\\) is \\(10\\text{ N kg}^{-1}\\).)",
+          "options": [
+            "\\(0.30\\text{ g cm}^{-3}\\)",
+            "\\(0.40\\text{ g cm}^{-3}\\)",
+            "\\(0.60\\text{ g cm}^{-3}\\)",
+            "\\(1.2\\text{ g cm}^{-3}\\)",
+            "\\(3.0\\text{ g cm}^{-3}\\)",
+            "\\(4.0\\text{ g cm}^{-3}\\)",
+            "\\(6.0\\text{ g cm}^{-3}\\)",
+            "\\(12\\text{ g cm}^{-3}\\)"
+          ],
+          "correctAnswer": "F",
+          "answerIndex": 5,
+          "explanation": "The mass is \\(\\frac{30}{10}=3\\text{ kg}=3000\\text{ g}\\). The material volume is \\(10^{3}-(5.0^{2}\\times10)=1000-250=750\\text{ cm}^{3}\\). The density is \\(\\frac{3000}{750}=4.0\\text{ g cm}^{-3}\\).",
+          "markSchemeNotes": "Answer key gives F.",
+          "quickestMethod": "Convert weight to mass, subtract the volume of the square hole, then use density = mass/volume.",
+          "commonTrap": "Using the full cube volume and forgetting to subtract the hole.",
+          "tags": [
+            "density",
+            "volume",
+            "weight"
+          ],
+          "hasImage": false,
+          "displayMode": "image-needed",
+          "diagramType": "solid geometry diagram",
+          "imageStatus": "needs-review",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "18",
+            "page": "17",
+            "originalReference": "ENGAA 2016 P1 Q18"
+          },
+          "status": "needs-review",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q18.md",
+          "reviewNotes": "Needs a manually checked crop for the cube and hole diagram only."
+        },
+        {
+          "id": "ENGAA_2016_P1_Q20",
+          "subject": "physics",
+          "topicCode": "THERMAL-RADIATION",
+          "topic": "Thermal Energy Transfer",
+          "difficulty": 3,
+          "question": "The diagram shows four solid steel balls \\(P\\), \\(Q\\), \\(R\\) and \\(S\\) which are of identical size.\n\nBalls \\(P\\) and \\(R\\) have shiny surfaces. Balls \\(Q\\) and \\(S\\) have dull surfaces.\n\nBalls \\(P\\) and \\(Q\\) are in a room at \\(20^{\\circ}\\text{C}\\). Balls \\(R\\) and \\(S\\) are in a room at \\(40^{\\circ}\\text{C}\\).\n\nThe temperature of each ball at a given moment in time is shown on the diagram.\n\n[Image needed: two-room ball temperature diagram]\n\nWhich two balls lose thermal energy by convection, and which ball emits thermal radiation at the greatest rate?",
+          "options": [
+            "P and Q; P",
+            "P and Q; Q",
+            "P and Q; R",
+            "P and Q; S",
+            "R and S; P",
+            "R and S; Q",
+            "R and S; R",
+            "R and S; S"
+          ],
+          "correctAnswer": "D",
+          "answerIndex": 3,
+          "explanation": "Balls \\(P\\) and \\(Q\\) are warmer than their \\(20^{\\circ}\\text{C}\\) surroundings, so they lose thermal energy by convection. Ball \\(S\\) emits thermal radiation at the greatest rate because it is hot and has a dull surface.",
+          "markSchemeNotes": "Answer key gives D.",
+          "quickestMethod": "Compare each ball with its room temperature for convection, then choose the hotter dull surface for radiation.",
+          "commonTrap": "Assuming the balls in the hotter room must be losing heat by convection even though they are at the same temperature as the room.",
+          "tags": [
+            "thermal physics",
+            "convection",
+            "radiation"
+          ],
+          "hasImage": false,
+          "displayMode": "image-needed",
+          "diagramType": "thermal diagram and option table",
+          "imageStatus": "needs-review",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part A Mathematics and Physics",
+            "questionNumber": "20",
+            "page": "19",
+            "originalReference": "ENGAA 2016 P1 Q20"
+          },
+          "status": "needs-review",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q20.md",
+          "reviewNotes": "Needs a manually checked crop for the ball/room diagram; answer options are rendered as HTML."
         }
       ]
     }

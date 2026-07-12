@@ -9,6 +9,8 @@ Static ESAT practice simulator and question-bank tooling, deployed at
   formulas, images, results, CSV conversion, and PDF crops currently work.
 - [Project status and workflow](docs/PROJECT_STATUS_AND_WORKFLOW.md) — practical
   instructions for adding questions, reviewing diagrams, and checking PRs.
+- [Visual QA report](docs/VISUAL_QA_REPORT.md) — checks completed for the current
+  stabilisation branch and the short manual browser checklist still required.
 - [Question preview](admin/question-preview.html) — visual QA for every imported
   question. On GitHub Pages, open
   [the live preview](https://shinnan.github.io/EsAT/admin/question-preview.html).

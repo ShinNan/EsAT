@@ -120,8 +120,9 @@
         var formulaFields = [question.question, question.explanation, question.quickestMethod, question.commonTrap].concat(question.options || []);
         var image = imageData(question);
         formulaFields.forEach(function (value) { warnings = warnings.concat(formulaWarnings(value)); });
-        if (["simple-html", "stem-image"].indexOf(displayMode) === -1) warnings.push("displayMode should be simple-html or stem-image.");
+        if (["simple-html", "stem-image", "image-needed"].indexOf(displayMode) === -1) warnings.push("displayMode should be simple-html, stem-image, or image-needed.");
         if (displayMode === "stem-image" && !image.path) warnings.push("stem-image questions need an imagePath.");
+        if (displayMode === "image-needed" && !image.path) warnings.push("Image needed before this question is ready for live student display.");
         if ((question.hasImage || image.path) && !image.path) warnings.push("Question expects an image but imagePath is missing.");
         if (image.path && image.path.replace(/\\/g, "/").indexOf("debug-renders/") === 0) warnings.push("Live imagePath points to debug-renders/.");
         if ((question.hasImage || image.path) && !/^ready/.test(question.imageStatus || "")) warnings.push("imageStatus is not ready.");

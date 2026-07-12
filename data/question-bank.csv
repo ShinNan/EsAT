@@ -51,3 +51,71 @@ where \(R\) is the radius of the star, \(T\) is its surface temperature and \(k\
 The power currently radiated by the Sun is \(4.0 \times 10^{26}\,\mathrm{W}\). Towards the end of the Sun’s life its radius will increase by a factor of a hundred and its surface temperature will decrease by a factor of two.
 
 What will be the power radiated by the Sun when these changes have occurred?","\(2.5 \times 10^{27}\,\mathrm{W}\)","\(1.0 \times 10^{28}\,\mathrm{W}\)","\(2.0 \times 10^{28}\,\mathrm{W}\)","\(2.5 \times 10^{29}\,\mathrm{W}\)","\(1.0 \times 10^{30}\,\mathrm{W}\)","\(2.0 \times 10^{30}\,\mathrm{W}\)","\(2.5 \times 10^{33}\,\mathrm{W}\)","\(1.0 \times 10^{34}\,\mathrm{W}\)",D,3,"The radius factor contributes \(100^{2} = 10\,000\). The temperature factor contributes \((\frac{1}{2})^{4} = \frac{1}{16}\). The net factor is \(\frac{10\,000}{16} = 625\). Therefore the new power is \(4.0 \times 10^{26} \times 625 = 2.5 \times 10^{29}\,\mathrm{W}\).",Answer key gives D.,"Compute the proportional change only: \(\frac{100^{2}}{2^{4}} = 625\), then multiply \(4.0 \times 10^{26}\) by \(625\).","Forgetting that temperature is raised to the fourth power, or applying the radius factor only once instead of squaring it.",proportionality|powers|radiation|astrophysics,ready,simple-html,ENGAA,2016,P1,Part A Mathematics and Physics,10,10,ENGAA 2016 P1 Q10,no,,,,not-needed,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q10.md,
+ENGAA_2016_P1_Q11,ENGAA_2016_P1_Q11,maths1,GEOM-BEARING,Bearings and Trigonometry,3,"The point \(A\) is \(4\text{ km}\) due East of the point \(B\).
+
+The bearing of the point \(C\) from \(A\) is \(330^{\circ}\) and the bearing of \(C\) from \(B\) is \(060^{\circ}\).
+
+Find the distance \(BC\).",\(2\text{ km}\),\(2\sqrt{3}\text{ km}\),\(4\text{ km}\),\(2\sqrt{5}\text{ km}\),\(4\sqrt{2}\text{ km}\),,,,B,1,The bearings form a triangle in which the horizontal separation \(AB\) is \(4\text{ km}\). Resolving the geometry gives \(BC = 4\cos 30^{\circ} = 2\sqrt{3}\text{ km}\).,Answer key gives B.,"Draw the bearings from A and B, then use the 30 degree right-triangle relationship.",Using the bearing angles directly as interior angles without first drawing the north lines.,bearings|trigonometry|geometry,ready,simple-html,ENGAA,2016,P1,Part A Mathematics and Physics,11,11,ENGAA 2016 P1 Q11,no,,,,not-needed,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q11.md,
+ENGAA_2016_P1_Q12,ENGAA_2016_P1_Q12,physics,WAVES,Wave Motion,2,"A transverse wave travelling through a medium has a frequency of \(5.0\text{ Hz}\), a wavelength of \(4.0\text{ cm}\) and an amplitude of \(3.0\text{ cm}\).
+
+What is the total distance travelled by a particle of the medium in one minute?",\(900\text{ cm}\),\(1200\text{ cm}\),\(1800\text{ cm}\),\(2400\text{ cm}\),\(3600\text{ cm}\),\(4800\text{ cm}\),,,E,4,"In one complete oscillation the particle travels four amplitudes, so it travels \(4 \times 3.0 = 12\text{ cm}\). In \(60\text{ s}\) at \(5.0\text{ Hz}\), it completes \(300\) oscillations. The total distance is \(300 \times 12 = 3600\text{ cm}\).",Answer key gives E.,"Use distance per cycle \(=4A\), then multiply by the number of cycles.",Using the wavelength instead of the amplitude for the particle's motion.,waves|frequency|amplitude,ready,simple-html,ENGAA,2016,P1,Part A Mathematics and Physics,12,11,ENGAA 2016 P1 Q12,no,,,,not-needed,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q12.md,
+ENGAA_2016_P1_Q13,ENGAA_2016_P1_Q13,maths1,PROP-INVERSE,Inverse Proportion,3,"The quantities \(x\) and \(y\) are positive.
+
+\(x\) is inversely proportional to the square root of \(y\).
+
+When \(x = 8\), \(y = 9\).
+
+What is the value of \(y\) when \(x = 6\)?",\(\frac{3}{2}\),\(2\),\(\frac{81}{16}\),\(\frac{27}{14}\),\(12\),\(16\),,,F,5,"Since \(x \propto \frac{1}{\sqrt{y}}\), \(x\sqrt{y}=k\). With \(x=8\) and \(y=9\), \(k=24\). When \(x=6\), \(6\sqrt{y}=24\), so \(\sqrt{y}=4\) and \(y=16\).",Answer key gives F.,Keep \(x\sqrt{y}\) constant.,Treating inverse square-root proportionality as inverse-square proportionality.,proportion|inverse proportion|surds,ready,simple-html,ENGAA,2016,P1,Part A Mathematics and Physics,13,12,ENGAA 2016 P1 Q13,no,,,,not-needed,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q13.md,
+ENGAA_2016_P1_Q14,ENGAA_2016_P1_Q14,physics,MECH-PULLEY,Forces and Pulleys,4,"A motor is used to lift a mass of \(5.0\text{ kg}\) using a pulley system as shown in the diagram. The pulley is secured to the roof using a coupling.
+
+[Image needed: pulley, coupling, rope, motor force and 5.0 kg mass diagram]
+
+The motor needs to cause the mass to accelerate upwards at \(0.80\text{ m s}^{-2}\).
+
+What is the minimum tension force that the coupling must be able to withstand without breaking?
+
+(The gravitational field strength \(g\) is \(10\text{ N kg}^{-1}\). The pulley system is frictionless and has negligible mass. The rope has negligible mass and is inextensible.)",\(4.0\text{ N}\),\(8.0\text{ N}\),\(46\text{ N}\),\(50\text{ N}\),\(54\text{ N}\),\(92\text{ N}\),\(104\text{ N}\),\(108\text{ N}\),H,7,"For the mass, \(T - 50 = 5.0 \times 0.80\), so \(T = 54\text{ N}\). The pulley is pulled down by two rope tensions, so the coupling must withstand \(2T = 108\text{ N}\).",Answer key gives H.,"Find the rope tension for the accelerating mass, then double it for the force on the pulley support.","Choosing \(54\text{ N}\), which is the rope tension but not the total force on the coupling.",forces|pulleys|newton second law,needs-review,image-needed,ENGAA,2016,P1,Part A Mathematics and Physics,14,13,ENGAA 2016 P1 Q14,no,,,pulley diagram,needs-review,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q14.md,"Needs a manually checked diagram crop for the pulley, coupling, rope, motor force and mass."
+ENGAA_2016_P1_Q15,ENGAA_2016_P1_Q15,maths1,GEOM-AREA,Area and Quadratics,3,"In a trapezium \(PQRS\), the parallel sides are \(PQ\) and \(RS\).
+
+\(PQ=(x-1)\text{ cm}\), \(RS=(x+5)\text{ cm}\) and the vertical height \(QR=x\text{ cm}\).
+
+[Image needed: trapezium labelled P, Q, R, S with side lengths x-1, x+5 and height x]
+
+The area of the trapezium is \(120\text{ cm}^{2}\).
+
+What is the length of \(RS\)?",\(9\text{ cm}\),\(10\text{ cm}\),\(11\text{ cm}\),\(12\text{ cm}\),\(15\text{ cm}\),\(17\text{ cm}\),,,E,4,"The area is \(\frac{1}{2}[(x-1)+(x+5)]x = 120\). This gives \(x^{2}+2x-120=0\), so \((x+12)(x-10)=0\). The positive value is \(x=10\), hence \(RS=x+5=15\text{ cm}\).",Answer key gives E.,Use the trapezium area formula and reject the negative root.,Solving for \(x\) but forgetting that the question asks for \(RS=x+5\).,area|quadratics|geometry,needs-review,image-needed,ENGAA,2016,P1,Part A Mathematics and Physics,15,14,ENGAA 2016 P1 Q15,no,,,geometry diagram,needs-review,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q15.md,Needs a manually checked diagram crop for the trapezium only.
+ENGAA_2016_P1_Q16,ENGAA_2016_P1_Q16,physics,ELEC-CIRCUITS,Circuits and Energy,3,"A heater is connected in series with a resistor and a \(6.0\text{ V}\) battery in the circuit shown.
+
+[Image needed: circuit diagram with heater, resistor and battery]
+
+The total resistance of the circuit is \(15\Omega\). In \(3.0\) minutes, \(180\text{ J}\) of electrical energy is transferred into other forms in the heater.
+
+How much charge flows through the heater in the \(3.0\) minutes and what is the voltage across the heater?","\(1.2\text{ C}\), \(150\text{ V}\)","\(1.2\text{ C}\), \(216\text{ V}\)","\(7.5\text{ C}\), \(0.041\text{ V}\)","\(7.5\text{ C}\), \(24\text{ V}\)","\(72\text{ C}\), \(0.40\text{ V}\)","\(72\text{ C}\), \(2.5\text{ V}\)","\(450\text{ C}\), \(0.40\text{ V}\)","\(450\text{ C}\), \(2.5\text{ V}\)",F,5,"The current is \(I=\frac{V}{R}=\frac{6.0}{15}=0.40\text{ A}\). Over \(3.0\) minutes, \(t=180\text{ s}\), so \(Q=It=0.40\times180=72\text{ C}\). For the heater, \(V=\frac{W}{Q}=\frac{180}{72}=2.5\text{ V}\).",Answer key gives F.,"Use the total resistance to find current, then use the heater energy to find the heater voltage.",Using the full \(6.0\text{ V}\) battery voltage as the heater voltage.,circuits|charge|electrical energy,needs-review,image-needed,ENGAA,2016,P1,Part A Mathematics and Physics,16,15,ENGAA 2016 P1 Q16,no,,,circuit diagram,needs-review,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q16.md,Needs a manually checked crop for the circuit diagram; answer options are rendered as HTML.
+ENGAA_2016_P1_Q17,ENGAA_2016_P1_Q17,maths1,ALG-REARRANGE,Rearranging Formulae,4,"Make \(b\) the subject of the formula:
+
+\[a=\frac{b^{2}+2}{3b^{2}-1}\]",\(b=\pm\sqrt{\frac{a+2}{3a+1}}\),\(b=\pm\sqrt{\frac{a+2}{3a-1}}\),\(b=\pm\sqrt{\frac{2-a}{3a+1}}\),\(b=\pm\sqrt{\frac{2-a}{3a-1}}\),\(b=\pm\sqrt{\frac{3}{3a+1}}\),\(b=\pm\sqrt{\frac{3}{3a-1}}\),,,B,1,"Start with \(a(3b^{2}-1)=b^{2}+2\). Then \(3ab^{2}-a=b^{2}+2\), so \((3a-1)b^{2}=a+2\). Therefore \(b=\pm\sqrt{\frac{a+2}{3a-1}}\).",Answer key gives B.,Collect the \(b^{2}\) terms before taking the square root.,Dropping the \(\pm\) when taking the square root.,rearranging formulae|algebra|fractions,ready,simple-html,ENGAA,2016,P1,Part A Mathematics and Physics,17,16,ENGAA 2016 P1 Q17,no,,,,not-needed,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q17.md,
+ENGAA_2016_P1_Q18,ENGAA_2016_P1_Q18,physics,DENSITY,Density,3,"A cubic block has a hole through it with a square cross-section. The dimensions are shown on the diagram. The weight of the block is \(30\text{ N}\).
+
+[Image needed: cube with square hole, side 10 cm and hole width 5.0 cm]
+
+What is the density of the material from which the block is made?
+
+(The gravitational field strength \(g\) is \(10\text{ N kg}^{-1}\).)",\(0.30\text{ g cm}^{-3}\),\(0.40\text{ g cm}^{-3}\),\(0.60\text{ g cm}^{-3}\),\(1.2\text{ g cm}^{-3}\),\(3.0\text{ g cm}^{-3}\),\(4.0\text{ g cm}^{-3}\),\(6.0\text{ g cm}^{-3}\),\(12\text{ g cm}^{-3}\),F,5,The mass is \(\frac{30}{10}=3\text{ kg}=3000\text{ g}\). The material volume is \(10^{3}-(5.0^{2}\times10)=1000-250=750\text{ cm}^{3}\). The density is \(\frac{3000}{750}=4.0\text{ g cm}^{-3}\).,Answer key gives F.,"Convert weight to mass, subtract the volume of the square hole, then use density = mass/volume.",Using the full cube volume and forgetting to subtract the hole.,density|volume|weight,needs-review,image-needed,ENGAA,2016,P1,Part A Mathematics and Physics,18,17,ENGAA 2016 P1 Q18,no,,,solid geometry diagram,needs-review,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q18.md,Needs a manually checked crop for the cube and hole diagram only.
+ENGAA_2016_P1_Q19,ENGAA_2016_P1_Q19,maths1,GEOM-VOLUME,Cylinder Volume,4,"A thin rectangular sheet of metal \(10\text{ m}\) by \(5\text{ m}\) is made into an open ended cylinder by joining the edges \(PS\) and \(QR\).
+
+The height of the cylinder is \(10\text{ m}\).
+
+[Image needed: rectangle-to-cylinder diagram]
+
+What is the volume, in cubic metres, enclosed by this cylinder?",\(\frac{5}{2\pi}\),\(\frac{25}{4\pi}\),\(\frac{125}{2\pi}\),\(62.5\pi\),\(\frac{125}{\pi}\),\(250\pi\),,,C,2,"The joined edges make the circumference \(5\text{ m}\), so \(2\pi r=5\) and \(r=\frac{5}{2\pi}\). The height is \(10\text{ m}\). Thus \(V=\pi r^{2}h=\pi\left(\frac{5}{2\pi}\right)^{2}10=\frac{125}{2\pi}\).",Answer key gives C.,"Identify the circumference as \(5\text{ m}\), not \(10\text{ m}\), then use \(V=\pi r^{2}h\).","Using the sheet height as the circumference, or forgetting to square the radius.",volume|cylinders|geometry,needs-review,image-needed,ENGAA,2016,P1,Part A Mathematics and Physics,19,18,ENGAA 2016 P1 Q19,no,,,geometry transformation diagram,needs-review,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q19.md,Needs a manually checked crop for the rectangle-to-cylinder diagram only.
+ENGAA_2016_P1_Q20,ENGAA_2016_P1_Q20,physics,THERMAL-RADIATION,Thermal Energy Transfer,3,"The diagram shows four solid steel balls \(P\), \(Q\), \(R\) and \(S\) which are of identical size.
+
+Balls \(P\) and \(R\) have shiny surfaces. Balls \(Q\) and \(S\) have dull surfaces.
+
+Balls \(P\) and \(Q\) are in a room at \(20^{\circ}\text{C}\). Balls \(R\) and \(S\) are in a room at \(40^{\circ}\text{C}\).
+
+The temperature of each ball at a given moment in time is shown on the diagram.
+
+[Image needed: two-room ball temperature diagram]
+
+Which two balls lose thermal energy by convection, and which ball emits thermal radiation at the greatest rate?",P and Q; P,P and Q; Q,P and Q; R,P and Q; S,R and S; P,R and S; Q,R and S; R,R and S; S,D,3,"Balls \(P\) and \(Q\) are warmer than their \(20^{\circ}\text{C}\) surroundings, so they lose thermal energy by convection. Ball \(S\) emits thermal radiation at the greatest rate because it is hot and has a dull surface.",Answer key gives D.,"Compare each ball with its room temperature for convection, then choose the hotter dull surface for radiation.",Assuming the balls in the hotter room must be losing heat by convection even though they are at the same temperature as the room.,thermal physics|convection|radiation,needs-review,image-needed,ENGAA,2016,P1,Part A Mathematics and Physics,20,19,ENGAA 2016 P1 Q20,no,,,thermal diagram and option table,needs-review,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q20.md,Needs a manually checked crop for the ball/room diagram; answer options are rendered as HTML.

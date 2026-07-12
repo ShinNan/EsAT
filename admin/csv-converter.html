@@ -311,7 +311,7 @@
             <li><strong>Optional source fields:</strong> <code>sourceExam</code>, <code>sourceYear</code>, <code>sourcePaper</code>, <code>sourceSection</code>, <code>sourceQuestionNumber</code>, <code>sourcePage</code>, <code>originalReference</code>.</li>
             <li><strong>Optional image fields:</strong> <code>hasImage</code>, <code>imagePath</code>, <code>imageAlt</code>, <code>diagramType</code>, <code>imageStatus</code>.</li>
             <li><strong>Correct answer:</strong> use <code>A</code>, <code>B</code>, <code>C</code>, <code>D</code>, <code>E</code>, <code>F</code>, <code>G</code>, or <code>H</code>. <code>optionF</code> to <code>optionH</code> are optional for ENGAA-style questions.</li>
-            <li><strong>Display mode:</strong> use <code>simple-html</code> for ordinary HTML plus KaTeX questions, or <code>stem-image</code> for manually checked stem screenshots with answer buttons below.</li>
+            <li><strong>Display mode:</strong> use <code>simple-html</code> for ordinary HTML plus KaTeX questions, <code>stem-image</code> for manually checked stem screenshots, or <code>image-needed</code> when a question is imported but not yet safe for live display.</li>
             <li><strong>Formula convention:</strong> enter LaTeX with one backslash in CSV. Use <code>\(...\)</code> for inline maths inside prose, and put a formula-only display block between blank lines. Example: <code>\frac{x}{2}</code>, not <code>x/2</code>.</li>
             <li><strong>Difficulty:</strong> use <code>1</code> to <code>5</code>, or <code>easy</code>, <code>medium</code>, <code>hard</code>.</li>
             <li><strong>Tags:</strong> separate multiple tags with commas, semicolons, or pipes.</li>
@@ -387,7 +387,7 @@
       var SOURCE_COLUMNS = ["sourceExam", "sourceYear", "sourcePaper", "sourceSection", "sourceQuestionNumber", "sourcePage", "originalReference"];
       var ALLOWED_STATUSES = ["ready", "draft", "review", "reviewed", "approved", "needs-review"];
       var ALLOWED_IMAGE_STATUSES = ["not-needed", "ready", "ready-svg-fallback", "ready-recreated-close", "ready-pdf-crop", "needs-review", "reviewed", "approved"];
-      var ALLOWED_DISPLAY_MODES = ["simple-html", "stem-image"];
+      var ALLOWED_DISPLAY_MODES = ["simple-html", "stem-image", "image-needed"];
 
       var SAMPLE_CSV = [
         "internalId,section,subject,topicCode,topicName,difficulty,questionText,optionA,optionB,optionC,optionD,optionE,optionF,optionG,optionH,correctAnswer,workedSolution,markSchemeNotes,quickestMethod,commonTrap,tags,status,displayMode,sourceExam,sourceYear,sourcePaper,sourceSection,sourceQuestionNumber,sourcePage,originalReference,hasImage,imagePath,imageAlt,diagramType,imageStatus,solutionPath",
@@ -698,7 +698,7 @@
             warnings.push("Row " + rowNumber + ": unusual status " + row.status + ".");
           }
           if (row.displayMode && ALLOWED_DISPLAY_MODES.indexOf(row.displayMode) === -1) {
-            rowErrors.push("Row " + rowNumber + ": displayMode must be simple-html or stem-image.");
+            rowErrors.push("Row " + rowNumber + ": displayMode must be simple-html, stem-image, or image-needed.");
           }
           if (row.imageStatus && ALLOWED_IMAGE_STATUSES.indexOf(row.imageStatus) === -1) {
             warnings.push("Row " + rowNumber + ": unusual imageStatus " + row.imageStatus + ".");

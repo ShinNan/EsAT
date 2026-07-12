@@ -35,6 +35,7 @@ ALLOWED_IMAGE_STATUSES = {
     "reviewed",
     "approved",
 }
+ALLOWED_DISPLAY_MODES = {"simple-html", "stem-image"}
 
 
 @dataclass
@@ -278,7 +279,7 @@ def validate_questions(questions: list[dict[str, Any]], report: Report) -> dict[
             report.error(f"{question_id}: duplicate question ID")
         by_id[question_id] = question
 
-        for field_name in ("id", "subject", "topic", "status"):
+        for field_name in ("id", "subject", "topic", "status", "displayMode"):
             if not question.get(field_name):
                 report.error(f"{question_id}: missing {field_name}")
 
@@ -305,9 +306,15 @@ def validate_questions(questions: list[dict[str, Any]], report: Report) -> dict[
         if status and status not in ALLOWED_STATUSES:
             report.warn(f"{question_id}: unusual status {status!r}")
 
+        display_mode = str(question.get("displayMode") or "")
+        if display_mode and display_mode not in ALLOWED_DISPLAY_MODES:
+            report.error(f"{question_id}: displayMode must be simple-html or stem-image")
+
         image_path, image_alt = image_reference(question)
         has_image = bool(question.get("hasImage") or image_path)
         image_status = str(question.get("imageStatus") or "")
+        if display_mode == "stem-image" and not image_path:
+            report.error(f"{question_id}: stem-image displayMode requires imagePath")
         if image_status and image_status not in ALLOWED_IMAGE_STATUSES:
             report.warn(f"{question_id}: unusual imageStatus {image_status!r}")
         if has_image:
@@ -388,6 +395,7 @@ def validate_csv_sync(by_id: dict[str, dict[str, Any]], report: Report) -> None:
             "commonTrap": (str(question.get("commonTrap") or ""), row.get("commonTrap", "")),
             "tags": (runtime_tags, [tag for tag in row.get("tags", "").split("|") if tag]),
             "status": (str(question.get("status") or ""), row.get("status", "")),
+            "displayMode": (str(question.get("displayMode") or ""), row.get("displayMode", "")),
             "source.exam": (str(source_data.get("exam") or ""), row.get("sourceExam", "")),
             "source.year": (str(source_data.get("year") or ""), row.get("sourceYear", "")),
             "source.paper": (str(source_data.get("paper") or ""), row.get("sourcePaper", "")),

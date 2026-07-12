@@ -116,9 +116,12 @@
       }
       function questionWarnings(question) {
         var warnings = [];
+        var displayMode = question.displayMode || "simple-html";
         var formulaFields = [question.question, question.explanation, question.quickestMethod, question.commonTrap].concat(question.options || []);
         var image = imageData(question);
         formulaFields.forEach(function (value) { warnings = warnings.concat(formulaWarnings(value)); });
+        if (["simple-html", "stem-image"].indexOf(displayMode) === -1) warnings.push("displayMode should be simple-html or stem-image.");
+        if (displayMode === "stem-image" && !image.path) warnings.push("stem-image questions need an imagePath.");
         if ((question.hasImage || image.path) && !image.path) warnings.push("Question expects an image but imagePath is missing.");
         if (image.path && image.path.replace(/\\/g, "/").indexOf("debug-renders/") === 0) warnings.push("Live imagePath points to debug-renders/.");
         if ((question.hasImage || image.path) && !/^ready/.test(question.imageStatus || "")) warnings.push("imageStatus is not ready.");
@@ -172,6 +175,7 @@
         card.dataset.formulaWarnings = String([question.question, question.explanation, question.quickestMethod, question.commonTrap].concat(question.options || []).some(function (value) { return formulaWarnings(value).length; }));
         card.innerHTML = "<header class='preview-card-header'><div><h3>" + escapeHTML(question.id) + "</h3><div class='preview-meta'><span>" + escapeHTML(subjectLabel) + "</span><span>" + escapeHTML(question.topic || "No topic") + "</span><span>Difficulty " + escapeHTML(question.difficulty || "-") + "</span><span>" + escapeHTML(sourceLabel(question) || "No source") + "</span></div></div><span class='status-chip" + (/^ready/.test(question.status || "") ? "" : " status-not-ready") + "'>" + escapeHTML(question.status || "missing") + "</span></header>" +
           "<div class='preview-card-body'>" + warningHTML + "<div class='preview-question'>" + renderQuestion(question.question) + "</div>" + imageHTML +
+          "<div><strong>Display mode</strong><div class='path-value'>" + escapeHTML(question.displayMode || "simple-html") + "</div></div>" +
           "<div><strong>Image path/status</strong><div class='path-value'>" + escapeHTML(image.path || "No image") + " · " + escapeHTML(question.imageStatus || "missing") + "</div></div>" +
           "<ol class='preview-options'>" + options + "</ol><div><strong>Correct answer:</strong> " + escapeHTML(question.correctAnswer || labels[question.answerIndex] || "-") + "</div>" +
           "<div class='teaching-grid'><div class='teaching-box'><strong>Quickest method</strong>" + renderMath(question.quickestMethod || "Missing") + "</div><div class='teaching-box'><strong>Common trap</strong>" + renderMath(question.commonTrap || "Missing") + "</div></div>" +

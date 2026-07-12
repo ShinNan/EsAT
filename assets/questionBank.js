@@ -2,7 +2,7 @@
   ESAT Simulator Question Bank
   --------------------------------
   Generated from data/question-bank.csv.
-  Source batch: ENGAA 2016 Paper 1, Questions 1-20.
+  Source batch: ENGAA 2016 Paper 1, Questions 1-30.
   Keep question IDs stable so localStorage profile progress remains valid.
 */
 
@@ -441,6 +441,178 @@ window.ESAT_QUESTION_BANK = {
           "status": "ready",
           "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q19.md",
           "reviewNotes": ""
+        },
+        {
+          "id": "ENGAA_2016_P1_Q21",
+          "subject": "maths1",
+          "topicCode": "ALG-FRACTIONS",
+          "topic": "Algebraic Fractions",
+          "difficulty": 3,
+          "question": "Which one of the following is a simplification of\n\n\\[4 + \\frac{4 - x^{2}}{x^{2}-2x}\\]",
+          "options": [
+            "\\(3-\\frac{2}{x}\\)",
+            "\\(3+\\frac{2}{x}\\)",
+            "\\(4-\\frac{2}{x}\\)",
+            "\\(4+\\frac{2}{x}\\)",
+            "\\(5-\\frac{2}{x}\\)",
+            "\\(5+\\frac{2}{x}\\)"
+          ],
+          "correctAnswer": "A",
+          "answerIndex": 0,
+          "explanation": "Factor the fraction: \\(4-x^{2}=(2+x)(2-x)\\) and \\(x^{2}-2x=x(x-2)=-x(2-x)\\). The fraction becomes \\(-\\frac{x+2}{x}\\), so the expression is \\(4-1-\\frac{2}{x}=3-\\frac{2}{x}\\).",
+          "markSchemeNotes": "Answer key gives A.",
+          "quickestMethod": "Rewrite the denominator as \\(-x(2-x)\\), cancel \\((2-x)\\), then combine with the 4.",
+          "commonTrap": "Cancelling signs incorrectly after factoring \\(x^{2}-2x\\).",
+          "tags": [
+            "algebra",
+            "fractions",
+            "simplification"
+          ],
+          "hasImage": false,
+          "displayMode": "simple-html",
+          "diagramType": "",
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part B Advanced Mathematics and Advanced Physics",
+            "questionNumber": "21",
+            "page": "20",
+            "originalReference": "ENGAA 2016 P1 Q21"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q21.md",
+          "reviewNotes": ""
+        },
+        {
+          "id": "ENGAA_2016_P1_Q23",
+          "subject": "maths1",
+          "topicCode": "PROB-TABLES",
+          "topic": "Probability Tables",
+          "difficulty": 3,
+          "question": "During summer activities week 120 students each chose one activity from swimming, archery, and tennis.\n\n46 of the students were girls.\n\n36 of the students chose tennis, and \\(\\frac{2}{3}\\) of these were boys; 25 girls chose swimming, and 27 students chose archery.\n\nA boy is picked at random. What is the probability that he chose swimming?",
+          "options": [
+            "\\(\\frac{3}{20}\\)",
+            "\\(\\frac{9}{37}\\)",
+            "\\(\\frac{4}{15}\\)",
+            "\\(\\frac{16}{37}\\)",
+            "\\(\\frac{32}{57}\\)"
+          ],
+          "correctAnswer": "D",
+          "answerIndex": 3,
+          "explanation": "Of the 36 tennis students, 24 are boys and 12 are girls. There are 74 boys in total. Girls in archery are \\(46-25-12=9\\), so boys in archery are \\(27-9=18\\). Boys in swimming are \\(74-24-18=32\\), giving probability \\(\\frac{32}{74}=\\frac{16}{37}\\).",
+          "markSchemeNotes": "Answer key gives D.",
+          "quickestMethod": "Build the two-way table by gender and activity, then divide boys who swim by total boys.",
+          "commonTrap": "Using all 120 students as the denominator after the question has selected a boy.",
+          "tags": [
+            "probability",
+            "tables",
+            "fractions"
+          ],
+          "hasImage": false,
+          "displayMode": "simple-html",
+          "diagramType": "",
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part B Advanced Mathematics and Advanced Physics",
+            "questionNumber": "23",
+            "page": "22",
+            "originalReference": "ENGAA 2016 P1 Q23"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q23.md",
+          "reviewNotes": ""
+        },
+        {
+          "id": "ENGAA_2016_P1_Q25",
+          "subject": "maths1",
+          "topicCode": "INDICES",
+          "topic": "Indices",
+          "difficulty": 3,
+          "question": "Which one of the following expressions is equivalent to\n\n\\[\\frac{9^{2n+1}\\times 3^{4-3n}}{27^{2-n}}\\]",
+          "options": [
+            "\\(3^{9}\\)",
+            "\\(3^{-2n}\\)",
+            "\\(3^{2-2n}\\)",
+            "\\(3^{4n}\\)",
+            "\\(3^{6n-2}\\)",
+            "\\(3^{6}\\)"
+          ],
+          "correctAnswer": "D",
+          "answerIndex": 3,
+          "explanation": "Rewrite all terms as powers of 3: \\(9^{2n+1}=3^{4n+2}\\) and \\(27^{2-n}=3^{6-3n}\\). The overall exponent is \\((4n+2)+(4-3n)-(6-3n)=4n\\), so the expression is \\(3^{4n}\\).",
+          "markSchemeNotes": "Answer key gives D.",
+          "quickestMethod": "Convert every base to 3, then add exponents in the numerator and subtract the denominator exponent.",
+          "commonTrap": "Forgetting to subtract the whole denominator exponent \\((6-3n)\\).",
+          "tags": [
+            "indices",
+            "powers",
+            "algebra"
+          ],
+          "hasImage": false,
+          "displayMode": "simple-html",
+          "diagramType": "",
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part B Advanced Mathematics and Advanced Physics",
+            "questionNumber": "25",
+            "page": "23",
+            "originalReference": "ENGAA 2016 P1 Q25"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q25.md",
+          "reviewNotes": ""
+        },
+        {
+          "id": "ENGAA_2016_P1_Q27",
+          "subject": "maths1",
+          "topicCode": "GEOM-POLYGONS",
+          "topic": "Regular Polygons",
+          "difficulty": 4,
+          "question": "In the diagram below, \\(PQRS\\) is part of a regular polygon.\n\nThe polygon has \\(n\\) sides.\n\nThe side \\(PQ\\) is extended to \\(T\\) such that \\(PQT\\) is a straight line.\n\nThe length of \\(RQ\\) is the same as the length of \\(RT\\).\n\n[Image needed: regular polygon segment labelled \\(P,Q,R,S,T\\) with angle \\(x\\) at \\(R\\).]\n\nFind an equation for \\(n\\) in terms of \\(x\\), where \\(x\\) is the size of angle \\(\\angle QRT\\) in degrees.",
+          "options": [
+            "\\(n=\\frac{180}{x-90}\\)",
+            "\\(n=\\frac{180-x}{720}\\)",
+            "\\(n=\\frac{360-x}{90}\\)",
+            "\\(n=\\frac{360}{180-x}\\)",
+            "\\(n=\\frac{720}{180-x}\\)",
+            "\\(n=\\frac{720}{360-x}\\)",
+            "\\(n=\\frac{360}{360-x}\\)"
+          ],
+          "correctAnswer": "E",
+          "answerIndex": 4,
+          "explanation": "In triangle \\(QRT\\), \\(RQ=RT\\), so the two base angles are equal. The angle at \\(Q\\) in the triangle is the exterior angle of the regular polygon, so it is \\(\\frac{360}{n}\\). Therefore \\(x+2\\cdot\\frac{360}{n}=180\\), giving \\(n=\\frac{720}{180-x}\\).",
+          "markSchemeNotes": "Answer key gives E.",
+          "quickestMethod": "Use the regular polygon exterior angle \\(\\frac{360}{n}\\) and the isosceles triangle angle sum.",
+          "commonTrap": "Using the interior angle of the polygon where the exterior angle at \\(Q\\) is needed.",
+          "tags": [
+            "geometry",
+            "polygons",
+            "angles"
+          ],
+          "hasImage": false,
+          "displayMode": "image-needed",
+          "diagramType": "regular polygon angle diagram",
+          "imageStatus": "needs-review",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part B Advanced Mathematics and Advanced Physics",
+            "questionNumber": "27",
+            "page": "25",
+            "originalReference": "ENGAA 2016 P1 Q27"
+          },
+          "status": "needs-review",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q27.md",
+          "reviewNotes": "Needs manually checked diagram-only crop before this is student-ready."
         }
       ]
     },
@@ -448,7 +620,50 @@ window.ESAT_QUESTION_BANK = {
       "label": "Maths 2",
       "shortLabel": "M2",
       "description": "More advanced mathematical reasoning, calculus, vectors, trigonometry and algebraic fluency.",
-      "questions": []
+      "questions": [
+        {
+          "id": "ENGAA_2016_P1_Q29",
+          "subject": "maths2",
+          "topicCode": "ALG-SIMULTANEOUS",
+          "topic": "Algebraic Conditions",
+          "difficulty": 4,
+          "question": "When \\(x=2\\) is substituted in the expression \\(x^{3}+px^{2}+qx+p^{2}\\) the result is \\(0\\).\n\nWhen \\(x=1\\) is substituted into the same expression, the result is \\(-3.5\\).\n\nFind all possible value(s) of \\(p\\).",
+          "options": [
+            "\\(p=-1\\pm\\frac{\\sqrt{6}}{3}\\)",
+            "\\(p=1\\) or \\(p=-3\\)",
+            "\\(p=1\\)",
+            "\\(p=1\\pm\\sqrt{7}\\)",
+            "there are no values for \\(p\\)"
+          ],
+          "correctAnswer": "C",
+          "answerIndex": 2,
+          "explanation": "Substituting \\(x=2\\) gives \\(8+4p+2q+p^{2}=0\\). Substituting \\(x=1\\) gives \\(1+p+q+p^{2}=-3.5\\). Eliminating \\(q\\) gives \\(p=1\\).",
+          "markSchemeNotes": "Answer key gives C.",
+          "quickestMethod": "Write the two substitution equations, eliminate \\(q\\), and solve the resulting equation for \\(p\\).",
+          "commonTrap": "Forgetting that \\(p^{2}\\) appears in both substituted equations.",
+          "tags": [
+            "algebra",
+            "simultaneous equations",
+            "quadratics"
+          ],
+          "hasImage": false,
+          "displayMode": "simple-html",
+          "diagramType": "",
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part B Advanced Mathematics and Advanced Physics",
+            "questionNumber": "29",
+            "page": "28",
+            "originalReference": "ENGAA 2016 P1 Q29"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q29.md",
+          "reviewNotes": ""
+        }
+      ]
     },
     "physics": {
       "label": "Physics",
@@ -903,6 +1118,230 @@ window.ESAT_QUESTION_BANK = {
           "status": "ready",
           "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q20.md",
           "reviewNotes": ""
+        },
+        {
+          "id": "ENGAA_2016_P1_Q22",
+          "subject": "physics",
+          "topicCode": "KINEMATICS-GRAPHS",
+          "topic": "Velocity-Time Graphs",
+          "difficulty": 4,
+          "question": "The diagram shows the velocity-time graph for an object travelling in a straight line over a period of \\(30\\text{ s}\\).\n\n[Image needed: velocity-time graph for the object's motion.]\n\nWhat total distance did the object travel in the \\(30\\text{ s}\\), how far from its starting position was it at the end of the \\(30\\text{ s}\\), and what was its average speed over the \\(30\\text{ s}\\)?",
+          "options": [
+            "\\(90\\text{ m}\\); \\(70\\text{ m}\\); \\(3.0\\text{ m s}^{-1}\\)",
+            "\\(90\\text{ m}\\); \\(70\\text{ m}\\); \\(5.0\\text{ m s}^{-1}\\)",
+            "\\(90\\text{ m}\\); \\(90\\text{ m}\\); \\(3.0\\text{ m s}^{-1}\\)",
+            "\\(90\\text{ m}\\); \\(90\\text{ m}\\); \\(5.0\\text{ m s}^{-1}\\)",
+            "\\(180\\text{ m}\\); \\(140\\text{ m}\\); \\(5.0\\text{ m s}^{-1}\\)",
+            "\\(180\\text{ m}\\); \\(140\\text{ m}\\); \\(6.0\\text{ m s}^{-1}\\)",
+            "\\(180\\text{ m}\\); \\(180\\text{ m}\\); \\(5.0\\text{ m s}^{-1}\\)",
+            "\\(180\\text{ m}\\); \\(180\\text{ m}\\); \\(6.0\\text{ m s}^{-1}\\)"
+          ],
+          "correctAnswer": "A",
+          "answerIndex": 0,
+          "explanation": "The total distance is the area under the speed-time graph: \\(\\frac{1}{2}\\times20\\times8 + \\frac{1}{2}\\times10\\times2 = 90\\text{ m}\\). The displacement is \\(80\\text{ m}\\) forwards minus \\(10\\text{ m}\\) backwards, so \\(70\\text{ m}\\). The average speed is \\(\\frac{90}{30}=3.0\\text{ m s}^{-1}\\).",
+          "markSchemeNotes": "Answer key gives A.",
+          "quickestMethod": "Use graph area for total distance, signed area for displacement, then divide distance by time for average speed.",
+          "commonTrap": "Using displacement instead of total distance when calculating average speed.",
+          "tags": [
+            "kinematics",
+            "graphs",
+            "speed"
+          ],
+          "hasImage": false,
+          "displayMode": "image-needed",
+          "diagramType": "velocity-time graph",
+          "imageStatus": "needs-review",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part B Advanced Mathematics and Advanced Physics",
+            "questionNumber": "22",
+            "page": "21",
+            "originalReference": "ENGAA 2016 P1 Q22"
+          },
+          "status": "needs-review",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q22.md",
+          "reviewNotes": "Needs manually checked velocity-time graph crop before this is student-ready."
+        },
+        {
+          "id": "ENGAA_2016_P1_Q24",
+          "subject": "physics",
+          "topicCode": "DENSITY-MIXTURES",
+          "topic": "Density and Mixtures",
+          "difficulty": 4,
+          "question": "Bronze is a mixture of tin and copper.\n\nA particular sample of bronze contains \\(10\\%\\) tin by volume. In other words, \\(10\\%\\) of the total volume of the sample is tin and \\(90\\%\\) of it is copper.\n\nWhat percentage of the mass of the sample is tin?\n\n(Density of tin \\(=Y\\) and density of copper \\(=X\\).)",
+          "options": [
+            "\\(\\frac{X}{9X-Y}\\times100\\)",
+            "\\(\\frac{X}{9Y-X}\\times100\\)",
+            "\\(\\frac{Y}{9X-Y}\\times100\\)",
+            "\\(\\frac{Y}{9Y-X}\\times100\\)",
+            "\\(\\frac{X}{9X+Y}\\times100\\)",
+            "\\(\\frac{X}{9Y+X}\\times100\\)",
+            "\\(\\frac{Y}{9X+Y}\\times100\\)",
+            "\\(\\frac{Y}{9Y+X}\\times100\\)"
+          ],
+          "correctAnswer": "G",
+          "answerIndex": 6,
+          "explanation": "Let the total volume be \\(V\\). The tin mass is \\(0.1VY\\) and the copper mass is \\(0.9VX\\). The tin percentage by mass is \\(\\frac{0.1VY}{0.1VY+0.9VX}\\times100=\\frac{Y}{Y+9X}\\times100\\).",
+          "markSchemeNotes": "Answer key gives G.",
+          "quickestMethod": "Write masses as density times volume, then divide tin mass by total mass.",
+          "commonTrap": "Using the volume percentage directly as a mass percentage.",
+          "tags": [
+            "density",
+            "mass",
+            "volume",
+            "algebra"
+          ],
+          "hasImage": false,
+          "displayMode": "simple-html",
+          "diagramType": "",
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part B Advanced Mathematics and Advanced Physics",
+            "questionNumber": "24",
+            "page": "23",
+            "originalReference": "ENGAA 2016 P1 Q24"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q24.md",
+          "reviewNotes": ""
+        },
+        {
+          "id": "ENGAA_2016_P1_Q26",
+          "subject": "physics",
+          "topicCode": "NUC-DECAY",
+          "topic": "Alpha Decay",
+          "difficulty": 4,
+          "question": "When a stationary uranium-238 nucleus decays by alpha emission it forms a nucleus of thorium-234. The total kinetic energy produced by the decay is \\(E\\).\n\n[Image needed: alpha decay diagram showing uranium-238 becoming thorium-234 and an alpha particle.]\n\nWhat is the kinetic energy of the alpha particle?",
+          "options": [
+            "\\(\\frac{4E}{238}\\)",
+            "\\(\\frac{4E}{234}\\)",
+            "\\(\\frac{E}{2}\\)",
+            "\\(\\frac{234E}{238}\\)",
+            "\\(E\\)"
+          ],
+          "correctAnswer": "D",
+          "answerIndex": 3,
+          "explanation": "The decay products have equal and opposite momenta. Since \\(K=\\frac{p^{2}}{2m}\\), the lighter alpha particle has more kinetic energy, and the kinetic energies are inversely proportional to mass. The alpha particle receives \\(\\frac{234}{238}E\\).",
+          "markSchemeNotes": "Answer key gives D.",
+          "quickestMethod": "Use equal momentum after decay and the inverse relationship between kinetic energy and mass.",
+          "commonTrap": "Sharing the energy in proportion to mass instead of inversely to mass.",
+          "tags": [
+            "nuclear physics",
+            "alpha decay",
+            "momentum",
+            "kinetic energy"
+          ],
+          "hasImage": false,
+          "displayMode": "image-needed",
+          "diagramType": "alpha decay diagram",
+          "imageStatus": "needs-review",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part B Advanced Mathematics and Advanced Physics",
+            "questionNumber": "26",
+            "page": "24",
+            "originalReference": "ENGAA 2016 P1 Q26"
+          },
+          "status": "needs-review",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q26.md",
+          "reviewNotes": "Needs manually checked diagram-only crop before this is student-ready."
+        },
+        {
+          "id": "ENGAA_2016_P1_Q28",
+          "subject": "physics",
+          "topicCode": "WAVES-ECHOES",
+          "topic": "Sound and Echoes",
+          "difficulty": 4,
+          "question": "A student carries out an experiment to measure the speed of sound. A loudspeaker that emits sound in all directions is placed between two buildings that are \\(128\\text{ m}\\) apart as shown. The student and loudspeaker are \\(48\\text{ m}\\) from one of the buildings.\n\n[Image needed: two buildings with the student and loudspeaker between them.]\n\nThe loudspeaker is connected to a signal generator that causes it to emit regular clicks. The student notices that each click results in two echoes, one from each building. The rate at which the clicks are produced is gradually increased from zero until each echo coincides with a new click being emitted by the loudspeaker.\n\nWhat is the frequency of emission of clicks when this happens?\n\n(The speed of sound in air \\(=320\\text{ m s}^{-1}\\).)",
+          "options": [
+            "\\(2.0\\text{ Hz}\\)",
+            "\\(2.5\\text{ Hz}\\)",
+            "\\(3.3\\text{ Hz}\\)",
+            "\\(4.0\\text{ Hz}\\)",
+            "\\(5.3\\text{ Hz}\\)",
+            "\\(6.7\\text{ Hz}\\)",
+            "\\(10\\text{ Hz}\\)"
+          ],
+          "correctAnswer": "G",
+          "answerIndex": 6,
+          "explanation": "The echo from the nearer building travels \\(2\\times48=96\\text{ m}\\), taking \\(0.30\\text{ s}\\). The echo from the farther building travels \\(2\\times80=160\\text{ m}\\), taking \\(0.50\\text{ s}\\). The first click interval that makes both echoes coincide with emitted clicks is \\(0.10\\text{ s}\\), giving frequency \\(10\\text{ Hz}\\).",
+          "markSchemeNotes": "Answer key gives G.",
+          "quickestMethod": "Find both echo times and choose the highest frequency whose period divides both times.",
+          "commonTrap": "Using only one echo path or using one-way distance instead of the out-and-back echo distance.",
+          "tags": [
+            "waves",
+            "sound",
+            "echoes",
+            "frequency"
+          ],
+          "hasImage": false,
+          "displayMode": "image-needed",
+          "diagramType": "sound echo setup diagram",
+          "imageStatus": "needs-review",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part B Advanced Mathematics and Advanced Physics",
+            "questionNumber": "28",
+            "page": "26",
+            "originalReference": "ENGAA 2016 P1 Q28"
+          },
+          "status": "needs-review",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q28.md",
+          "reviewNotes": "Needs manually checked diagram-only crop before this is student-ready."
+        },
+        {
+          "id": "ENGAA_2016_P1_Q30",
+          "subject": "physics",
+          "topicCode": "MECH-FORCES",
+          "topic": "Newton's Third Law",
+          "difficulty": 4,
+          "question": "A parachutist is falling at terminal speed with his parachute open. The diagrams show, separately, the vertical forces acting on the parachute and the vertical forces acting on the parachutist.\n\nThe letters \\(L\\), \\(M\\), \\(N\\), \\(P\\), \\(Q\\) and \\(R\\) represent the magnitude of each force as indicated.\n\n[Image needed: separate force diagrams for the parachute and the parachutist.]\n\nConsider the following equations:\n\n\\[L=M+N\\]\n\n\\[R=P+Q\\]\n\n\\[L=Q\\]\n\n\\[N=P\\]\n\n\\[M+R=L+Q\\]\n\nWhich of these equations, if any, is/are the direct result of the application of Newton's Third Law to this situation?",
+          "options": [
+            "none of them",
+            "3 only",
+            "4 only",
+            "5 only",
+            "1 and 2 only",
+            "3 and 4 only",
+            "1, 2 and 5 only",
+            "1, 2, 3, 4 and 5"
+          ],
+          "correctAnswer": "C",
+          "answerIndex": 2,
+          "explanation": "Newton's Third Law pairs are equal and opposite forces acting on different bodies. The force from the parachutist on the parachute and the force from the parachute on the parachutist form such a pair, so \\(N=P\\). The other equations describe force balance or unrelated force pairs, not direct Third Law pairs.",
+          "markSchemeNotes": "Answer key gives C.",
+          "quickestMethod": "Look for the action-reaction pair between parachute and parachutist; that is \\(N\\) and \\(P\\).",
+          "commonTrap": "Selecting balanced-force equations because the parachutist is moving at terminal speed; those are not Newton's Third Law pairs.",
+          "tags": [
+            "forces",
+            "newton's third law",
+            "terminal velocity"
+          ],
+          "hasImage": false,
+          "displayMode": "image-needed",
+          "diagramType": "force diagrams",
+          "imageStatus": "needs-review",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part B Advanced Mathematics and Advanced Physics",
+            "questionNumber": "30",
+            "page": "29",
+            "originalReference": "ENGAA 2016 P1 Q30"
+          },
+          "status": "needs-review",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q30.md",
+          "reviewNotes": "Needs manually checked diagram-only crop before this is student-ready."
         }
       ]
     }

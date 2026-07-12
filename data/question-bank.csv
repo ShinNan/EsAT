@@ -107,3 +107,77 @@ Balls \(P\) and \(Q\) are in a room at \(20^{\circ}\text{C}\). Balls \(R\) and \
 The temperature of each ball at a given moment in time is shown on the diagram.
 
 Which two balls lose thermal energy by convection, and which ball emits thermal radiation at the greatest rate?",P and Q; P,P and Q; Q,P and Q; R,P and Q; S,R and S; P,R and S; Q,R and S; R,R and S; S,D,3,"Balls \(P\) and \(Q\) are warmer than their \(20^{\circ}\text{C}\) surroundings, so they lose thermal energy by convection. Ball \(S\) emits thermal radiation at the greatest rate because it is hot and has a dull surface.",Answer key gives D.,"Compare each ball with its room temperature for convection, then choose the hotter dull surface for radiation.",Assuming the balls in the hotter room must be losing heat by convection even though they are at the same temperature as the room.,thermal physics|convection|radiation,ready,simple-html,ENGAA,2016,P1,Part A Mathematics and Physics,20,19,ENGAA 2016 P1 Q20,yes,assets/question-images/ENGAA_2016_P1_Q20_thermal-balls.png,"Four steel balls in two rooms, showing ball labels, surface types and temperatures.",thermal diagram and option table,ready,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q20.md,
+ENGAA_2016_P1_Q21,ENGAA_2016_P1_Q21,maths1,ALG-FRACTIONS,Algebraic Fractions,3,"Which one of the following is a simplification of
+
+\[4 + \frac{4 - x^{2}}{x^{2}-2x}\]","\(3-\frac{2}{x}\)","\(3+\frac{2}{x}\)","\(4-\frac{2}{x}\)","\(4+\frac{2}{x}\)","\(5-\frac{2}{x}\)","\(5+\frac{2}{x}\)",,,A,0,"Factor the fraction: \(4-x^{2}=(2+x)(2-x)\) and \(x^{2}-2x=x(x-2)=-x(2-x)\). The fraction becomes \(-\frac{x+2}{x}\), so the expression is \(4-1-\frac{2}{x}=3-\frac{2}{x}\).",Answer key gives A.,"Rewrite the denominator as \(-x(2-x)\), cancel \((2-x)\), then combine with the 4.",Cancelling signs incorrectly after factoring \(x^{2}-2x\).,algebra|fractions|simplification,ready,simple-html,ENGAA,2016,P1,Part B Advanced Mathematics and Advanced Physics,21,20,ENGAA 2016 P1 Q21,no,,,,not-needed,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q21.md,
+ENGAA_2016_P1_Q22,ENGAA_2016_P1_Q22,physics,KINEMATICS-GRAPHS,Velocity-Time Graphs,4,"The diagram shows the velocity-time graph for an object travelling in a straight line over a period of \(30\text{ s}\).
+
+[Image needed: velocity-time graph for the object's motion.]
+
+What total distance did the object travel in the \(30\text{ s}\), how far from its starting position was it at the end of the \(30\text{ s}\), and what was its average speed over the \(30\text{ s}\)?","\(90\text{ m}\); \(70\text{ m}\); \(3.0\text{ m s}^{-1}\)","\(90\text{ m}\); \(70\text{ m}\); \(5.0\text{ m s}^{-1}\)","\(90\text{ m}\); \(90\text{ m}\); \(3.0\text{ m s}^{-1}\)","\(90\text{ m}\); \(90\text{ m}\); \(5.0\text{ m s}^{-1}\)","\(180\text{ m}\); \(140\text{ m}\); \(5.0\text{ m s}^{-1}\)","\(180\text{ m}\); \(140\text{ m}\); \(6.0\text{ m s}^{-1}\)","\(180\text{ m}\); \(180\text{ m}\); \(5.0\text{ m s}^{-1}\)","\(180\text{ m}\); \(180\text{ m}\); \(6.0\text{ m s}^{-1}\)",A,0,"The total distance is the area under the speed-time graph: \(\frac{1}{2}\times20\times8 + \frac{1}{2}\times10\times2 = 90\text{ m}\). The displacement is \(80\text{ m}\) forwards minus \(10\text{ m}\) backwards, so \(70\text{ m}\). The average speed is \(\frac{90}{30}=3.0\text{ m s}^{-1}\).",Answer key gives A.,"Use graph area for total distance, signed area for displacement, then divide distance by time for average speed.",Using displacement instead of total distance when calculating average speed.,kinematics|graphs|speed,needs-review,image-needed,ENGAA,2016,P1,Part B Advanced Mathematics and Advanced Physics,22,21,ENGAA 2016 P1 Q22,no,,,velocity-time graph,needs-review,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q22.md,Needs manually checked velocity-time graph crop before this is student-ready.
+ENGAA_2016_P1_Q23,ENGAA_2016_P1_Q23,maths1,PROB-TABLES,Probability Tables,3,"During summer activities week 120 students each chose one activity from swimming, archery, and tennis.
+
+46 of the students were girls.
+
+36 of the students chose tennis, and \(\frac{2}{3}\) of these were boys; 25 girls chose swimming, and 27 students chose archery.
+
+A boy is picked at random. What is the probability that he chose swimming?","\(\frac{3}{20}\)","\(\frac{9}{37}\)","\(\frac{4}{15}\)","\(\frac{16}{37}\)","\(\frac{32}{57}\)",,,,D,3,"Of the 36 tennis students, 24 are boys and 12 are girls. There are 74 boys in total. Girls in archery are \(46-25-12=9\), so boys in archery are \(27-9=18\). Boys in swimming are \(74-24-18=32\), giving probability \(\frac{32}{74}=\frac{16}{37}\).",Answer key gives D.,"Build the two-way table by gender and activity, then divide boys who swim by total boys.",Using all 120 students as the denominator after the question has selected a boy.,probability|tables|fractions,ready,simple-html,ENGAA,2016,P1,Part B Advanced Mathematics and Advanced Physics,23,22,ENGAA 2016 P1 Q23,no,,,,not-needed,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q23.md,
+ENGAA_2016_P1_Q24,ENGAA_2016_P1_Q24,physics,DENSITY-MIXTURES,Density and Mixtures,4,"Bronze is a mixture of tin and copper.
+
+A particular sample of bronze contains \(10\%\) tin by volume. In other words, \(10\%\) of the total volume of the sample is tin and \(90\%\) of it is copper.
+
+What percentage of the mass of the sample is tin?
+
+(Density of tin \(=Y\) and density of copper \(=X\).)","\(\frac{X}{9X-Y}\times100\)","\(\frac{X}{9Y-X}\times100\)","\(\frac{Y}{9X-Y}\times100\)","\(\frac{Y}{9Y-X}\times100\)","\(\frac{X}{9X+Y}\times100\)","\(\frac{X}{9Y+X}\times100\)","\(\frac{Y}{9X+Y}\times100\)","\(\frac{Y}{9Y+X}\times100\)",G,6,"Let the total volume be \(V\). The tin mass is \(0.1VY\) and the copper mass is \(0.9VX\). The tin percentage by mass is \(\frac{0.1VY}{0.1VY+0.9VX}\times100=\frac{Y}{Y+9X}\times100\).",Answer key gives G.,"Write masses as density times volume, then divide tin mass by total mass.",Using the volume percentage directly as a mass percentage.,density|mass|volume|algebra,ready,simple-html,ENGAA,2016,P1,Part B Advanced Mathematics and Advanced Physics,24,23,ENGAA 2016 P1 Q24,no,,,,not-needed,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q24.md,
+ENGAA_2016_P1_Q25,ENGAA_2016_P1_Q25,maths1,INDICES,Indices,3,"Which one of the following expressions is equivalent to
+
+\[\frac{9^{2n+1}\times 3^{4-3n}}{27^{2-n}}\]","\(3^{9}\)","\(3^{-2n}\)","\(3^{2-2n}\)","\(3^{4n}\)","\(3^{6n-2}\)","\(3^{6}\)",,,D,3,"Rewrite all terms as powers of 3: \(9^{2n+1}=3^{4n+2}\) and \(27^{2-n}=3^{6-3n}\). The overall exponent is \((4n+2)+(4-3n)-(6-3n)=4n\), so the expression is \(3^{4n}\).",Answer key gives D.,"Convert every base to 3, then add exponents in the numerator and subtract the denominator exponent.",Forgetting to subtract the whole denominator exponent \((6-3n)\).,indices|powers|algebra,ready,simple-html,ENGAA,2016,P1,Part B Advanced Mathematics and Advanced Physics,25,23,ENGAA 2016 P1 Q25,no,,,,not-needed,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q25.md,
+ENGAA_2016_P1_Q26,ENGAA_2016_P1_Q26,physics,NUC-DECAY,Alpha Decay,4,"When a stationary uranium-238 nucleus decays by alpha emission it forms a nucleus of thorium-234. The total kinetic energy produced by the decay is \(E\).
+
+[Image needed: alpha decay diagram showing uranium-238 becoming thorium-234 and an alpha particle.]
+
+What is the kinetic energy of the alpha particle?","\(\frac{4E}{238}\)","\(\frac{4E}{234}\)","\(\frac{E}{2}\)","\(\frac{234E}{238}\)","\(E\)",,,,D,3,"The decay products have equal and opposite momenta. Since \(K=\frac{p^{2}}{2m}\), the lighter alpha particle has more kinetic energy, and the kinetic energies are inversely proportional to mass. The alpha particle receives \(\frac{234}{238}E\).",Answer key gives D.,"Use equal momentum after decay and the inverse relationship between kinetic energy and mass.",Sharing the energy in proportion to mass instead of inversely to mass.,nuclear physics|alpha decay|momentum|kinetic energy,needs-review,image-needed,ENGAA,2016,P1,Part B Advanced Mathematics and Advanced Physics,26,24,ENGAA 2016 P1 Q26,no,,,alpha decay diagram,needs-review,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q26.md,Needs manually checked diagram-only crop before this is student-ready.
+ENGAA_2016_P1_Q27,ENGAA_2016_P1_Q27,maths1,GEOM-POLYGONS,Regular Polygons,4,"In the diagram below, \(PQRS\) is part of a regular polygon.
+
+The polygon has \(n\) sides.
+
+The side \(PQ\) is extended to \(T\) such that \(PQT\) is a straight line.
+
+The length of \(RQ\) is the same as the length of \(RT\).
+
+[Image needed: regular polygon segment labelled \(P,Q,R,S,T\) with angle \(x\) at \(R\).]
+
+Find an equation for \(n\) in terms of \(x\), where \(x\) is the size of angle \(\angle QRT\) in degrees.","\(n=\frac{180}{x-90}\)","\(n=\frac{180-x}{720}\)","\(n=\frac{360-x}{90}\)","\(n=\frac{360}{180-x}\)","\(n=\frac{720}{180-x}\)","\(n=\frac{720}{360-x}\)","\(n=\frac{360}{360-x}\)",,E,4,"In triangle \(QRT\), \(RQ=RT\), so the two base angles are equal. The angle at \(Q\) in the triangle is the exterior angle of the regular polygon, so it is \(\frac{360}{n}\). Therefore \(x+2\cdot\frac{360}{n}=180\), giving \(n=\frac{720}{180-x}\).",Answer key gives E.,"Use the regular polygon exterior angle \(\frac{360}{n}\) and the isosceles triangle angle sum.",Using the interior angle of the polygon where the exterior angle at \(Q\) is needed.,geometry|polygons|angles,needs-review,image-needed,ENGAA,2016,P1,Part B Advanced Mathematics and Advanced Physics,27,25,ENGAA 2016 P1 Q27,no,,,regular polygon angle diagram,needs-review,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q27.md,Needs manually checked diagram-only crop before this is student-ready.
+ENGAA_2016_P1_Q28,ENGAA_2016_P1_Q28,physics,WAVES-ECHOES,Sound and Echoes,4,"A student carries out an experiment to measure the speed of sound. A loudspeaker that emits sound in all directions is placed between two buildings that are \(128\text{ m}\) apart as shown. The student and loudspeaker are \(48\text{ m}\) from one of the buildings.
+
+[Image needed: two buildings with the student and loudspeaker between them.]
+
+The loudspeaker is connected to a signal generator that causes it to emit regular clicks. The student notices that each click results in two echoes, one from each building. The rate at which the clicks are produced is gradually increased from zero until each echo coincides with a new click being emitted by the loudspeaker.
+
+What is the frequency of emission of clicks when this happens?
+
+(The speed of sound in air \(=320\text{ m s}^{-1}\).)","\(2.0\text{ Hz}\)","\(2.5\text{ Hz}\)","\(3.3\text{ Hz}\)","\(4.0\text{ Hz}\)","\(5.3\text{ Hz}\)","\(6.7\text{ Hz}\)","\(10\text{ Hz}\)",,G,6,"The echo from the nearer building travels \(2\times48=96\text{ m}\), taking \(0.30\text{ s}\). The echo from the farther building travels \(2\times80=160\text{ m}\), taking \(0.50\text{ s}\). The first click interval that makes both echoes coincide with emitted clicks is \(0.10\text{ s}\), giving frequency \(10\text{ Hz}\).",Answer key gives G.,"Find both echo times and choose the highest frequency whose period divides both times.",Using only one echo path or using one-way distance instead of the out-and-back echo distance.,waves|sound|echoes|frequency,needs-review,image-needed,ENGAA,2016,P1,Part B Advanced Mathematics and Advanced Physics,28,26,ENGAA 2016 P1 Q28,no,,,sound echo setup diagram,needs-review,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q28.md,Needs manually checked diagram-only crop before this is student-ready.
+ENGAA_2016_P1_Q29,ENGAA_2016_P1_Q29,maths2,ALG-SIMULTANEOUS,Algebraic Conditions,4,"When \(x=2\) is substituted in the expression \(x^{3}+px^{2}+qx+p^{2}\) the result is \(0\).
+
+When \(x=1\) is substituted into the same expression, the result is \(-3.5\).
+
+Find all possible value(s) of \(p\).","\(p=-1\pm\frac{\sqrt{6}}{3}\)","\(p=1\) or \(p=-3\)","\(p=1\)","\(p=1\pm\sqrt{7}\)","there are no values for \(p\)",,,,C,2,"Substituting \(x=2\) gives \(8+4p+2q+p^{2}=0\). Substituting \(x=1\) gives \(1+p+q+p^{2}=-3.5\). Eliminating \(q\) gives \(p=1\).",Answer key gives C.,"Write the two substitution equations, eliminate \(q\), and solve the resulting equation for \(p\).",Forgetting that \(p^{2}\) appears in both substituted equations.,algebra|simultaneous equations|quadratics,ready,simple-html,ENGAA,2016,P1,Part B Advanced Mathematics and Advanced Physics,29,28,ENGAA 2016 P1 Q29,no,,,,not-needed,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q29.md,
+ENGAA_2016_P1_Q30,ENGAA_2016_P1_Q30,physics,MECH-FORCES,Newton's Third Law,4,"A parachutist is falling at terminal speed with his parachute open. The diagrams show, separately, the vertical forces acting on the parachute and the vertical forces acting on the parachutist.
+
+The letters \(L\), \(M\), \(N\), \(P\), \(Q\) and \(R\) represent the magnitude of each force as indicated.
+
+[Image needed: separate force diagrams for the parachute and the parachutist.]
+
+Consider the following equations:
+
+\[L=M+N\]
+
+\[R=P+Q\]
+
+\[L=Q\]
+
+\[N=P\]
+
+\[M+R=L+Q\]
+
+Which of these equations, if any, is/are the direct result of the application of Newton's Third Law to this situation?",none of them,3 only,4 only,5 only,1 and 2 only,3 and 4 only,"1, 2 and 5 only","1, 2, 3, 4 and 5",C,2,"Newton's Third Law pairs are equal and opposite forces acting on different bodies. The force from the parachutist on the parachute and the force from the parachute on the parachutist form such a pair, so \(N=P\). The other equations describe force balance or unrelated force pairs, not direct Third Law pairs.",Answer key gives C.,"Look for the action-reaction pair between parachute and parachutist; that is \(N\) and \(P\).",Selecting balanced-force equations because the parachutist is moving at terminal speed; those are not Newton's Third Law pairs.,forces|newton's third law|terminal velocity,needs-review,image-needed,ENGAA,2016,P1,Part B Advanced Mathematics and Advanced Physics,30,29,ENGAA 2016 P1 Q30,no,,,force diagrams,needs-review,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q30.md,Needs manually checked diagram-only crop before this is student-ready.

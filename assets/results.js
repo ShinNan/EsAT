@@ -9,9 +9,9 @@
     return (root || document).querySelector(selector);
   }
 
-  function renderMath(value) {
+  function renderMath(value, options) {
     if (window.ESATMath && typeof window.ESATMath.renderToString === "function") {
-      return window.ESATMath.renderToString(value);
+      return window.ESATMath.renderToString(value, options);
     }
 
     return String(value || "")
@@ -106,6 +106,80 @@
     }
 
     return loadJSON(LATEST_RESULT_KEY, null);
+  }
+
+  function isFormulaBlock(block) {
+    var compact = String(block || "").trim();
+    if (!compact || compact.length > 100) return false;
+    return /(?:=|<|>|≤|≥|\^|\\times|\\frac|\\sqrt|\\cdot)/.test(compact);
+  }
+
+  function renderQuestionBody(value) {
+    var blocks = String(value || "")
+      .split(/\n\s*\n/)
+      .map(function (block) { return block.trim(); })
+      .filter(Boolean);
+    var statementsOpen = false;
+    var html = "";
+
+    blocks.forEach(function (block) {
+      var statement = block.match(/^(\d+)\s+(.+)$/);
+      if (statement) {
+        if (!statementsOpen) {
+          html += "<div class='review-statement-list'>";
+          statementsOpen = true;
+        }
+        html += "<div class='review-statement'><span>" + escapeHTML(statement[1]) +
+          "</span><div>" + renderMath(statement[2]) + "</div></div>";
+        return;
+      }
+
+      if (statementsOpen) {
+        html += "</div>";
+        statementsOpen = false;
+      }
+      if (isFormulaBlock(block)) {
+        html += "<div class='review-formula'>" + renderMath(block, { displayMode: true }) + "</div>";
+      } else {
+        html += "<p>" + renderMath(block) + "</p>";
+      }
+    });
+
+    if (statementsOpen) html += "</div>";
+    return html;
+  }
+
+  function getBankQuestion(questionId) {
+    var subjects = window.ESAT_QUESTION_BANK && window.ESAT_QUESTION_BANK.subjects;
+    var match = null;
+    Object.keys(subjects || {}).some(function (subjectKey) {
+      return (subjects[subjectKey].questions || []).some(function (question) {
+        if (question.id !== questionId) return false;
+        match = question;
+        return true;
+      });
+    });
+    return match;
+  }
+
+  function imageMetadata(question) {
+    var bankQuestion = getBankQuestion(question && question.originalId);
+    var nested = bankQuestion && bankQuestion.image && typeof bankQuestion.image === "object"
+      ? bankQuestion.image
+      : {};
+    return {
+      path: (question && question.imagePath) || (bankQuestion && bankQuestion.imagePath) || nested.src || "",
+      alt: (question && question.imageAlt) || (bankQuestion && bankQuestion.imageAlt) || nested.alt || "Question diagram"
+    };
+  }
+
+  function renderReviewImage(question) {
+    var image = imageMetadata(question);
+    if (!image.path) return "";
+    return "<figure class='review-image-wrap'>" +
+      "<img class='review-image' src='" + escapeHTML(image.path) + "' alt='" + escapeHTML(image.alt) + "' loading='lazy'>" +
+      "<figcaption>" + escapeHTML(image.path) + "</figcaption>" +
+    "</figure>";
   }
 
   function getWrongQuestions() {
@@ -239,7 +313,8 @@
         "<span class='review-status " + (isCorrect ? "correct" : "incorrect") + "'>" + statusText + "</span>" +
       "</div>" +
       "<div class='review-card-body'>" +
-        "<p class='review-question math-rendered'>" + renderMath(question.question || "") + "</p>" +
+        "<div class='review-question math-rendered'>" + renderQuestionBody(question.question || "") + "</div>" +
+        renderReviewImage(question) +
         "<div class='answer-compare'>" +
           "<div class='answer-box " + (isCorrect ? "" : "student-wrong") + "'>" +
             "<span>Student answer</span>" +
@@ -286,7 +361,8 @@
           "<span class='review-status incorrect'>Saved</span>" +
         "</div>" +
         "<div class='review-card-body'>" +
-          "<p class='review-question math-rendered'>" + renderMath(item.question || "") + "</p>" +
+          "<div class='review-question math-rendered'>" + renderQuestionBody(item.question || "") + "</div>" +
+          renderReviewImage(item) +
           "<div class='answer-box correct-answer'>" +
             "<span>Correct answer</span>" +
             "<strong class='math-rendered'>" + renderMath((item.correctAnswerLabel || "") + ". " + (item.correctAnswerText || "")) + "</strong>" +

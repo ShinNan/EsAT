@@ -764,25 +764,25 @@ code {
   white-space: pre-line;
   font-size: clamp(1rem, 1.6vw, 1.18rem);
   font-weight: 500;
-  line-height: 1.65;
+  line-height: 1.52;
 }
 
 
 .question-paragraph {
-  margin: 0 0 1rem;
+  margin: 0 0 0.78rem;
 }
 
 .question-formula {
-  margin: 1rem 0 1.2rem;
+  margin: 0.55rem 0 0.85rem;
   text-align: center;
-  font-size: 1.25em;
-  line-height: 1.8;
+  font-size: 1.06em;
+  line-height: 1.45;
 }
 
 .question-statement-list {
   display: grid;
-  gap: 0.75rem;
-  margin: 1rem 0 1.2rem;
+  gap: 0.55rem;
+  margin: 0.75rem 0 0.9rem;
 }
 
 .question-statement {
@@ -824,10 +824,10 @@ code {
 }
 
 .question-image-wrap {
-  display: flex;
-  justify-content: center;
-  margin: 0 0 1.2rem;
-  padding: 1rem;
+  display: grid;
+  justify-items: center;
+  margin: 0.15rem 0 1rem;
+  padding: 0.75rem;
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
   background: var(--soft);
@@ -840,11 +840,96 @@ code {
 .question-image {
   display: block;
   max-width: 100%;
-  max-height: 420px;
+  max-height: min(420px, 48vh);
   width: auto;
   height: auto;
   border-radius: var(--radius-sm);
   object-fit: contain;
+}
+
+.question-image-wrap[data-state="loading"]::before {
+  content: "Loading diagram…";
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.question-image-error {
+  margin: 0;
+  color: #b91c1c;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.question-formula .katex-display,
+.review-formula .katex-display {
+  margin: 0.25rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.question-formula .katex,
+.answer-text .katex,
+.review-card .katex {
+  font-size: 1em;
+}
+
+.math-fallback-display {
+  display: block;
+  text-align: center;
+}
+
+.review-question > p {
+  margin: 0 0 0.65rem;
+}
+
+.review-formula {
+  margin: 0.5rem 0 0.75rem;
+  text-align: center;
+}
+
+.review-statement-list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0.65rem 0;
+}
+
+.review-statement {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  gap: 0.6rem;
+}
+
+.review-statement > span {
+  font-weight: 800;
+  text-align: right;
+}
+
+.review-image-wrap {
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  margin: 0.25rem 0;
+  padding: 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--soft);
+}
+
+.review-image {
+  display: block;
+  max-width: 100%;
+  max-height: min(360px, 42vh);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.review-image-wrap figcaption {
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.72rem;
+  overflow-wrap: anywhere;
 }
 
 /* Lightweight local maths rendering */
@@ -991,94 +1076,6 @@ code {
   inset: 0;
   opacity: 0;
   cursor: pointer;
-}
-
-/* Lightweight local maths rendering */
-.math-rendered {
-  font-family: inherit;
-}
-
-.math-inline {
-  display: inline;
-  line-height: inherit;
-  white-space: normal;
-}
-
-.math-inline sup,
-.math-inline sub {
-  font-size: 0.72em;
-  line-height: 0;
-  position: relative;
-  vertical-align: baseline;
-}
-
-.math-inline sup {
-  top: -0.48em;
-}
-
-.math-inline sub {
-  top: 0.22em;
-}
-
-.math-frac {
-  display: inline-grid;
-  grid-template-rows: auto auto;
-  align-items: center;
-  justify-items: center;
-  vertical-align: middle;
-  margin: 0 0.14em;
-  line-height: 1.05;
-  font-size: 0.94em;
-}
-
-.math-frac .math-num {
-  display: block;
-  padding: 0 0.22em 0.08em;
-  border-bottom: 1.5px solid currentColor;
-  min-width: 1.15em;
-  text-align: center;
-}
-
-.math-frac .math-den {
-  display: block;
-  padding: 0.08em 0.22em 0;
-  min-width: 1.15em;
-  text-align: center;
-}
-
-.math-sqrt {
-  display: inline-flex;
-  align-items: flex-start;
-  vertical-align: middle;
-  margin: 0 0.08em;
-}
-
-.math-sqrt::before {
-  content: "√";
-  font-size: 1.08em;
-  line-height: 1;
-  margin-right: 0.02em;
-}
-
-.math-radicand {
-  display: inline-block;
-  padding: 0.02em 0.18em 0;
-  border-top: 1.5px solid currentColor;
-  line-height: 1.15;
-}
-
-.answer-text .math-frac,
-.review-question .math-frac,
-.explanation-box .math-frac {
-  transform: translateY(-0.03em);
-}
-
-.question-text .math-frac {
-  font-size: 0.9em;
-}
-
-.question-text .math-sqrt {
-  font-size: 0.95em;
 }
 
 .exam-repeat-notice {

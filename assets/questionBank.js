@@ -315,7 +315,7 @@ window.ESAT_QUESTION_BANK = {
           "topicCode": "GEOM-AREA",
           "topic": "Area and Quadratics",
           "difficulty": 3,
-          "question": "In a trapezium \\(PQRS\\), the parallel sides are \\(PQ\\) and \\(RS\\).\n\n\\(PQ=(x-1)\\text{ cm}\\), \\(RS=(x+5)\\text{ cm}\\) and the vertical height \\(QR=x\\text{ cm}\\).\n\n[Image needed: trapezium labelled P, Q, R, S with side lengths x-1, x+5 and height x]\n\nThe area of the trapezium is \\(120\\text{ cm}^{2}\\).\n\nWhat is the length of \\(RS\\)?",
+          "question": "In a trapezium \\(PQRS\\), the parallel sides are \\(PQ\\) and \\(RS\\).\n\n\\(PQ=(x-1)\\text{ cm}\\), \\(RS=(x+5)\\text{ cm}\\) and the vertical height \\(QR=x\\text{ cm}\\).\n\nThe area of the trapezium is \\(120\\text{ cm}^{2}\\).\n\nWhat is the length of \\(RS\\)?",
           "options": [
             "\\(9\\text{ cm}\\)",
             "\\(10\\text{ cm}\\)",
@@ -335,10 +335,12 @@ window.ESAT_QUESTION_BANK = {
             "quadratics",
             "geometry"
           ],
-          "hasImage": false,
-          "displayMode": "image-needed",
+          "hasImage": true,
+          "displayMode": "simple-html",
+          "imagePath": "assets/question-images/ENGAA_2016_P1_Q15_trapezium.png",
+          "imageAlt": "Trapezium PQRS with parallel sides PQ and RS, labelled side lengths and vertical height.",
           "diagramType": "geometry diagram",
-          "imageStatus": "needs-review",
+          "imageStatus": "ready",
           "source": {
             "exam": "ENGAA",
             "year": "2016",
@@ -348,9 +350,9 @@ window.ESAT_QUESTION_BANK = {
             "page": "14",
             "originalReference": "ENGAA 2016 P1 Q15"
           },
-          "status": "needs-review",
+          "status": "ready",
           "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q15.md",
-          "reviewNotes": "Needs a manually checked diagram crop for the trapezium only."
+          "reviewNotes": ""
         },
         {
           "id": "ENGAA_2016_P1_Q17",
@@ -401,7 +403,7 @@ window.ESAT_QUESTION_BANK = {
           "topicCode": "GEOM-VOLUME",
           "topic": "Cylinder Volume",
           "difficulty": 4,
-          "question": "A thin rectangular sheet of metal \\(10\\text{ m}\\) by \\(5\\text{ m}\\) is made into an open ended cylinder by joining the edges \\(PS\\) and \\(QR\\).\n\nThe height of the cylinder is \\(10\\text{ m}\\).\n\n[Image needed: rectangle-to-cylinder diagram]\n\nWhat is the volume, in cubic metres, enclosed by this cylinder?",
+          "question": "A thin rectangular sheet of metal \\(10\\text{ m}\\) by \\(5\\text{ m}\\) is made into an open ended cylinder by joining the edges \\(PS\\) and \\(QR\\).\n\nThe height of the cylinder is \\(10\\text{ m}\\).\n\nWhat is the volume, in cubic metres, enclosed by this cylinder?",
           "options": [
             "\\(\\frac{5}{2\\pi}\\)",
             "\\(\\frac{25}{4\\pi}\\)",
@@ -421,10 +423,12 @@ window.ESAT_QUESTION_BANK = {
             "cylinders",
             "geometry"
           ],
-          "hasImage": false,
-          "displayMode": "image-needed",
+          "hasImage": true,
+          "displayMode": "simple-html",
+          "imagePath": "assets/question-images/ENGAA_2016_P1_Q19_cylinder-sheet.png",
+          "imageAlt": "Rectangular metal sheet labelled PQRS being joined into an open-ended cylinder.",
           "diagramType": "geometry transformation diagram",
-          "imageStatus": "needs-review",
+          "imageStatus": "ready",
           "source": {
             "exam": "ENGAA",
             "year": "2016",
@@ -434,9 +438,9 @@ window.ESAT_QUESTION_BANK = {
             "page": "18",
             "originalReference": "ENGAA 2016 P1 Q19"
           },
-          "status": "needs-review",
+          "status": "ready",
           "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q19.md",
-          "reviewNotes": "Needs a manually checked crop for the rectangle-to-cylinder diagram only."
+          "reviewNotes": ""
         }
       ]
     },
@@ -718,7 +722,7 @@ window.ESAT_QUESTION_BANK = {
           "topicCode": "MECH-PULLEY",
           "topic": "Forces and Pulleys",
           "difficulty": 4,
-          "question": "A motor is used to lift a mass of \\(5.0\\text{ kg}\\) using a pulley system as shown in the diagram. The pulley is secured to the roof using a coupling.\n\n[Image needed: pulley, coupling, rope, motor force and 5.0 kg mass diagram]\n\nThe motor needs to cause the mass to accelerate upwards at \\(0.80\\text{ m s}^{-2}\\).\n\nWhat is the minimum tension force that the coupling must be able to withstand without breaking?\n\n(The gravitational field strength \\(g\\) is \\(10\\text{ N kg}^{-1}\\). The pulley system is frictionless and has negligible mass. The rope has negligible mass and is inextensible.)",
+          "question": "A motor is used to lift a mass of \\(5.0\\text{ kg}\\) using a pulley system as shown in the diagram. The pulley is secured to the roof using a coupling.\n\nThe motor needs to cause the mass to accelerate upwards at \\(0.80\\text{ m s}^{-2}\\).\n\nWhat is the minimum tension force that the coupling must be able to withstand without breaking?\n\n(The gravitational field strength \\(g\\) is \\(10\\text{ N kg}^{-1}\\). The pulley system is frictionless and has negligible mass. The rope has negligible mass and is inextensible.)",
           "options": [
             "\\(4.0\\text{ N}\\)",
             "\\(8.0\\text{ N}\\)",
@@ -740,10 +744,12 @@ window.ESAT_QUESTION_BANK = {
             "pulleys",
             "newton second law"
           ],
-          "hasImage": false,
-          "displayMode": "image-needed",
+          "hasImage": true,
+          "displayMode": "simple-html",
+          "imagePath": "assets/question-images/ENGAA_2016_P1_Q14_pulley.png",
+          "imageAlt": "Pulley system with coupling, rope, motor force and a 5.0 kg mass.",
           "diagramType": "pulley diagram",
-          "imageStatus": "needs-review",
+          "imageStatus": "ready",
           "source": {
             "exam": "ENGAA",
             "year": "2016",
@@ -753,9 +759,9 @@ window.ESAT_QUESTION_BANK = {
             "page": "13",
             "originalReference": "ENGAA 2016 P1 Q14"
           },
-          "status": "needs-review",
+          "status": "ready",
           "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q14.md",
-          "reviewNotes": "Needs a manually checked diagram crop for the pulley, coupling, rope, motor force and mass."
+          "reviewNotes": ""
         },
         {
           "id": "ENGAA_2016_P1_Q16",
@@ -763,7 +769,7 @@ window.ESAT_QUESTION_BANK = {
           "topicCode": "ELEC-CIRCUITS",
           "topic": "Circuits and Energy",
           "difficulty": 3,
-          "question": "A heater is connected in series with a resistor and a \\(6.0\\text{ V}\\) battery in the circuit shown.\n\n[Image needed: circuit diagram with heater, resistor and battery]\n\nThe total resistance of the circuit is \\(15\\Omega\\). In \\(3.0\\) minutes, \\(180\\text{ J}\\) of electrical energy is transferred into other forms in the heater.\n\nHow much charge flows through the heater in the \\(3.0\\) minutes and what is the voltage across the heater?",
+          "question": "A heater is connected in series with a resistor and a \\(6.0\\text{ V}\\) battery in the circuit shown.\n\nThe total resistance of the circuit is \\(15\\Omega\\). In \\(3.0\\) minutes, \\(180\\text{ J}\\) of electrical energy is transferred into other forms in the heater.\n\nHow much charge flows through the heater in the \\(3.0\\) minutes and what is the voltage across the heater?",
           "options": [
             "\\(1.2\\text{ C}\\), \\(150\\text{ V}\\)",
             "\\(1.2\\text{ C}\\), \\(216\\text{ V}\\)",
@@ -785,10 +791,12 @@ window.ESAT_QUESTION_BANK = {
             "charge",
             "electrical energy"
           ],
-          "hasImage": false,
-          "displayMode": "image-needed",
+          "hasImage": true,
+          "displayMode": "simple-html",
+          "imagePath": "assets/question-images/ENGAA_2016_P1_Q16_circuit.png",
+          "imageAlt": "Circuit with a 6.0 V battery, resistor and heater connected in series.",
           "diagramType": "circuit diagram",
-          "imageStatus": "needs-review",
+          "imageStatus": "ready",
           "source": {
             "exam": "ENGAA",
             "year": "2016",
@@ -798,9 +806,9 @@ window.ESAT_QUESTION_BANK = {
             "page": "15",
             "originalReference": "ENGAA 2016 P1 Q16"
           },
-          "status": "needs-review",
+          "status": "ready",
           "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q16.md",
-          "reviewNotes": "Needs a manually checked crop for the circuit diagram; answer options are rendered as HTML."
+          "reviewNotes": ""
         },
         {
           "id": "ENGAA_2016_P1_Q18",
@@ -808,7 +816,7 @@ window.ESAT_QUESTION_BANK = {
           "topicCode": "DENSITY",
           "topic": "Density",
           "difficulty": 3,
-          "question": "A cubic block has a hole through it with a square cross-section. The dimensions are shown on the diagram. The weight of the block is \\(30\\text{ N}\\).\n\n[Image needed: cube with square hole, side 10 cm and hole width 5.0 cm]\n\nWhat is the density of the material from which the block is made?\n\n(The gravitational field strength \\(g\\) is \\(10\\text{ N kg}^{-1}\\).)",
+          "question": "A cubic block has a hole through it with a square cross-section. The dimensions are shown on the diagram. The weight of the block is \\(30\\text{ N}\\).\n\nWhat is the density of the material from which the block is made?\n\n(The gravitational field strength \\(g\\) is \\(10\\text{ N kg}^{-1}\\).)",
           "options": [
             "\\(0.30\\text{ g cm}^{-3}\\)",
             "\\(0.40\\text{ g cm}^{-3}\\)",
@@ -830,10 +838,12 @@ window.ESAT_QUESTION_BANK = {
             "volume",
             "weight"
           ],
-          "hasImage": false,
-          "displayMode": "image-needed",
+          "hasImage": true,
+          "displayMode": "simple-html",
+          "imagePath": "assets/question-images/ENGAA_2016_P1_Q18_cube-hole.png",
+          "imageAlt": "Cubic block with a square hole through it, showing the cube and hole dimensions.",
           "diagramType": "solid geometry diagram",
-          "imageStatus": "needs-review",
+          "imageStatus": "ready",
           "source": {
             "exam": "ENGAA",
             "year": "2016",
@@ -843,9 +853,9 @@ window.ESAT_QUESTION_BANK = {
             "page": "17",
             "originalReference": "ENGAA 2016 P1 Q18"
           },
-          "status": "needs-review",
+          "status": "ready",
           "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q18.md",
-          "reviewNotes": "Needs a manually checked crop for the cube and hole diagram only."
+          "reviewNotes": ""
         },
         {
           "id": "ENGAA_2016_P1_Q20",
@@ -853,7 +863,7 @@ window.ESAT_QUESTION_BANK = {
           "topicCode": "THERMAL-RADIATION",
           "topic": "Thermal Energy Transfer",
           "difficulty": 3,
-          "question": "The diagram shows four solid steel balls \\(P\\), \\(Q\\), \\(R\\) and \\(S\\) which are of identical size.\n\nBalls \\(P\\) and \\(R\\) have shiny surfaces. Balls \\(Q\\) and \\(S\\) have dull surfaces.\n\nBalls \\(P\\) and \\(Q\\) are in a room at \\(20^{\\circ}\\text{C}\\). Balls \\(R\\) and \\(S\\) are in a room at \\(40^{\\circ}\\text{C}\\).\n\nThe temperature of each ball at a given moment in time is shown on the diagram.\n\n[Image needed: two-room ball temperature diagram]\n\nWhich two balls lose thermal energy by convection, and which ball emits thermal radiation at the greatest rate?",
+          "question": "The diagram shows four solid steel balls \\(P\\), \\(Q\\), \\(R\\) and \\(S\\) which are of identical size.\n\nBalls \\(P\\) and \\(R\\) have shiny surfaces. Balls \\(Q\\) and \\(S\\) have dull surfaces.\n\nBalls \\(P\\) and \\(Q\\) are in a room at \\(20^{\\circ}\\text{C}\\). Balls \\(R\\) and \\(S\\) are in a room at \\(40^{\\circ}\\text{C}\\).\n\nThe temperature of each ball at a given moment in time is shown on the diagram.\n\nWhich two balls lose thermal energy by convection, and which ball emits thermal radiation at the greatest rate?",
           "options": [
             "P and Q; P",
             "P and Q; Q",
@@ -875,10 +885,12 @@ window.ESAT_QUESTION_BANK = {
             "convection",
             "radiation"
           ],
-          "hasImage": false,
-          "displayMode": "image-needed",
+          "hasImage": true,
+          "displayMode": "simple-html",
+          "imagePath": "assets/question-images/ENGAA_2016_P1_Q20_thermal-balls.png",
+          "imageAlt": "Four steel balls in two rooms, showing ball labels, surface types and temperatures.",
           "diagramType": "thermal diagram and option table",
-          "imageStatus": "needs-review",
+          "imageStatus": "ready",
           "source": {
             "exam": "ENGAA",
             "year": "2016",
@@ -888,9 +900,9 @@ window.ESAT_QUESTION_BANK = {
             "page": "19",
             "originalReference": "ENGAA 2016 P1 Q20"
           },
-          "status": "needs-review",
+          "status": "ready",
           "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q20.md",
-          "reviewNotes": "Needs a manually checked crop for the ball/room diagram; answer options are rendered as HTML."
+          "reviewNotes": ""
         }
       ]
     }

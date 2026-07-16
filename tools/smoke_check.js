@@ -200,13 +200,7 @@ function checkQ21ToQ30Import() {
   const ids = Array.from({ length: 10 }, function (_, index) {
     return "ENGAA_2016_P1_Q" + String(index + 21).padStart(2, "0");
   });
-  const imageNeededIds = new Set([
-    "ENGAA_2016_P1_Q22",
-    "ENGAA_2016_P1_Q26",
-    "ENGAA_2016_P1_Q27",
-    "ENGAA_2016_P1_Q28",
-    "ENGAA_2016_P1_Q30"
-  ]);
+  const imageNeededIds = new Set(["ENGAA_2016_P1_Q30"]);
 
   ids.forEach(function (id) {
     const question = findQuestion(bank, id);

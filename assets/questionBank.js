@@ -576,7 +576,7 @@ window.ESAT_QUESTION_BANK = {
           "topicCode": "GEOM-POLYGONS",
           "topic": "Regular Polygons",
           "difficulty": 4,
-          "question": "In the diagram below, \\(PQRS\\) is part of a regular polygon.\n\nThe polygon has \\(n\\) sides.\n\nThe side \\(PQ\\) is extended to \\(T\\) such that \\(PQT\\) is a straight line.\n\nThe length of \\(RQ\\) is the same as the length of \\(RT\\).\n\n[Image needed: regular polygon segment labelled \\(P,Q,R,S,T\\) with angle \\(x\\) at \\(R\\).]\n\nFind an equation for \\(n\\) in terms of \\(x\\), where \\(x\\) is the size of angle \\(\\angle QRT\\) in degrees.",
+          "question": "In the diagram below, \\(PQRS\\) is part of a regular polygon.\n\nThe polygon has \\(n\\) sides.\n\nThe side \\(PQ\\) is extended to \\(T\\) such that \\(PQT\\) is a straight line.\n\nThe length of \\(RQ\\) is the same as the length of \\(RT\\).\n\nFind an equation for \\(n\\) in terms of \\(x\\), where \\(x\\) is the size of angle \\(\\angle QRT\\) in degrees.",
           "options": [
             "\\(n=\\frac{180}{x-90}\\)",
             "\\(n=\\frac{180-x}{720}\\)",
@@ -597,10 +597,12 @@ window.ESAT_QUESTION_BANK = {
             "polygons",
             "angles"
           ],
-          "hasImage": false,
-          "displayMode": "image-needed",
+          "hasImage": true,
+          "displayMode": "simple-html",
+          "imagePath": "assets/question-images/ENGAA_2016_P1_Q27_polygon_angle.png",
+          "imageAlt": "Regular polygon segment labelled P, Q, R, S and T, with equal lengths RQ and RT and angle x at R.",
           "diagramType": "regular polygon angle diagram",
-          "imageStatus": "needs-review",
+          "imageStatus": "ready",
           "source": {
             "exam": "ENGAA",
             "year": "2016",
@@ -610,9 +612,9 @@ window.ESAT_QUESTION_BANK = {
             "page": "25",
             "originalReference": "ENGAA 2016 P1 Q27"
           },
-          "status": "needs-review",
+          "status": "ready",
           "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q27.md",
-          "reviewNotes": "Needs manually checked diagram-only crop before this is student-ready."
+          "reviewNotes": ""
         }
       ]
     },
@@ -1125,7 +1127,7 @@ window.ESAT_QUESTION_BANK = {
           "topicCode": "KINEMATICS-GRAPHS",
           "topic": "Velocity-Time Graphs",
           "difficulty": 4,
-          "question": "The diagram shows the velocity-time graph for an object travelling in a straight line over a period of \\(30\\text{ s}\\).\n\n[Image needed: velocity-time graph for the object's motion.]\n\nWhat total distance did the object travel in the \\(30\\text{ s}\\), how far from its starting position was it at the end of the \\(30\\text{ s}\\), and what was its average speed over the \\(30\\text{ s}\\)?",
+          "question": "The diagram shows the velocity-time graph for an object travelling in a straight line over a period of \\(30\\text{ s}\\).\n\nWhat total distance did the object travel in the \\(30\\text{ s}\\), how far from its starting position was it at the end of the \\(30\\text{ s}\\), and what was its average speed over the \\(30\\text{ s}\\)?",
           "options": [
             "\\(90\\text{ m}\\); \\(70\\text{ m}\\); \\(3.0\\text{ m s}^{-1}\\)",
             "\\(90\\text{ m}\\); \\(70\\text{ m}\\); \\(5.0\\text{ m s}^{-1}\\)",
@@ -1147,10 +1149,12 @@ window.ESAT_QUESTION_BANK = {
             "graphs",
             "speed"
           ],
-          "hasImage": false,
-          "displayMode": "image-needed",
+          "hasImage": true,
+          "displayMode": "simple-html",
+          "imagePath": "assets/question-images/ENGAA_2016_P1_Q22_velocity_time_graph.png",
+          "imageAlt": "Velocity-time graph for an object travelling in a straight line over 30 seconds.",
           "diagramType": "velocity-time graph",
-          "imageStatus": "needs-review",
+          "imageStatus": "ready",
           "source": {
             "exam": "ENGAA",
             "year": "2016",
@@ -1160,9 +1164,9 @@ window.ESAT_QUESTION_BANK = {
             "page": "21",
             "originalReference": "ENGAA 2016 P1 Q22"
           },
-          "status": "needs-review",
+          "status": "ready",
           "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q22.md",
-          "reviewNotes": "Needs manually checked velocity-time graph crop before this is student-ready."
+          "reviewNotes": ""
         },
         {
           "id": "ENGAA_2016_P1_Q24",
@@ -1216,7 +1220,7 @@ window.ESAT_QUESTION_BANK = {
           "topicCode": "NUC-DECAY",
           "topic": "Alpha Decay",
           "difficulty": 4,
-          "question": "When a stationary uranium-238 nucleus decays by alpha emission it forms a nucleus of thorium-234. The total kinetic energy produced by the decay is \\(E\\).\n\n[Image needed: alpha decay diagram showing uranium-238 becoming thorium-234 and an alpha particle.]\n\nWhat is the kinetic energy of the alpha particle?",
+          "question": "When a stationary uranium-238 nucleus decays by alpha emission it forms a nucleus of thorium-234. The total kinetic energy produced by the decay is \\(E\\).\n\nWhat is the kinetic energy of the alpha particle?",
           "options": [
             "\\(\\frac{4E}{238}\\)",
             "\\(\\frac{4E}{234}\\)",
@@ -1236,10 +1240,12 @@ window.ESAT_QUESTION_BANK = {
             "momentum",
             "kinetic energy"
           ],
-          "hasImage": false,
-          "displayMode": "image-needed",
+          "hasImage": true,
+          "displayMode": "simple-html",
+          "imagePath": "assets/question-images/ENGAA_2016_P1_Q26_alpha_decay.png",
+          "imageAlt": "Alpha decay diagram showing uranium-238 decaying into thorium-234 and an alpha particle.",
           "diagramType": "alpha decay diagram",
-          "imageStatus": "needs-review",
+          "imageStatus": "ready",
           "source": {
             "exam": "ENGAA",
             "year": "2016",
@@ -1249,9 +1255,9 @@ window.ESAT_QUESTION_BANK = {
             "page": "24",
             "originalReference": "ENGAA 2016 P1 Q26"
           },
-          "status": "needs-review",
+          "status": "ready",
           "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q26.md",
-          "reviewNotes": "Needs manually checked diagram-only crop before this is student-ready."
+          "reviewNotes": ""
         },
         {
           "id": "ENGAA_2016_P1_Q28",
@@ -1259,7 +1265,7 @@ window.ESAT_QUESTION_BANK = {
           "topicCode": "WAVES-ECHOES",
           "topic": "Sound and Echoes",
           "difficulty": 4,
-          "question": "A student carries out an experiment to measure the speed of sound. A loudspeaker that emits sound in all directions is placed between two buildings that are \\(128\\text{ m}\\) apart as shown. The student and loudspeaker are \\(48\\text{ m}\\) from one of the buildings.\n\n[Image needed: two buildings with the student and loudspeaker between them.]\n\nThe loudspeaker is connected to a signal generator that causes it to emit regular clicks. The student notices that each click results in two echoes, one from each building. The rate at which the clicks are produced is gradually increased from zero until each echo coincides with a new click being emitted by the loudspeaker.\n\nWhat is the frequency of emission of clicks when this happens?\n\n(The speed of sound in air \\(=320\\text{ m s}^{-1}\\).)",
+          "question": "A student carries out an experiment to measure the speed of sound. A loudspeaker that emits sound in all directions is placed between two buildings that are \\(128\\text{ m}\\) apart as shown. The student and loudspeaker are \\(48\\text{ m}\\) from one of the buildings.\n\nThe loudspeaker is connected to a signal generator that causes it to emit regular clicks. The student notices that each click results in two echoes, one from each building. The rate at which the clicks are produced is gradually increased from zero until each echo coincides with a new click being emitted by the loudspeaker.\n\nWhat is the frequency of emission of clicks when this happens?\n\n(The speed of sound in air \\(=320\\text{ m s}^{-1}\\).)",
           "options": [
             "\\(2.0\\text{ Hz}\\)",
             "\\(2.5\\text{ Hz}\\)",
@@ -1281,10 +1287,12 @@ window.ESAT_QUESTION_BANK = {
             "echoes",
             "frequency"
           ],
-          "hasImage": false,
-          "displayMode": "image-needed",
+          "hasImage": true,
+          "displayMode": "simple-html",
+          "imagePath": "assets/question-images/ENGAA_2016_P1_Q28_echo_buildings.png",
+          "imageAlt": "Two buildings with a student and loudspeaker between them, showing the 128 m separation and 48 m distance.",
           "diagramType": "sound echo setup diagram",
-          "imageStatus": "needs-review",
+          "imageStatus": "ready",
           "source": {
             "exam": "ENGAA",
             "year": "2016",
@@ -1294,9 +1302,9 @@ window.ESAT_QUESTION_BANK = {
             "page": "26",
             "originalReference": "ENGAA 2016 P1 Q28"
           },
-          "status": "needs-review",
+          "status": "ready",
           "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q28.md",
-          "reviewNotes": "Needs manually checked diagram-only crop before this is student-ready."
+          "reviewNotes": ""
         },
         {
           "id": "ENGAA_2016_P1_Q30",

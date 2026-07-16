@@ -18,8 +18,8 @@ SPEC.loader.exec_module(validate_question_bank)
 class QuestionBankValidationTests(unittest.TestCase):
     def test_current_repository_has_no_validation_errors(self) -> None:
         report = validate_question_bank.validate_repo()
-        self.assertEqual(report.question_count, 20)
-        self.assertEqual(report.live_image_count, 8)
+        self.assertEqual(report.question_count, 30)
+        self.assertEqual(report.live_image_count, 12)
         self.assertEqual(report.errors, [])
 
     def test_formula_warning_patterns_are_focused(self) -> None:

@@ -223,6 +223,56 @@ function checkQ21ToQ29Import() {
   assert(!findQuestion(bank, "ENGAA_2016_P1_Q30"), "Q30 should not be imported because it is crossed out");
 }
 
+function checkEligibleQ31ToQ49Import() {
+  const bank = loadQuestionBank();
+  const renderer = loadRenderer({
+    renderToString: function (expression) {
+      return '<span class="katex">' + expression + "</span>";
+    }
+  });
+  const eligibleNumbers = [31, 33, 35, 37, 39, 41, 43, 45, 47, 49];
+  const skippedNumbers = [30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50];
+  const expectedImages = {
+    ENGAA_2016_P1_Q35: "assets/question-images/ENGAA_2016_P1_Q35_tangents_circle.png",
+    ENGAA_2016_P1_Q41: "assets/question-images/ENGAA_2016_P1_Q41_line_intercepts.png"
+  };
+
+  eligibleNumbers.forEach(function (number) {
+    const id = "ENGAA_2016_P1_Q" + String(number).padStart(2, "0");
+    const question = findQuestion(bank, id);
+    assert(question, id + " is missing from the question bank");
+    assert(question.source && question.source.questionNumber === String(number), id + " has incorrect source metadata");
+    assert(question.solutionPath && fs.existsSync(path.join(ROOT, question.solutionPath)), id + " solution file is missing");
+    assert(question.status === "ready", id + " should be ready");
+    assert(question.displayMode === "simple-html", id + " should use simple-html");
+
+    if (expectedImages[id]) {
+      assert(question.hasImage === true, id + " should have a live image");
+      assert(question.imagePath === expectedImages[id], id + " has the wrong imagePath");
+      assert(question.imageStatus === "ready", id + " imageStatus should be ready");
+      assert(fs.existsSync(path.join(ROOT, question.imagePath)), id + " image file is missing");
+    } else {
+      assert(!question.hasImage, id + " should not unexpectedly have an image");
+      assert(question.imageStatus === "not-needed", id + " imageStatus should be not-needed");
+    }
+
+    const renderedQuestion = renderStudentQuestionBlocks(renderer, question.question || "");
+    const renderedOptions = (question.options || []).map(function (option) {
+      return renderer.renderToString(option);
+    });
+    const visible = renderedQuestion.map(function (block) { return visibleText(block.html); })
+      .concat(renderedOptions.map(visibleText))
+      .join("\n");
+    assert(!/\[Image needed:/i.test(visible), id + " should not render an image-needed placeholder");
+    assert(!/\\\(|\\\)|\\\[|\\\]/.test(visible), id + " still renders raw LaTeX delimiters");
+  });
+
+  skippedNumbers.forEach(function (number) {
+    const id = "ENGAA_2016_P1_Q" + String(number).padStart(2, "0");
+    assert(!findQuestion(bank, id), id + " should not be imported because it is crossed out");
+  });
+}
+
 function checkLiveImages() {
   const bank = loadQuestionBank();
   const expected = {
@@ -274,6 +324,7 @@ function main() {
   checkFallbackPath();
   checkQ11ToQ20Rendering();
   checkQ21ToQ29Import();
+  checkEligibleQ31ToQ49Import();
   checkLiveImages();
   checkPreviewPage();
   checkRuntimeScriptOrder("exam.html", "assets/exam.js");

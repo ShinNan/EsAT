@@ -2,7 +2,7 @@
   ESAT Simulator Question Bank
   --------------------------------
   Generated from data/question-bank.csv.
-  Source batch: ENGAA 2016 Paper 1, Questions 1-30.
+  Source batch: ENGAA 2016 Paper 1, Questions 1-29 and ESAT-eligible Questions 31-49.
   Keep question IDs stable so localStorage profile progress remains valid.
 */
 
@@ -664,6 +664,446 @@ window.ESAT_QUESTION_BANK = {
           "status": "ready",
           "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q29.md",
           "reviewNotes": ""
+        },
+        {
+          "id": "ENGAA_2016_P1_Q31",
+          "subject": "maths2",
+          "topicCode": "COORD-CIRCLES",
+          "topic": "Circle Equations",
+          "difficulty": 4,
+          "question": "A square \\(PQRS\\) is drawn above the \\(x\\)-axis with the side \\(PQ\\) on the \\(x\\)-axis.\n\n\\(P\\) is the point \\((-5,0)\\) and \\(Q\\) is the point \\((1,0)\\).\n\nA circle is drawn inside the square with diameter equal in length to the side of the square.\n\nWhich one of the following is an equation of the circle?",
+          "options": [
+            "\\(x^{2}+y^{2}-4x+6y+4=0\\)",
+            "\\(x^{2}+y^{2}-4x+6y+9=0\\)",
+            "\\(x^{2}+y^{2}+4x-6y+4=0\\)",
+            "\\(x^{2}+y^{2}+4x-6y+9=0\\)",
+            "\\(x^{2}+y^{2}-6x-4y+9=0\\)",
+            "\\(x^{2}+y^{2}-6x+4y+4=0\\)",
+            "\\(x^{2}+y^{2}+6x-4y+4=0\\)",
+            "\\(x^{2}+y^{2}+6x+4y+9=0\\)"
+          ],
+          "correctAnswer": "C",
+          "answerIndex": 2,
+          "explanation": "The side length of the square is \\(1-(-5)=6\\), so the circle has radius \\(3\\). Since the square is above the \\(x\\)-axis, the circle centre is \\((-2,3)\\). Therefore \\((x+2)^{2}+(y-3)^{2}=9\\), which expands to \\(x^{2}+y^{2}+4x-6y+4=0\\).",
+          "markSchemeNotes": "Answer key gives C.",
+          "quickestMethod": "Find the circle centre from the midpoint of the square and use radius \\(3\\).",
+          "commonTrap": "Using the side length as the radius, or placing the centre below the \\(x\\)-axis.",
+          "tags": [
+            "coordinate geometry",
+            "circles",
+            "equations"
+          ],
+          "hasImage": false,
+          "displayMode": "simple-html",
+          "diagramType": "",
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part B Advanced Mathematics and Advanced Physics",
+            "questionNumber": "31",
+            "page": "30",
+            "originalReference": "ENGAA 2016 P1 Q31"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q31.md",
+          "reviewNotes": "ESAT-eligible; Q30 was skipped as crossed out."
+        },
+        {
+          "id": "ENGAA_2016_P1_Q33",
+          "subject": "maths2",
+          "topicCode": "SEQ-GEOMETRIC",
+          "topic": "Geometric Series",
+          "difficulty": 4,
+          "question": "The first term of a convergent geometric series is \\(8\\).\n\nThe fifth term is \\(2\\).\n\nThe sixth term is real and positive.\n\nWhat is the sum to infinity of this series?\n\n(The sum to infinity of a convergent geometric series is given by \\(\\frac{a}{1-r}\\), where \\(a\\) is the first term and \\(r\\) is the common ratio.)",
+          "options": [
+            "\\(8(1+\\sqrt{2})\\)",
+            "\\(8(1-\\sqrt{2})\\)",
+            "\\(8(2+\\sqrt{2})\\)",
+            "\\(8(2-\\sqrt{2})\\)",
+            "\\(16\\)",
+            "\\(\\frac{8\\sqrt[5]{4}}{\\sqrt[5]{4}-1}\\)",
+            "\\(\\frac{8\\sqrt[5]{4}}{\\sqrt[5]{4}+1}\\)"
+          ],
+          "correctAnswer": "C",
+          "answerIndex": 2,
+          "explanation": "The fifth term gives \\(8r^{4}=2\\), so \\(r^{4}=\\frac{1}{4}\\) and \\(r=\\pm\\frac{1}{\\sqrt{2}}\\). The sixth term is positive, so \\(r=\\frac{1}{\\sqrt{2}}\\). The sum is \\(\\frac{8}{1-1/\\sqrt{2}}=8(2+\\sqrt{2})\\).",
+          "markSchemeNotes": "Answer key gives C.",
+          "quickestMethod": "Use the fifth term to find \\(r^{4}\\), then use the positive sixth term to choose the positive ratio.",
+          "commonTrap": "Choosing the negative ratio or simplifying \\(\\frac{1}{1-1/\\sqrt{2}}\\) incorrectly.",
+          "tags": [
+            "sequences",
+            "geometric series",
+            "surds"
+          ],
+          "hasImage": false,
+          "displayMode": "simple-html",
+          "diagramType": "",
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part B Advanced Mathematics and Advanced Physics",
+            "questionNumber": "33",
+            "page": "32",
+            "originalReference": "ENGAA 2016 P1 Q33"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q33.md",
+          "reviewNotes": "ESAT-eligible; Q32 was skipped as crossed out."
+        },
+        {
+          "id": "ENGAA_2016_P1_Q35",
+          "subject": "maths2",
+          "topicCode": "GEOM-CIRCLES",
+          "topic": "Circle Geometry",
+          "difficulty": 4,
+          "question": "Tangents are drawn from a point \\(P\\) to a circle of radius \\(10\\text{ cm}\\).\n\nThe centre of the circle is \\(C\\) and the distance \\(PC\\) is \\(20\\text{ cm}\\).\n\nWhich one of the following is an expression for the shaded area in square centimetres?",
+          "options": [
+            "\\(\\frac{100}{3}(3\\sqrt{3}-\\pi)\\)",
+            "\\(\\frac{100}{3}(3\\sqrt{5}-\\pi)\\)",
+            "\\(\\frac{50}{3}(6\\sqrt{3}-\\pi)\\)",
+            "\\(\\frac{50}{3}(6\\sqrt{5}-\\pi)\\)",
+            "\\(\\frac{50}{3}(\\sqrt{3}-2\\pi)\\)",
+            "\\(\\frac{50}{3}(2\\pi-\\sqrt{3})\\)"
+          ],
+          "correctAnswer": "A",
+          "answerIndex": 0,
+          "explanation": "The radius to each tangent is perpendicular to the tangent, so each half of the shaded triangle has hypotenuse \\(20\\) and radius \\(10\\). This gives a \\(30^{\\circ}\\)-\\(60^{\\circ}\\)-\\(90^{\\circ}\\) triangle and a total angle of \\(60^{\\circ}\\) at the centre. Subtracting the \\(120^{\\circ}\\) sector from the isosceles triangle area gives \\(100\\sqrt{3}-\\frac{100\\pi}{3}=\\frac{100}{3}(3\\sqrt{3}-\\pi)\\).",
+          "markSchemeNotes": "Answer key gives A.",
+          "quickestMethod": "Use the right triangle from radius to tangent, then subtract the relevant sector from the triangle.",
+          "commonTrap": "Subtracting the wrong sector angle or forgetting that there are two congruent tangent triangles.",
+          "tags": [
+            "circle geometry",
+            "tangents",
+            "area",
+            "sectors"
+          ],
+          "hasImage": true,
+          "imagePath": "assets/question-images/ENGAA_2016_P1_Q35_tangents_circle.png",
+          "imageAlt": "Circle with centre C, external point P, two tangents from P, and the shaded region between the tangents and the circle.",
+          "displayMode": "simple-html",
+          "diagramType": "circle tangent diagram",
+          "imageStatus": "ready",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part B Advanced Mathematics and Advanced Physics",
+            "questionNumber": "35",
+            "page": "34",
+            "originalReference": "ENGAA 2016 P1 Q35"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q35.md",
+          "reviewNotes": "ESAT-eligible; Q34 was skipped as crossed out. Uses uploaded manually checked diagram-only crop."
+        },
+        {
+          "id": "ENGAA_2016_P1_Q37",
+          "subject": "maths2",
+          "topicCode": "TRIG-EQUATIONS",
+          "topic": "Trigonometric Equations",
+          "difficulty": 4,
+          "question": "Given that \\(7\\cos\\theta-3\\tan\\theta\\sin\\theta=1\\), which one of the following is true?",
+          "options": [
+            "\\(\\cos\\theta=-\\frac{3}{5}\\) or \\(-\\frac{1}{2}\\)",
+            "\\(\\cos\\theta=-\\frac{3}{5}\\) or \\(\\frac{1}{2}\\)",
+            "\\(\\cos\\theta=\\frac{3}{5}\\) or \\(\\frac{1}{2}\\)",
+            "\\(\\cos\\theta=\\frac{3}{5}\\) or \\(-\\frac{1}{2}\\)"
+          ],
+          "correctAnswer": "D",
+          "answerIndex": 3,
+          "explanation": "Use \\(\\tan\\theta\\sin\\theta=\\frac{\\sin^{2}\\theta}{\\cos\\theta}=\\frac{1-\\cos^{2}\\theta}{\\cos\\theta}\\). Multiplying through by \\(\\cos\\theta\\) gives \\(10\\cos^{2}\\theta-\\cos\\theta-3=0\\), so \\((5\\cos\\theta-3)(2\\cos\\theta+1)=0\\). Hence \\(\\cos\\theta=\\frac{3}{5}\\) or \\(\\cos\\theta=-\\frac{1}{2}\\).",
+          "markSchemeNotes": "Answer key gives D.",
+          "quickestMethod": "Convert everything to \\(\\cos\\theta\\) and factor the resulting quadratic.",
+          "commonTrap": "Treating \\(\\tan\\theta\\sin\\theta\\) as \\(\\sin\\theta\\) or losing a sign when using \\(1-\\cos^{2}\\theta\\).",
+          "tags": [
+            "trigonometry",
+            "identities",
+            "quadratics"
+          ],
+          "hasImage": false,
+          "displayMode": "simple-html",
+          "diagramType": "",
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part B Advanced Mathematics and Advanced Physics",
+            "questionNumber": "37",
+            "page": "35",
+            "originalReference": "ENGAA 2016 P1 Q37"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q37.md",
+          "reviewNotes": "ESAT-eligible; Q36 was skipped as crossed out."
+        },
+        {
+          "id": "ENGAA_2016_P1_Q39",
+          "subject": "maths2",
+          "topicCode": "ALG-DISCRIMINANT",
+          "topic": "Quadratic Discriminants",
+          "difficulty": 4,
+          "question": "The complete set of values of \\(a\\) for which the equation \\(3x^{2}=(a+2)x-3\\) has two real distinct roots is",
+          "options": [
+            "no values of \\(a\\)",
+            "\\(-4\\sqrt{2}<a<4\\sqrt{2}\\)",
+            "\\(a<-4\\sqrt{2},\\ a>4\\sqrt{2}\\)",
+            "\\(-4<a<8\\)",
+            "\\(a<-4,\\ a>8\\)",
+            "\\(-8<a<4\\)",
+            "\\(a<-8,\\ a>4\\)",
+            "all values of \\(a\\)"
+          ],
+          "correctAnswer": "G",
+          "answerIndex": 6,
+          "explanation": "Rewrite the equation as \\(3x^{2}-(a+2)x+3=0\\). For two real distinct roots the discriminant must be positive: \\((a+2)^{2}-36>0\\). Therefore \\(|a+2|>6\\), giving \\(a<-8\\) or \\(a>4\\).",
+          "markSchemeNotes": "Answer key gives G.",
+          "quickestMethod": "Use the discriminant condition \\(b^{2}-4ac>0\\).",
+          "commonTrap": "Using \\(\\ge 0\\) instead of \\(>0\\), or forgetting to move all terms to one side before identifying \\(b\\).",
+          "tags": [
+            "quadratics",
+            "discriminant",
+            "inequalities"
+          ],
+          "hasImage": false,
+          "displayMode": "simple-html",
+          "diagramType": "",
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part B Advanced Mathematics and Advanced Physics",
+            "questionNumber": "39",
+            "page": "36",
+            "originalReference": "ENGAA 2016 P1 Q39"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q39.md",
+          "reviewNotes": "ESAT-eligible; Q38 was skipped as crossed out."
+        },
+        {
+          "id": "ENGAA_2016_P1_Q41",
+          "subject": "maths2",
+          "topicCode": "COORD-LINES",
+          "topic": "Coordinate Geometry",
+          "difficulty": 4,
+          "question": "The straight line with equation \\(y=mx+3\\), where \\(m>0\\), \\(m\\ne1\\), is perpendicular to the line with equation \\(y=px+2\\).\n\nThe lines cut the \\(x\\)-axis at the points L and M respectively. The length of LM is \\(5\\) units.\n\nWhat is the value of \\(m+p\\) given that \\(m>1\\)?",
+          "options": [
+            "\\(-\\frac{8}{3}\\)",
+            "\\(-\\frac{13}{6}\\)",
+            "\\(-\\frac{5}{6}\\)",
+            "\\(\\frac{5}{6}\\)",
+            "\\(\\frac{13}{6}\\)",
+            "\\(\\frac{8}{3}\\)"
+          ],
+          "correctAnswer": "D",
+          "answerIndex": 3,
+          "explanation": "Perpendicular gradients give \\(p=-\\frac{1}{m}\\). The \\(x\\)-intercepts are \\(-\\frac{3}{m}\\) and \\(-\\frac{2}{p}=2m\\), so their distance is \\(2m+\\frac{3}{m}=5\\). This gives \\(2m^{2}-5m+3=0\\), so \\(m=1\\) or \\(m=\\frac{3}{2}\\). Since \\(m>1\\) and \\(m\\ne1\\), \\(m=\\frac{3}{2}\\), \\(p=-\\frac{2}{3}\\), and \\(m+p=\\frac{5}{6}\\).",
+          "markSchemeNotes": "Answer key gives D.",
+          "quickestMethod": "Use perpendicular gradients and the two \\(x\\)-intercepts to form the distance equation.",
+          "commonTrap": "Keeping the invalid root \\(m=1\\), or using signed displacement instead of distance.",
+          "tags": [
+            "coordinate geometry",
+            "straight lines",
+            "gradients"
+          ],
+          "hasImage": true,
+          "imagePath": "assets/question-images/ENGAA_2016_P1_Q41_line_intercepts.png",
+          "imageAlt": "Two perpendicular straight lines crossing the y-axis at 3 and 2 and the x-axis at L and M, with LM marked as 5 units.",
+          "displayMode": "simple-html",
+          "diagramType": "coordinate line diagram",
+          "imageStatus": "ready",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part B Advanced Mathematics and Advanced Physics",
+            "questionNumber": "41",
+            "page": "38",
+            "originalReference": "ENGAA 2016 P1 Q41"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q41.md",
+          "reviewNotes": "ESAT-eligible; Q40 was skipped as crossed out. Uses uploaded manually checked diagram-only crop."
+        },
+        {
+          "id": "ENGAA_2016_P1_Q43",
+          "subject": "maths2",
+          "topicCode": "CALC-DERIVATIVES",
+          "topic": "Increasing Functions",
+          "difficulty": 4,
+          "question": "\\(f(x)=x^{3}-a^{2}x\\) where \\(a\\) is a positive constant.\n\nFind the complete set of values of \\(x\\) for which \\(f(x)\\) is an increasing function.",
+          "options": [
+            "\\(x\\le -a,\\ x\\ge a\\)",
+            "\\(-a\\le x\\le a\\)",
+            "\\(x\\le -a,\\ 0\\le x\\le a\\)",
+            "\\(-a\\le x\\le 0,\\ x\\ge a\\)",
+            "\\(x\\le -\\frac{a}{3},\\ x\\ge \\frac{a}{3}\\)",
+            "\\(-\\frac{a}{3}\\le x\\le \\frac{a}{3}\\)",
+            "\\(x\\le -\\frac{a}{\\sqrt{3}},\\ x\\ge \\frac{a}{\\sqrt{3}}\\)",
+            "\\(-\\frac{a}{\\sqrt{3}}\\le x\\le \\frac{a}{\\sqrt{3}}\\)"
+          ],
+          "correctAnswer": "G",
+          "answerIndex": 6,
+          "explanation": "Differentiate to get \\(f'(x)=3x^{2}-a^{2}\\). The function is increasing where \\(f'(x)\\ge0\\), so \\(3x^{2}\\ge a^{2}\\). Since \\(a>0\\), this gives \\(x\\le -\\frac{a}{\\sqrt{3}}\\) or \\(x\\ge \\frac{a}{\\sqrt{3}}\\).",
+          "markSchemeNotes": "Answer key gives G.",
+          "quickestMethod": "Differentiate and solve \\(3x^{2}-a^{2}\\ge0\\).",
+          "commonTrap": "Solving for where the derivative is negative, or missing the two outside intervals.",
+          "tags": [
+            "calculus",
+            "derivatives",
+            "inequalities"
+          ],
+          "hasImage": false,
+          "displayMode": "simple-html",
+          "diagramType": "",
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part B Advanced Mathematics and Advanced Physics",
+            "questionNumber": "43",
+            "page": "40",
+            "originalReference": "ENGAA 2016 P1 Q43"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q43.md",
+          "reviewNotes": "ESAT-eligible; Q42 was skipped as crossed out."
+        },
+        {
+          "id": "ENGAA_2016_P1_Q45",
+          "subject": "maths2",
+          "topicCode": "GRAPH-TRANSFORM",
+          "topic": "Graph Transformations",
+          "difficulty": 4,
+          "question": "The curve \\(y=x^{2}\\) is translated by the vector \\(\\begin{pmatrix}4\\\\3\\end{pmatrix}\\) and then reflected in the line \\(y=-1\\).\n\nWhich one of the following is an equation of the resulting curve?",
+          "options": [
+            "\\(y=-3-(x-4)^{2}\\)",
+            "\\(y=-3+(x+4)^{2}\\)",
+            "\\(y=3-(x+4)^{2}\\)",
+            "\\(y=3+(x-4)^{2}\\)",
+            "\\(y=-5-(x-4)^{2}\\)",
+            "\\(y=-5+(x+4)^{2}\\)",
+            "\\(y=5-(x+4)^{2}\\)",
+            "\\(y=5+(x-4)^{2}\\)"
+          ],
+          "correctAnswer": "E",
+          "answerIndex": 4,
+          "explanation": "After the translation by \\(\\begin{pmatrix}4\\\\3\\end{pmatrix}\\), the curve is \\(y=(x-4)^{2}+3\\). Reflecting in \\(y=-1\\) maps a \\(y\\)-value to \\(-2-y\\), so the resulting curve is \\(y=-2-[(x-4)^{2}+3]=-5-(x-4)^{2}\\).",
+          "markSchemeNotes": "Answer key gives E.",
+          "quickestMethod": "Track the vertex: \\((0,0)\\to(4,3)\\), then reflect it across \\(y=-1\\) to \\((4,-5)\\) and flip the parabola downward.",
+          "commonTrap": "Reflecting in the \\(x\\)-axis instead of in \\(y=-1\\), or using \\(x+4\\) after translating right.",
+          "tags": [
+            "graphs",
+            "transformations",
+            "quadratics"
+          ],
+          "hasImage": false,
+          "displayMode": "simple-html",
+          "diagramType": "",
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part B Advanced Mathematics and Advanced Physics",
+            "questionNumber": "45",
+            "page": "41",
+            "originalReference": "ENGAA 2016 P1 Q45"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q45.md",
+          "reviewNotes": "ESAT-eligible; Q44 was skipped as crossed out."
+        },
+        {
+          "id": "ENGAA_2016_P1_Q47",
+          "subject": "maths2",
+          "topicCode": "ALG-INEQ",
+          "topic": "Polynomial Inequalities",
+          "difficulty": 4,
+          "question": "The complete set of values of \\(x\\) for which \\(2x^{4}-9x^{2}+4>0\\) is",
+          "options": [
+            "\\(x<\\frac{1}{2},\\ x>4\\)",
+            "\\(\\frac{1}{2}<x<4\\)",
+            "\\(x<-2,\\ -\\frac{1}{\\sqrt{2}}<x<\\frac{1}{\\sqrt{2}},\\ x>2\\)",
+            "\\(-2<x<-\\frac{1}{\\sqrt{2}},\\ \\frac{1}{\\sqrt{2}}<x<2\\)",
+            "\\(-2<x<2\\)"
+          ],
+          "correctAnswer": "C",
+          "answerIndex": 2,
+          "explanation": "Let \\(u=x^{2}\\). Then \\(2u^{2}-9u+4=(2u-1)(u-4)>0\\), so \\(u<\\frac{1}{2}\\) or \\(u>4\\). Returning to \\(x\\), this gives \\(-\\frac{1}{\\sqrt{2}}<x<\\frac{1}{\\sqrt{2}}\\), or \\(x<-2\\), or \\(x>2\\).",
+          "markSchemeNotes": "Answer key gives C.",
+          "quickestMethod": "Substitute \\(u=x^{2}\\), solve the quadratic inequality, then convert back to intervals in \\(x\\).",
+          "commonTrap": "Forgetting that \\(x^{2}<\\frac{1}{2}\\) gives a middle interval, not two outside intervals.",
+          "tags": [
+            "inequalities",
+            "polynomials",
+            "quadratics"
+          ],
+          "hasImage": false,
+          "displayMode": "simple-html",
+          "diagramType": "",
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part B Advanced Mathematics and Advanced Physics",
+            "questionNumber": "47",
+            "page": "42",
+            "originalReference": "ENGAA 2016 P1 Q47"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q47.md",
+          "reviewNotes": "ESAT-eligible; Q46 was skipped as crossed out."
+        },
+        {
+          "id": "ENGAA_2016_P1_Q49",
+          "subject": "maths2",
+          "topicCode": "CALC-CURVES",
+          "topic": "Curve Optimisation",
+          "difficulty": 4,
+          "question": "A cursor starts at the point \\((0,10)\\) and moves parallel to the \\(x\\)-axis in the negative direction.\n\nWhat is the minimum distance parallel to the \\(y\\)-axis between the cursor and the graph of \\(y=4x^{3}-12x^{2}-36x-15\\)?",
+          "options": [
+            "\\(0\\)",
+            "\\(5\\)",
+            "\\(25\\)",
+            "\\(69\\)",
+            "\\(133\\)"
+          ],
+          "correctAnswer": "B",
+          "answerIndex": 1,
+          "explanation": "The cursor has \\(y\\)-coordinate \\(10\\) and moves with \\(x\\le0\\). For the graph, \\(y'=12x^{2}-24x-36=12(x-3)(x+1)\\), so the maximum value on \\(x\\le0\\) occurs at \\(x=-1\\). The graph value there is \\(5\\), so the smallest vertical distance from the cursor to the graph is \\(10-5=5\\).",
+          "markSchemeNotes": "Answer key gives B.",
+          "quickestMethod": "Maximise the curve for \\(x\\le0\\), then subtract the maximum graph value from the cursor's height \\(10\\).",
+          "commonTrap": "Looking for a root where the graph reaches \\(y=10\\), or minimising the cubic over all real \\(x\\) instead of only the cursor's negative-direction path.",
+          "tags": [
+            "calculus",
+            "cubics",
+            "optimisation"
+          ],
+          "hasImage": false,
+          "displayMode": "simple-html",
+          "diagramType": "",
+          "imageStatus": "not-needed",
+          "source": {
+            "exam": "ENGAA",
+            "year": "2016",
+            "paper": "P1",
+            "section": "Part B Advanced Mathematics and Advanced Physics",
+            "questionNumber": "49",
+            "page": "43",
+            "originalReference": "ENGAA 2016 P1 Q49"
+          },
+          "status": "ready",
+          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q49.md",
+          "reviewNotes": "ESAT-eligible; Q48 and Q50 were skipped as crossed out."
         }
       ]
     },

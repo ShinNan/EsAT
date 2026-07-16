@@ -1305,51 +1305,6 @@ window.ESAT_QUESTION_BANK = {
           "status": "ready",
           "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q28.md",
           "reviewNotes": ""
-        },
-        {
-          "id": "ENGAA_2016_P1_Q30",
-          "subject": "physics",
-          "topicCode": "MECH-FORCES",
-          "topic": "Newton's Third Law",
-          "difficulty": 4,
-          "question": "A parachutist is falling at terminal speed with his parachute open. The diagrams show, separately, the vertical forces acting on the parachute and the vertical forces acting on the parachutist.\n\nThe letters \\(L\\), \\(M\\), \\(N\\), \\(P\\), \\(Q\\) and \\(R\\) represent the magnitude of each force as indicated.\n\n[Image needed: separate force diagrams for the parachute and the parachutist.]\n\nConsider the following equations:\n\n\\[L=M+N\\]\n\n\\[R=P+Q\\]\n\n\\[L=Q\\]\n\n\\[N=P\\]\n\n\\[M+R=L+Q\\]\n\nWhich of these equations, if any, is/are the direct result of the application of Newton's Third Law to this situation?",
-          "options": [
-            "none of them",
-            "3 only",
-            "4 only",
-            "5 only",
-            "1 and 2 only",
-            "3 and 4 only",
-            "1, 2 and 5 only",
-            "1, 2, 3, 4 and 5"
-          ],
-          "correctAnswer": "C",
-          "answerIndex": 2,
-          "explanation": "Newton's Third Law pairs are equal and opposite forces acting on different bodies. The force from the parachutist on the parachute and the force from the parachute on the parachutist form such a pair, so \\(N=P\\). The other equations describe force balance or unrelated force pairs, not direct Third Law pairs.",
-          "markSchemeNotes": "Answer key gives C.",
-          "quickestMethod": "Look for the action-reaction pair between parachute and parachutist; that is \\(N\\) and \\(P\\).",
-          "commonTrap": "Selecting balanced-force equations because the parachutist is moving at terminal speed; those are not Newton's Third Law pairs.",
-          "tags": [
-            "forces",
-            "newton's third law",
-            "terminal velocity"
-          ],
-          "hasImage": false,
-          "displayMode": "image-needed",
-          "diagramType": "force diagrams",
-          "imageStatus": "needs-review",
-          "source": {
-            "exam": "ENGAA",
-            "year": "2016",
-            "paper": "P1",
-            "section": "Part B Advanced Mathematics and Advanced Physics",
-            "questionNumber": "30",
-            "page": "29",
-            "originalReference": "ENGAA 2016 P1 Q30"
-          },
-          "status": "needs-review",
-          "solutionPath": "solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q30.md",
-          "reviewNotes": "Needs manually checked diagram-only crop before this is student-ready."
         }
       ]
     }

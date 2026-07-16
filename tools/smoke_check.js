@@ -190,31 +190,22 @@ function checkQ11ToQ20Rendering() {
   assert(q15Rendered.includes("120") && q15Rendered.includes("katex"), "Q15 area formula did not render");
 }
 
-function checkQ21ToQ30Import() {
+function checkQ21ToQ29Import() {
   const bank = loadQuestionBank();
   const renderer = loadRenderer({
     renderToString: function (expression) {
       return '<span class="katex">' + expression + "</span>";
     }
   });
-  const ids = Array.from({ length: 10 }, function (_, index) {
+  const ids = Array.from({ length: 9 }, function (_, index) {
     return "ENGAA_2016_P1_Q" + String(index + 21).padStart(2, "0");
   });
-  const imageNeededIds = new Set(["ENGAA_2016_P1_Q30"]);
 
   ids.forEach(function (id) {
     const question = findQuestion(bank, id);
     assert(question, id + " is missing from the question bank");
     assert(question.source && question.source.questionNumber === String(Number(id.slice(-2))), id + " has incorrect source metadata");
     assert(question.solutionPath && fs.existsSync(path.join(ROOT, question.solutionPath)), id + " solution file is missing");
-
-    if (imageNeededIds.has(id)) {
-      assert(question.displayMode === "image-needed", id + " should be clearly flagged as image-needed");
-      assert(question.status === "needs-review", id + " image-needed question should not be ready");
-      assert(question.imageStatus === "needs-review", id + " should have needs-review imageStatus");
-      assert(!question.imagePath, id + " should not point to an unreviewed image path");
-      return;
-    }
 
     assert(question.status === "ready", id + " should be ready");
     assert(question.displayMode === "simple-html", id + " should use simple-html");
@@ -228,6 +219,8 @@ function checkQ21ToQ30Import() {
     assert(!/\[Image needed:/i.test(visible), id + " should not render an image-needed placeholder");
     assert(!/\\\(|\\\)|\\\[|\\\]/.test(visible), id + " still renders raw LaTeX delimiters");
   });
+
+  assert(!findQuestion(bank, "ENGAA_2016_P1_Q30"), "Q30 should not be imported because it is crossed out");
 }
 
 function checkLiveImages() {
@@ -280,7 +273,7 @@ function main() {
   checkKatexPath();
   checkFallbackPath();
   checkQ11ToQ20Rendering();
-  checkQ21ToQ30Import();
+  checkQ21ToQ29Import();
   checkLiveImages();
   checkPreviewPage();
   checkRuntimeScriptOrder("exam.html", "assets/exam.js");

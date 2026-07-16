@@ -154,22 +154,3 @@ ENGAA_2016_P1_Q29,ENGAA_2016_P1_Q29,maths2,ALG-SIMULTANEOUS,Algebraic Conditions
 When \(x=1\) is substituted into the same expression, the result is \(-3.5\).
 
 Find all possible value(s) of \(p\).","\(p=-1\pm\frac{\sqrt{6}}{3}\)","\(p=1\) or \(p=-3\)","\(p=1\)","\(p=1\pm\sqrt{7}\)","there are no values for \(p\)",,,,C,2,"Substituting \(x=2\) gives \(8+4p+2q+p^{2}=0\). Substituting \(x=1\) gives \(1+p+q+p^{2}=-3.5\). Eliminating \(q\) gives \(p=1\).",Answer key gives C.,"Write the two substitution equations, eliminate \(q\), and solve the resulting equation for \(p\).",Forgetting that \(p^{2}\) appears in both substituted equations.,algebra|simultaneous equations|quadratics,ready,simple-html,ENGAA,2016,P1,Part B Advanced Mathematics and Advanced Physics,29,28,ENGAA 2016 P1 Q29,no,,,,not-needed,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q29.md,
-ENGAA_2016_P1_Q30,ENGAA_2016_P1_Q30,physics,MECH-FORCES,Newton's Third Law,4,"A parachutist is falling at terminal speed with his parachute open. The diagrams show, separately, the vertical forces acting on the parachute and the vertical forces acting on the parachutist.
-
-The letters \(L\), \(M\), \(N\), \(P\), \(Q\) and \(R\) represent the magnitude of each force as indicated.
-
-[Image needed: separate force diagrams for the parachute and the parachutist.]
-
-Consider the following equations:
-
-\[L=M+N\]
-
-\[R=P+Q\]
-
-\[L=Q\]
-
-\[N=P\]
-
-\[M+R=L+Q\]
-
-Which of these equations, if any, is/are the direct result of the application of Newton's Third Law to this situation?",none of them,3 only,4 only,5 only,1 and 2 only,3 and 4 only,"1, 2 and 5 only","1, 2, 3, 4 and 5",C,2,"Newton's Third Law pairs are equal and opposite forces acting on different bodies. The force from the parachutist on the parachute and the force from the parachute on the parachutist form such a pair, so \(N=P\). The other equations describe force balance or unrelated force pairs, not direct Third Law pairs.",Answer key gives C.,"Look for the action-reaction pair between parachute and parachutist; that is \(N\) and \(P\).",Selecting balanced-force equations because the parachutist is moving at terminal speed; those are not Newton's Third Law pairs.,forces|newton's third law|terminal velocity,needs-review,image-needed,ENGAA,2016,P1,Part B Advanced Mathematics and Advanced Physics,30,29,ENGAA 2016 P1 Q30,no,,,force diagrams,needs-review,solutions/ENGAA/2016/P1/ENGAA_2016_P1_Q30.md,Needs manually checked diagram-only crop before this is student-ready.

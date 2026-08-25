@@ -1,0 +1,16 @@
+{
+  "version": "20260825-171200-units",
+  "publishedAt": "2026-08-25T09:12:00.000Z",
+  "products": [
+    {"id":"manual-zhajiang-box-20260825","name":"炸酱面打包盒","price":200,"category":"包装用品","unit":"300个","spec":"","link":"","photo":""},
+    {"id":"manual-tangcurou-box-20260825","name":"糖醋肉打包盒","price":131,"category":"包装用品","unit":"一箱","spec":"","link":"","photo":""},
+    {"id":"manual-bag-small-20260825","name":"打包袋小号","price":570,"category":"包装用品","unit":"1000个","spec":"","link":"","photo":""},
+    {"id":"manual-bag-large-20260825","name":"打包袋大号","price":190,"category":"包装用品","unit":"200个","spec":"","link":"","photo":""},
+    {"id":"manual-zhajiang-dry-20260825","name":"炸酱面干料","price":650,"category":"食品","unit":"一件","spec":"50斤","link":"","photo":""},
+    {"id":"manual-oil-paper-20260825","name":"吸油纸","price":720,"category":"包装用品","unit":"2万个","spec":"","link":"","photo":""},
+    {"id":"manual-chopsticks-20260825","name":"筷子","price":240,"category":"包装用品","unit":"2000双","spec":"","link":"","photo":""},
+    {"id":"manual-sweet-sour-sauce-20260825","name":"糖醋肉浓缩汁","price":5,"category":"食品","unit":"斤","spec":"","link":"","photo":""},
+    {"id":"manual-spicy-sweet-sour-sauce-20260825","name":"辣糖醋肉汁","price":15,"category":"食品","unit":"斤","spec":"","link":"","photo":""},
+    {"id":"manual-dry-fried-chicken-sauce-20260825","name":"干烹炸鸡汁","price":12,"category":"食品","unit":"斤","spec":"","link":"","photo":""}
+  ]
+}

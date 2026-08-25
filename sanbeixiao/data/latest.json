@@ -1,5 +1,16 @@
 {
-  "version": "initial",
-  "publishedAt": "2026-08-25T01:15:00.000Z",
-  "products": []
+  "version": "20260825-104404-n0dr",
+  "publishedAt": "2026-08-25T02:44:04.228Z",
+  "products": [
+    {
+      "id": "mt7z7c39xnu5",
+      "name": "年糕",
+      "price": 25,
+      "category": "食品",
+      "unit": "件",
+      "spec": "",
+      "link": "",
+      "photo": "uploads/20260825-104404-n0dr-mt7z7c39xnu5.jpg"
+    }
+  ]
 }

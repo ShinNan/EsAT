@@ -1,0 +1,16 @@
+{
+  "version": "20260825-153159-v3x5",
+  "publishedAt": "2026-08-25T07:31:59.498Z",
+  "products": [
+    {
+      "id": "mt8ck0d4zpa7",
+      "name": "测试1",
+      "price": 24,
+      "category": "食品",
+      "unit": "件",
+      "spec": "",
+      "link": "",
+      "photo": ""
+    }
+  ]
+}

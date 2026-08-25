@@ -1,0 +1,96 @@
+{
+  "version": "20260825-154500-batch",
+  "publishedAt": "2026-08-25T07:45:00.000Z",
+  "products": [
+    {
+      "id": "mt7z7c39xnu5",
+      "name": "年糕",
+      "price": 25,
+      "category": "食品",
+      "unit": "件",
+      "spec": "",
+      "link": "",
+      "photo": "uploads/20260825-104404-n0dr-mt7z7c39xnu5.jpg"
+    },
+    {
+      "id": "mt8ck0d4zpa7",
+      "name": "测试1",
+      "price": 24,
+      "category": "食品",
+      "unit": "件",
+      "spec": "",
+      "link": "",
+      "photo": ""
+    },
+    {
+      "id": "mt8cn18l81g4",
+      "name": "测试2",
+      "price": 49.99,
+      "category": "食品",
+      "unit": "件",
+      "spec": "",
+      "link": "",
+      "photo": ""
+    },
+    {
+      "id": "manual-zhajiang-box-20260825",
+      "name": "炸酱面打包盒",
+      "price": 200,
+      "category": "包装用品",
+      "unit": "300个",
+      "spec": "",
+      "link": "",
+      "photo": ""
+    },
+    {
+      "id": "manual-tangcurou-box-20260825",
+      "name": "糖醋肉打包盒",
+      "price": 131,
+      "category": "包装用品",
+      "unit": "一箱",
+      "spec": "",
+      "link": "",
+      "photo": ""
+    },
+    {
+      "id": "manual-bag-small-20260825",
+      "name": "打包袋小号",
+      "price": 570,
+      "category": "包装用品",
+      "unit": "1000个",
+      "spec": "",
+      "link": "",
+      "photo": ""
+    },
+    {
+      "id": "manual-bag-large-20260825",
+      "name": "打包袋大号",
+      "price": 190,
+      "category": "包装用品",
+      "unit": "200个",
+      "spec": "",
+      "link": "",
+      "photo": ""
+    },
+    {
+      "id": "manual-zhajiang-dry-20260825",
+      "name": "炸酱面干料",
+      "price": 650,
+      "category": "食品",
+      "unit": "一件",
+      "spec": "50斤",
+      "link": "",
+      "photo": ""
+    },
+    {
+      "id": "manual-oil-paper-20260825",
+      "name": "吸油纸",
+      "price": 720,
+      "category": "包装用品",
+      "unit": "2万个",
+      "spec": "",
+      "link": "",
+      "photo": ""
+    }
+  ]
+}

@@ -1,30 +1,10 @@
 [
-  {
-    "version": "20260825-154900-quantity",
-    "publishedAt": "2026-08-25T07:49:00.000Z"
-  },
-  {
-    "version": "20260825-154500-batch",
-    "publishedAt": "2026-08-25T07:45:00.000Z"
-  },
-  {
-    "version": "20260825-153700-restore",
-    "publishedAt": "2026-08-25T07:37:00.000Z"
-  },
-  {
-    "version": "20260825-153419-3q8p",
-    "publishedAt": "2026-08-25T07:34:19.957Z"
-  },
-  {
-    "version": "20260825-153159-v3x5",
-    "publishedAt": "2026-08-25T07:31:59.498Z"
-  },
-  {
-    "version": "20260825-152624-lxxp",
-    "publishedAt": "2026-08-25T07:26:24.551Z"
-  },
-  {
-    "version": "20260825-104404-n0dr",
-    "publishedAt": "2026-08-25T02:44:04.228Z"
-  }
+  {"version":"20260825-155000-sauces","publishedAt":"2026-08-25T07:50:00.000Z"},
+  {"version":"20260825-154900-quantity","publishedAt":"2026-08-25T07:49:00.000Z"},
+  {"version":"20260825-154500-batch","publishedAt":"2026-08-25T07:45:00.000Z"},
+  {"version":"20260825-153700-restore","publishedAt":"2026-08-25T07:37:00.000Z"},
+  {"version":"20260825-153419-3q8p","publishedAt":"2026-08-25T07:34:19.957Z"},
+  {"version":"20260825-153159-v3x5","publishedAt":"2026-08-25T07:31:59.498Z"},
+  {"version":"20260825-152624-lxxp","publishedAt":"2026-08-25T07:26:24.551Z"},
+  {"version":"20260825-104404-n0dr","publishedAt":"2026-08-25T02:44:04.228Z"}
 ]

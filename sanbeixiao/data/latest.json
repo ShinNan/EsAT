@@ -1,7 +1,17 @@
 {
-  "version": "20260825-153419-3q8p",
-  "publishedAt": "2026-08-25T07:34:19.957Z",
+  "version": "20260825-153700-restore",
+  "publishedAt": "2026-08-25T07:37:00.000Z",
   "products": [
+    {
+      "id": "mt7z7c39xnu5",
+      "name": "年糕",
+      "price": 25,
+      "category": "食品",
+      "unit": "件",
+      "spec": "",
+      "link": "",
+      "photo": "uploads/20260825-104404-n0dr-mt7z7c39xnu5.jpg"
+    },
     {
       "id": "mt8ck0d4zpa7",
       "name": "测试1",
